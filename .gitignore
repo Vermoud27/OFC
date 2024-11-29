@@ -1,0 +1,4 @@
+/writable/*.json
+/writable/**/*.json
+/writable/session/ci_session*
+/writable/logs/log-*
