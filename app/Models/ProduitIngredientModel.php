@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class ProduitIngredientModel extends Model
 {
     // Nom de la table
-    protected $table = 'Produit_Ingredient';
+    protected $table = 'produit_ingredient';
 
     // Clé primaire composite
     protected $primaryKey = ['id_produit', 'id_ingredient'];

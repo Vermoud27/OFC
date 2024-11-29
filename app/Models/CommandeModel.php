@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class CommandeModel extends Model
 {
     // Nom de la table
-    protected $table = 'Commande';
+    protected $table = 'commande';
 
     // Clé primaire de la table
     protected $primaryKey = 'id_commande';

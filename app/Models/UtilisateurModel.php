@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class UtilisateurModel extends Model
 {
     // Nom de la table
-    protected $table = 'Utilisateur';
+    protected $table = 'utilisateur';
 
     // Clé primaire de la table
     protected $primaryKey = 'id_utilisateur';

@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class GammeModel extends Model
 {
     // Nom de la table
-    protected $table = 'Gamme';
+    protected $table = 'gamme';
 
     // Clé primaire de la table
     protected $primaryKey = 'id_gamme';

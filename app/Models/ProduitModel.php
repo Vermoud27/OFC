@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class ProduitModel extends Model
 {
     // Nom de la table
-    protected $table = 'Produit';
+    protected $table = 'produit';
 
     // Clé primaire de la table
     protected $primaryKey = 'id_produit';
@@ -37,8 +37,6 @@ class ProduitModel extends Model
         'qte_stock' => 'required|integer',
         'unite_mesure' => 'permit_empty|max_length[50]',
         'promotion' => 'permit_empty|decimal',
-        'id_categorie' => 'required|integer',
-        'id_gamme' => 'required|integer'
     ];
 
     // Messages personnalisés pour la validation

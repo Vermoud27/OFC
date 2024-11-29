@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class DetailsCommandeModel extends Model
 {
     // Nom de la table
-    protected $table = 'Details_Commande';
+    protected $table = 'details_commande';
 
     // Clé primaire de la table
     protected $primaryKey = 'id_details_commande';

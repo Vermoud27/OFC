@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class FAQModel extends Model
 {
     // Nom de la table
-    protected $table = 'FAQ';
+    protected $table = 'faq';
 
     // Clé primaire
     protected $primaryKey = 'id_faq';

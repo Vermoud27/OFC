@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class IngredientModel extends Model
 {
     // Nom de la table
-    protected $table = 'Ingredient';
+    protected $table = 'ingredient';
 
     // Clé primaire
     protected $primaryKey = 'id_ingredient';

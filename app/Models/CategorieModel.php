@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class CategorieModel extends Model
 {
     // Nom de la table
-    protected $table = 'Categorie';
+    protected $table = 'categorie';
 
     // Clé primaire de la table
     protected $primaryKey = 'id_categorie';

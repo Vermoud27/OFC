@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class BundleProduitModel extends Model
 {
     // Nom de la table
-    protected $table = 'Bundle_Produit';
+    protected $table = 'bundle_produit';
 
     // Clé primaire composée
     protected $primaryKey = ['id_bundle', 'id_produit'];

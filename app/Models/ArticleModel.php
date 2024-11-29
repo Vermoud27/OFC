@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class ArticleModel extends Model
 {
     // Nom de la table
-    protected $table = 'Article';
+    protected $table = 'article';
 
     // Clé primaire
     protected $primaryKey = 'id_article';

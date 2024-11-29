@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class ImageModel extends Model
 {
     // Nom de la table
-    protected $table = 'Image';
+    protected $table = 'image';
 
     // Clé primaire
     protected $primaryKey = 'id_image';

@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class CodePromoModel extends Model
 {
     // Nom de la table
-    protected $table = 'CodePromo';
+    protected $table = 'codepromo';
 
     // Clé primaire
     protected $primaryKey = 'id_codepromo';

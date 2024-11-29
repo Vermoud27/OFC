@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class BundleModel extends Model
 {
     // Nom de la table
-    protected $table = 'Bundle';
+    protected $table = 'bundle';
 
     // Clé primaire de la table
     protected $primaryKey = 'id_bundle';
@@ -20,7 +20,7 @@ class BundleModel extends Model
         'description',
         'prix'
     ];
-	
+
     // Validation des données
     protected $validationRules = [
         'description' => 'permit_empty',
