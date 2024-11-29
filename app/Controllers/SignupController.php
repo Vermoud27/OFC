@@ -1,14 +1,14 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\UtilisateursModel;
+use App\Models\UtilisateurModel;
 use CodeIgniter\I18n\Time;
 
 class SignupController extends BaseController
 {
     public function index()
     {
-        return view('signup');
+        return view('login/signup');
     }
 
     public function enregistrer()
@@ -23,7 +23,7 @@ class SignupController extends BaseController
         ];
 
         if ($this->validate($rules)) {
-            $model = new UtilisateursModel();
+            $model = new UtilisateurModel();
 
             // Générer un jeton unique
             $token = bin2hex(random_bytes(16));
@@ -39,9 +39,9 @@ class SignupController extends BaseController
             // Envoi de l'e-mail de validation
             $this->sendValidationEmail($this->request->getPost('email'), $token);
 
-            return redirect()->to('/signin')->with('success', 'Un e-mail de validation vous a été envoyé. Veuillez vérifier votre boîte de réception.');
+            return redirect()->to('login/signin')->with('success', 'Un e-mail de validation vous a été envoyé. Veuillez vérifier votre boîte de réception.');
         } else {
-            return view('signup', [
+            return view('login/signup', [
                 'validation' => $this->validator
             ]);
         }
@@ -53,7 +53,7 @@ class SignupController extends BaseController
         $emailService = \Config\Services::email();
 
         // URL de validation avec le jeton
-        $validationLink = site_url("signup/activateAccount/$token");
+        $validationLink = site_url("login/signup/activateAccount/$token");
 
         // Message d'e-mail au format HTML
         $message = "
@@ -87,7 +87,7 @@ class SignupController extends BaseController
 
     public function activateAccount($token)
     {
-        $model = new UtilisateursModel();
+        $model = new UtilisateurModel();
 
         // Rechercher l'utilisateur par son jeton
         $user = $model->where('token_modif_mdp', $token)
@@ -103,11 +103,9 @@ class SignupController extends BaseController
             ]);
             
 
-            return redirect()->to('/signin')->with('success', 'Votre compte a été activé avec succès. Vous pouvez maintenant vous connecter.');
+            return redirect()->to('login/signin')->with('success', 'Votre compte a été activé avec succès. Vous pouvez maintenant vous connecter.');
         } else {
-            return redirect()->to('/signup')->with('error', 'Lien de validation invalide ou expiré.');
+            return redirect()->to('login/signup')->with('error', 'Lien de validation invalide ou expiré.');
         }
     }
-
-
 }
