@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #F5F5F5;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+}
+
+.left-section {
+    background-color: #556B2F;
+    color: #FFFFFF;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.left-section h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #FFFFFF;
+}
+
+.form-group {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #FFF8DC;
+    color: #556B2F;
+}
+
+.form-group input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-group a {
+    font-size: 0.8em;
+    color: #FFF8DC;
+    text-decoration: none;
+}
+
+.form-group a:hover {
+    text-decoration: underline;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #D2691E;
+    border: none;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.btn-login:hover {
+    background-color: #B2520D;
+}
+
+.signup-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #FFF8DC;
+}
+
+.signup-link a {
+    color: #FFF8DC;
+    text-decoration: underline;
+}
+
+.signup-link a:hover {
+    color: #FFFFFF;
+}
+
+.right-section {
+    width: 50%;
+    background: url('/assets/img/signin.jpeg') no-repeat center center;
+    background-size: cover;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+}
