@@ -1,40 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OFC Naturel</title>
-    <link rel="stylesheet" href="/assets/css/pageAccueil.css">
-</head>
-<body>
-    <header class="navbar">
-        <div class="left-section">
-            <p> 📞 </p> 
-            <input type="text" placeholder="Rechercher..." class="search-bar">
-            <p> 🔍 </p>
-        </div>
-        <div class="center-section">
-            <img src="assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo">
-        </div>
-        <div class="right-section">
-            <p> 🇫🇷  </p>
-            <p> 🛒 </p>
-            <p> 👤 </p>
-        </div>
-    </header>
-    <nav class="menu">
-        <ul>
-            <li><a href="#">Gammes</a></li>
-            <li><a href="#">Huiles</a></li>
-            <li><a href="#">Soins peau au détail</a></li>
-            <li><a href="#">Soins capillaires</a></li>
-            <li><a href="#">Autres</a></li>
-            <li><a href="#">L’entreprise</a></li>
-        </ul>
-    </nav>
-
-
-    <footer>
+        <footer>
             <div style="display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1200px; margin: auto;">
                 <!-- Section Gauche -->
                 <div style="flex: 1; min-width: 200px; text-align: left;">
@@ -81,7 +45,7 @@
             <div style="margin-top: 20px; font-size: 12px;">
                 © 2024 OFC Naturel. Tous droits réservés.
             </div>
-            </footer>
+        </footer>
 
-</body>
+    </body>
 </html>
