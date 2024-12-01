@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création de Produit</title>
+    <style>
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #556B2F;
+}
+
+.container {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    background-color: #FAF9F6;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+    height: 80%;
+}
+
+.gallery {
+    flex: 1;
+    padding-right: 20px;
+    border-right: 1px solid #888888;
+    display: flex;
+    flex-direction: column; /* Ajouté pour que le contenu soit en colonne */
+    justify-content: space-between; /* Permet de répartir l'espace entre le contenu */
+    height: 100%; /* Permet à la galerie de prendre toute la hauteur disponible */
+}
+
+.gallery .main-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.gallery .main-image img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    border: 1px solid #888888;
+}
+
+.gallery .thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.gallery .thumbnails .thumbnail {
+    position: relative;
+    display: inline-block;
+}
+
+.gallery .thumbnails img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid #888888;
+    border-radius: 5px;
+}
+
+.gallery .thumbnails .thumbnail .delete-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gallery .thumbnails .thumbnail .delete-btn:hover {
+    background-color: #A0522D;
+}
+
+.gallery #add-image-btn {
+    margin-top: auto; /* Pousse le bouton vers le bas */
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    align-self: center;
+}
+
+
+.form-container {
+    flex: 2;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+}
+
+
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input, select, button {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    background-color: white;
+    color: #556B2F;
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+}
+
+.ingredient-search {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.ingredient-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    max-height: 100px;
+    overflow-y: auto;
+    margin-top: 10px;
+    padding-left: 0;
+}
+
+.ingredient-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.ingredient-list li:last-child {
+    border-bottom: none;
+}
+
+.ingredient-list .remove-btn {
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 3px 8px;
+    max-width: 10px;
+}
+
+.actions {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.actions button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 5px;
+    background-color: #D2691E;
+    color: white;
+}
+
+.form-container .grid-2-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Deux éléments sur la même ligne */
+    gap: 20px;
+}
+
+.form-container .grid-3-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Trois éléments sur la même ligne */
+    gap: 20px;
+}
+
+
+.form-container .grid-full {
+    grid-column: span 2;
+}
+
+.actions button:hover {
+    background-color: #A0522D;
+}
+
+
+        </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Galerie d'images -->
+        <div class="gallery">
+            <div class="main-image" id="main-image">
+                <img src="https://via.placeholder.com/300x300?text=Aperçu" alt="Image principale">
+            </div>
+            <div class="thumbnails" id="thumbnails">
+                <!-- Miniatures dynamiques -->
+            </div>
+            <button type="button" id="add-image-btn">Ajouter une image</button>
+            <input type="file" id="image-input" accept="image/*" style="display: none;">
+        </div>
+
+        <!-- Formulaire de création -->
+        <div class="form-container">
+            <h1>Créer un Produit</h1>
+            <form id="product-form" action="/submit-product" method="POST" enctype="multipart/form-data">
+
+                <div class="grid-2-columns">
+                    <div>
+                        <label for="product-name">Nom du produit</label>
+                        <input type="text" id="product-name" name="product_name" required>
+                    </div>
+                    <div>
+                        <label for="category">Catégorie</label>
+                        <select id="category" name="category" required>
+                            <option value="">Sélectionnez une catégorie</option>
+                            <option value="soins">Soins</option>
+                            <option value="beauté">Beauté</option>
+                            <option value="hygiène">Hygiène</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <div class="grid-full">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="5" required></textarea>
+                </div>
+                <br>
+
+                <div class="grid-2-columns">
+                    <div>
+                        <label for="ingredient">Ajouter un ingrédient</label>
+                        <input type="text" id="ingredient" name="ingredient" placeholder="Rechercher un ingrédient...">
+                    </div>
+
+                    
+                    <ul class="ingredient-list" id="ingredient-list"></ul>
+                </div>
+                <br>
+
+                <div class="grid-3-columns">
+                    <div>
+                        <label for="quantity">Quantité</label>
+                        <input type="number" id="quantity" name="quantity">
+                    </div>
+                    <div>
+                        <label for="unit">Unité de mesure</label>
+                        <select id="unit" name="unit" required>
+                            <option value="ml">mL</option>
+                            <option value="g">g</option>
+                        </select>
+                    </div>
+                   
+                    <div>
+                        <label for="stock">Quantité en stock</label>
+                        <input type="number" id="stock" name="stock" required>
+                    </div>
+                </div>
+                <br>
+
+                <div class="grid-2-columns">
+                    <div>
+                        <label for="price-ht">Prix HT (€)</label>
+                        <input type="number" id="price-ht" name="price_ht" step="0.01" required>
+                    </div>
+                    <div>
+                        <label for="price-ttc">Prix TTC (€)</label>
+                        <input type="number" id="price-ttc" name="price_ttc" step="0.01" required>
+                    </div>
+                </div>
+                <br>
+               
+
+                <div class="actions">
+                    <button type="submit" class="submit-btn">Ajouter le produit</button>
+                    <button type="button" class="cancel-btn" onclick="window.location.href='/';">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const addImageBtn = document.getElementById('add-image-btn');
+        const imageInput = document.getElementById('image-input');
+        const thumbnails = document.getElementById('thumbnails');
+        const mainImage = document.getElementById('main-image').querySelector('img');
+
+        addImageBtn.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Créer une miniature
+                const thumbnailContainer = document.createElement('div');
+                thumbnailContainer.classList.add('thumbnail');
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+
+                // Ajouter un événement pour changer l'image principale
+                img.addEventListener('click', () => {
+                    mainImage.src = e.target.result;
+                });
+
+                // Bouton de suppression
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = "×";
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.addEventListener('click', () => {
+                    thumbnails.removeChild(thumbnailContainer);
+                    if (thumbnails.children.length > 0) {
+                        mainImage.src = thumbnails.children[0].querySelector('img').src;
+                    } else {
+                        mainImage.src = "https://via.placeholder.com/300x300?text=Aperçu";
+                    }
+                });
+
+                thumbnailContainer.appendChild(img);
+                thumbnailContainer.appendChild(deleteBtn);
+                thumbnails.appendChild(thumbnailContainer);
+
+                // Mettre à jour l'image principale
+                mainImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
