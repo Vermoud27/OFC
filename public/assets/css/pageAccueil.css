@@ -3,6 +3,7 @@ body {
     font-size: 18px; 
     background-color: #F5F5DC;
     font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
 }
 
 /*--------------------------FAVORIES---------------------------------*/
@@ -12,14 +13,14 @@ body {
   justify-content: center;
   gap: 100px;
   flex-wrap: wrap;
-  background-color: F5F5DC;
+  background-color: #F5F5DC;
 }
 
 .product {
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 5px;
-  width: 180px;
+  width: 150px;
   padding: 10px;
   flex: 0 0 25%; 
   box-sizing: border-box;
@@ -28,11 +29,6 @@ body {
   text-align: center;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); 
   transition: transform 0.2s ease, box-shadow 0.2s ease; 
-}
-
-.product:hover {
-  transform: translateY(-5px); 
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .product img {
@@ -77,9 +73,10 @@ h1, h2, h3 {
 
 .carousel-wrapper {
   position: relative;
-  overflow: hidden;
-  width: 100%;
+  overflow: visible;
+  width: 100%; /* Assure que le carrousel occupe toute la largeur disponible */
 }
+
 
 .product {
   flex: 0 0 auto; 
@@ -91,11 +88,15 @@ h1, h2, h3 {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
+  box-sizing: border-box; /* Inclut la marge et les bordures dans la largeur */
+  position: relative; /* Nécessaire pour gérer le `z-index` */
 }
 
 .product:hover {
-    transform: scale(1.1); /* Exemple d'effet au survol */
-    transition: transform 0.3s ease; /* Douce transition */
+  transform: scale(1.05); /* Exemple d'effet au survol */
+  transition: transform 0.3s ease; /* Douce transition */
+  z-index: 10; /* Mettre le produit au-dessus des autres pour un meilleur effet */
+  position: relative; /* Permet de le placer au-dessus des autres éléments */
 }
 
 .product img {
@@ -111,7 +112,7 @@ h1, h2, h3 {
 
 .product button {
   padding: 8px 12px;
-  background-color: #007bff;
+  background-color: #5a7c55;
   color: white;
   border: none;
   border-radius: 4px;
@@ -120,17 +121,10 @@ h1, h2, h3 {
 }
 
 .product button:hover {
-  background-color: #0056b3;
+  background-color: #5a7c55;
 }
 
 
-/* Pour garantir que le carrousel ne dépasse pas et reste responsive */
-body, html {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; /* Empêche le débordement horizontal global */
-  
-}
 
 
 /*--------------------------GAMME---------------------------------*/

@@ -25,7 +25,7 @@ class ImageModel extends Model
     // Validation des données
     protected $validationRules = [
         'chemin' => 'required|max_length[255]',
-        'id_produit' => 'required|integer|is_not_unique[Produit.id_produit]',
+        'id_produit' => 'required|integer|is_not_unique[produit.id_produit]',
     ];
 
     // Messages personnalisés pour la validation

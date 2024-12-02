@@ -38,7 +38,27 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 });
 
 //Administrateur
-$routes->get('/admin/produits', 'ProduitController::index');
-$routes->post('/admin/produits/creer', 'ProduitController::creer');
-$routes->post('/admin/produits/modifier/', 'ProduitController::modifier');
-$routes->get('/admin/produits/supprimer/(:num)', 'ProduitController::supprimer/$1');
+
+// Liste des entités avec leurs contrôleurs respectifs
+$entites = [
+    'produits' => 'ProduitController',
+    'categories' => 'CategorieController',
+    'ingredients' => 'IngredientController',
+    'codes-promos' => 'CodePromoController',
+    'gammes' => 'GammeController',
+    'bundles' => 'BundleController',
+];
+
+// Boucle pour générer les routes
+foreach ($entites as $entite => $controller) {
+    $routes->group("admin/$entite", function ($routes) use ($controller) {
+        $routes->get('', "$controller::index"); // Liste
+        $routes->get('creation', "$controller::creation"); // Page de création
+        $routes->post('creer', "$controller::creer"); // Action de création
+        $routes->get('modification/(:num)', "$controller::modification/$1"); // Page de modification
+        $routes->post('modifier/(:num)', "$controller::modifier/$1"); // Action de modification
+        $routes->get('supprimer/(:num)', "$controller::supprimer/$1"); // Suppression
+        $routes->get('desactiver/(:num)', "$controller::desactiver/$1"); // Désactivation
+    });
+}
+
