@@ -11,7 +11,7 @@
     <div class="container">
         <h1>Réinitialisez votre mot de passe</h1>
         <p>Veuillez entrer votre adresse e-mail pour recevoir un lien de réinitialisation.</p>
-        <form action="/forgot-password" method="POST">
+        <form action="/forgot-password/sendResetLink" method="POST">
             <div class="form-group">
                 <input type="email" name="email" placeholder="E-mail" required>
             </div>

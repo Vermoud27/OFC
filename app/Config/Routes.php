@@ -53,21 +53,11 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('/user/update_password', 'UserController::update_password');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    $routes->get('/', 'Home::index');
+    // Page d'accueil OFC
     $routes->get('/ControllerOFC', 'ControllerOFC::index');
 });
+
+$routes->get('/', 'Home::index');
 
 //Administrateur
 $routes->get('/admin/produits', 'ProduitController::index');
