@@ -13,3 +13,13 @@
             <p> 👤 </p>
         </div>
     </header>
+    <nav class="menu">
+        <ul>
+            <li><a href="#">Gammes</a></li>
+            <li><a href="#">Huiles</a></li>
+            <li><a href="#">Soins peau au détail</a></li>
+            <li><a href="#">Soins capillaires</a></li>
+            <li><a href="#">Autres</a></li>
+            <li><a href="#">L’entreprise</a></li>
+        </ul>
+    </nav>
