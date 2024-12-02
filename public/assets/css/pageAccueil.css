@@ -1,176 +1,213 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    font-size: 18px; /* Augmentation de la taille de base */
+    font-size: 18px; 
     background-color: #F5F5DC;
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
 }
 
-.navbar {
+/*--------------------------FAVORIES---------------------------------*/
+
+.products {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  flex-wrap: wrap;
+  background-color: #F5F5DC;
+}
+
+.product {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 150px;
+  padding: 10px;
+  flex: 0 0 25%; 
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+  text-align: center;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.2s ease, box-shadow 0.2s ease; 
+}
+
+.product img {
+  max-width: 100px;
+  max-height:100px;
+  height: auto;
+  margin-bottom: 10px;
+  border: 2px solid #556B2F; 
+  border-radius: 5px; 
+}
+
+.product p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.product button {
+  background-color: #5c8a33;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.product button:hover {
+  background-color: #497225;
+}
+
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/*--------------------------CAROUSSEL---------------------------------*/
+/* Conteneur du carrousel */
+.carousel-container {
+  display: flex;
+  white-space: nowrap;
+  transition: none; 
+  will-change: transform; 
+}
+
+.carousel-wrapper {
+  position: relative;
+  overflow: visible;
+  width: 100%; /* Assure que le carrousel occupe toute la largeur disponible */
+}
+
+
+.product {
+  flex: 0 0 auto; 
+  width: 12.5%; 
+  margin-right: 2%; 
+  box-sizing: border-box; 
+  text-align: center;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-sizing: border-box; /* Inclut la marge et les bordures dans la largeur */
+  position: relative; /* Nécessaire pour gérer le `z-index` */
+}
+
+.product:hover {
+  transform: scale(1.05); /* Exemple d'effet au survol */
+  transition: transform 0.3s ease; /* Douce transition */
+  z-index: 10; /* Mettre le produit au-dessus des autres pour un meilleur effet */
+  position: relative; /* Permet de le placer au-dessus des autres éléments */
+}
+
+.product img {
+  max-width: 100%; 
+  height: auto;
+  border-radius: 5px;
+}
+
+.product p {
+  font-size: 1rem;
+  color: #333;
+}
+
+.product button {
+  padding: 8px 12px;
+  background-color: #5a7c55;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product button:hover {
+  background-color: #5a7c55;
+}
+
+
+
+
+/*--------------------------GAMME---------------------------------*/
+
+  .container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px; /* Plus d'espace autour */
-    background-color: #F5F5DC;
-    border-bottom: 1px solid #dcdcdc;
+    justify-content: center; /* Centre horizontalement les éléments à l'intérieur */
+    align-items: center; /* Centre verticalement les éléments à l'intérieur */
+    gap: 20px; /* Espacement entre les colonnes */
+    padding: 20px; /* Espace autour du contenu à l'intérieur */
+    width: 100%; /* Prend toute la largeur disponible de l'écran */
+    max-width: 1400px; /* Limite la largeur du container à 1200px */
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+    flex-wrap: wrap; /* Permet d'empiler les colonnes sur des petits écrans */
+    margin-left: 320px;
+  }
+
+.gamme {
+  position: relative;
+  flex: 1;
+  max-width: 45%; /* Ajuste la largeur pour mieux s'adapter à la taille de l'écran */
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease; /* Ajout d'un effet de transformation */
 }
 
-.left-section, .right-section {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Augmentation de l'espacement */
+.gamme:hover {
+  transform: scale(1.05); /* Effet zoom au survol */
 }
 
-.center-section {
-    text-align: center;
-    justify-content: center; /* Centrage horizontal */
-    align-items: center; /* Centrage vertical */
-    height: 100%; /* Assure que l'élément occupe tout l'espace vertical disponible */
-    text-align: center; /* Sécurité pour le texte */
+/* Image des gammes */
+.gamme-image img {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
 }
 
-.logo {
-    height: 100px; /* Taille du logo augmentée */
-    display: block;
-    margin-right: 165px;
-    
+/* Overlay (effet au-dessus des images) */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center; /* Centre horizontalement le bouton */
+  align-items: center; /* Centre verticalement le bouton */
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 10px;
 }
 
-.icon {
-    width: 30px;
-    height: 30px; /* Taille des icônes augmentée */
+/* Afficher l'overlay au survol */
+.gamme:hover .overlay {
+  opacity: 1;
 }
 
-.search-bar {
-    padding: 10px; /* Plus de padding */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px; /* Taille de texte augmentée */
+/* Style des boutons */
+.button {
+  background-color: #5a7c55;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.menu {
-    background-color: #F5F5DC;
-    padding: 20px 0;
-    text-align: center;
-    border-top: 1px solid #dcdcdc;
+/* Effet hover sur le bouton */
+.button:hover {
+  background-color: #496945;
 }
 
-.menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: 30px; /* Augmentation de l'écart entre les liens */
+/* Responsivité pour petits écrans */
+@media (max-width: 768px) {
+  .gamme {
+    max-width: 100%; /* Les éléments prennent toute la largeur sur petits écrans */
+  }
+  .container {
+    flex-direction: column; /* Les éléments s'empilent verticalement sur petits écrans */
+  }
 }
-
-.menu a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    font-size: 18px; /* Taille du texte augmentée */
-}
-
-footer {
-    text-align: left;
-    padding: 20px 30px; /* Plus d'espace dans le footer */
-    font-size: 16px; /* Taille de texte augmentée */
-    color: #666;
-}
-
-
-/* Style général du footer */
-footer {
-    background-color: #556B2F; /* Vert olive */
-    color: white;
-    padding: 20px;
-    text-align: center;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Disposition avec Flexbox */
-  footer div {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: auto;
-  }
-  
-  /* Sections gauche, milieu et droite */
-  footer div > div {
-    flex: 1;
-    min-width: 200px;
-    margin: 10px 0;
-  }
-  
-  /* Liste des liens */
-  footer ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  footer ul li {
-    margin: 5px 0;
-  }
-  
-  footer ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s ease;
-  }
-  
-  footer ul li a:hover {
-    color: #FF7E42; /* Couleur orange au survol */
-  }
-  
-  /* Formulaire de newsletter */
-  footer form {
-    margin-top: 10px;
-  }
-  
-  footer form input[type="email"] {
-    padding: 8px;
-    width: 70%;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  
-  footer form button {
-    background-color: #D2691E; /* Couleur orange */
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-left: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  footer form button:hover {
-    background-color: #e4692f; /* Couleur orange plus foncée au survol */
-  }
-  
-  /* Icônes des réseaux sociaux */
-  footer div a {
-    color: white;
-    margin: 0 5px;
-    font-size: 20px;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  footer div a:hover {
-    color: #FF7E42; /* Couleur orange au survol */
-  }
-  
-  /* Section des droits réservés */
-  footer div:last-child {
-    margin-top: 20px;
-    font-size: 12px;
-    text-align: center;
-  }
-  

@@ -5,7 +5,7 @@
             <p> 🔍 </p>
         </div>
         <div class="center-section">
-            <img src="assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo">
+            <a href="/ControllerOFC"><img src="/assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo"></a>
         </div>
         <div class="right-section">
             <p> 🇫🇷  </p>
@@ -13,3 +13,13 @@
             <p> 👤 </p>
         </div>
     </header>
+    <nav class="menu">
+        <ul>
+            <li><a href="#">Gammes</a></li>
+            <li><a href="#">Huiles</a></li>
+            <li><a href="#">Soins peau au détail</a></li>
+            <li><a href="#">Soins capillaires</a></li>
+            <li><a href="#">Autres</a></li>
+            <li><a href="/navbar/entreprise">L’entreprise</a></li>
+        </ul>
+    </nav>

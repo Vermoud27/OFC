@@ -25,7 +25,8 @@ class UtilisateurModel extends Model
         'adresse',
         'mdp',
         'reset_token',
-        'reset_token_expiration'
+        'reset_token_expiration',
+        'is_active',
     ];
 
     // Validation des données
@@ -33,7 +34,7 @@ class UtilisateurModel extends Model
         'nom'      => 'required|max_length[50]',
         'prenom'   => 'required|max_length[50]',
         'role'     => 'required|max_length[20]',
-        'mail'     => 'required|valid_email|max_length[100]|is_unique[Utilisateur.mail,id_utilisateur,{id_utilisateur}]',
+        'mail'     => 'required|valid_email|max_length[100]|is_unique[utilisateur.mail,id_utilisateur,{id_utilisateur}]',
         'telephone'=> 'permit_empty|max_length[15]',
         'mdp'      => 'required|min_length[8]',
     ];
@@ -47,17 +48,4 @@ class UtilisateurModel extends Model
             'min_length' => 'Le mot de passe doit contenir au moins 8 caractères.'
         ]
     ];
-
-    // Nettoyage des données avant insertion ou mise à jour
-    protected $beforeInsert = ['hashPassword'];
-    protected $beforeUpdate = ['hashPassword'];
-
-    // Fonction pour hacher le mot de passe
-    protected function hashPassword(array $data)
-    {
-        if (isset($data['data']['mdp'])) {
-            $data['data']['mdp'] = password_hash($data['data']['mdp'], PASSWORD_DEFAULT);
-        }
-        return $data;
-    }
 }

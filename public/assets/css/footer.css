@@ -1,0 +1,102 @@
+footer {
+    text-align: left;
+    padding: 20px 30px;
+    font-size: 16px;
+    color: #666;
+}
+
+/* Style général du footer */
+footer {
+    background-color: #556B2F;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Disposition avec Flexbox */
+footer div {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Sections gauche, milieu et droite */
+footer div>div {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px 0;
+}
+
+/* Liste des liens */
+footer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer ul li {
+    margin: 5px 0;
+}
+
+footer ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+    color: #FF7E42;
+}
+
+/* Formulaire de newsletter */
+footer form {
+    margin-top: 10px;
+}
+
+footer form input[type="email"] {
+    padding: 8px;
+    width: 70%;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+footer form button {
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease;
+}
+
+footer form button:hover {
+    background-color: #e4692f;
+}
+
+/* Icônes des réseaux sociaux */
+footer div a {
+    color: white;
+    margin: 0 5px;
+    font-size: 20px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer div a:hover {
+    color: #FF7E42;/
+}
+
+/* Section des droits réservés */
+footer div:last-child {
+    margin-top: 20px;
+    font-size: 12px;
+    text-align: center;
+}

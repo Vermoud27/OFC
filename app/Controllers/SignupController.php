@@ -17,9 +17,12 @@ class SignupController extends BaseController
 
         // Règles de validation
         $rules = [
-            'email' => 'required|valid_email|is_unique[utilisateurs.email]',
+            'email' => 'required|valid_email|is_unique[utilisateur.mail]',
             'password' => 'required|min_length[6]',
-            'confirmpassword' => 'required|matches[password]',
+            'password_confirmation' => 'required|matches[password]',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone' => 'permit_empty|numeric',
         ];
 
         if ($this->validate($rules)) {
@@ -30,18 +33,22 @@ class SignupController extends BaseController
 
             // Enregistrement temporaire de l'utilisateur
             $model->save([
-                'email' => $this->request->getPost('email'),
-                'mot_de_passe' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-                'token_modif_mdp' => $token,
-                'reset_token_expiration' => Time::now()->addHours(24),
+            'mail' => $this->request->getPost('email'),
+            'mdp' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'nom' => $this->request->getPost('first_name'),
+            'prenom' => $this->request->getPost('last_name'),
+            'role' => 'Client',
+            'telephone' => $this->request->getPost('phone'),
+            'reset_token' => $token,
+            'reset_token_expiration' => Time::now()->addHours(24),
             ]);
 
             // Envoi de l'e-mail de validation
             $this->sendValidationEmail($this->request->getPost('email'), $token);
 
-            return redirect()->to('login/signin')->with('success', 'Un e-mail de validation vous a été envoyé. Veuillez vérifier votre boîte de réception.');
+            return redirect()->to('signin')->with('success', 'Un e-mail de validation vous a été envoyé. Veuillez vérifier votre boîte de réception.');
         } else {
-            return view('login/signup', [
+            return view('signup', [
                 'validation' => $this->validator
             ]);
         }
@@ -53,7 +60,7 @@ class SignupController extends BaseController
         $emailService = \Config\Services::email();
 
         // URL de validation avec le jeton
-        $validationLink = site_url("login/signup/activateAccount/$token");
+        $validationLink = site_url("signup/activateAccount/$token");
 
         // Message d'e-mail au format HTML
         $message = "
@@ -90,22 +97,22 @@ class SignupController extends BaseController
         $model = new UtilisateurModel();
 
         // Rechercher l'utilisateur par son jeton
-        $user = $model->where('token_modif_mdp', $token)
+        $user = $model->where('reset_token', $token)
             ->where('reset_token_expiration >', Time::now())
             ->first();
 
         if ($user) {
             // Activer l'utilisateur et supprimer le jeton
-            $model->update($user['idutilisateur'], [
-                'is_active' => TRUE, // Marquer le compte comme activé
-                'token_modif_mdp' => null,
+            $model->update($user['id_utilisateur'], [
+                'is_active' => TRUE, 
+                'reset_token' => null,
                 'reset_token_expiration' => null,
             ]);
             
 
-            return redirect()->to('login/signin')->with('success', 'Votre compte a été activé avec succès. Vous pouvez maintenant vous connecter.');
+            return redirect()->to('/signin')->with('success', 'Votre compte a été activé avec succès. Vous pouvez maintenant vous connecter.');
         } else {
-            return redirect()->to('login/signup')->with('error', 'Lien de validation invalide ou expiré.');
+            return redirect()->to('/signup')->with('error', 'Lien de validation invalide ou expiré.');
         }
     }
 }

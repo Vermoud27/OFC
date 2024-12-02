@@ -1,87 +1,157 @@
+<?php
+require 'header.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OFC Naturel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/pageAccueil.css">
 </head>
 <body>
-    <header class="navbar">
-        <div class="left-section">
-            <p> 📞 </p> 
-            <input type="text" placeholder="Rechercher..." class="search-bar">
-            <p> 🔍 </p>
+<img src="/assets/img/logo/fondOFC.png" alt="Banniere" class="fondOFC">
+
+ <!-- Conteneur principal du carrousel -->
+ <h1> Les Favoris du moments </h1>
+ <div class="carousel-wrapper">
+    <div class="carousel-container">
+        <div class="product">
+            <img src="/assets/img/produits/huile_baobab_1.jpeg" alt="Huile Baobab">
+            <p>Huile Baobab</p>
+            <p>25,99 €</p>
+            <button>Acheter</button>
         </div>
-        <div class="center-section">
-            <img src="assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo">
+        <div class="product">
+            <img src="/assets/img/produits/roll_on_1.jpeg" alt="Roll On">
+            <p>Roll On</p>
+            <p>13,99 €</p>
+            <button>Acheter</button>
         </div>
-        <div class="right-section">
-            <p> 🇫🇷  </p>
-            <p> 🛒 </p>
-            <p> 👤 </p>
+        <div class="product">
+            <img src="/assets/img/produits/savon_rouge_1.jpeg" alt="Savon Rouge">
+            <p>Savon Rouge</p>
+            <p>9,99 €</p>
+            <button>Acheter</button>
         </div>
-    </header>
-    <nav class="menu">
-        <ul>
-            <li><a href="#">Gammes</a></li>
-            <li><a href="#">Huiles</a></li>
-            <li><a href="#">Soins peau au détail</a></li>
-            <li><a href="#">Soins capillaires</a></li>
-            <li><a href="#">Autres</a></li>
-            <li><a href="#">L’entreprise</a></li>
-        </ul>
-    </nav>
+        <div class="product">
+            <img src="/assets/img/produits/gommage_clarifiant.jpeg" alt="Gommage Clarifiant">
+            <p>Gommage Clarifiant</p>
+            <p>30,99 €</p>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
 
 
-    <footer>
-            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1200px; margin: auto;">
-                <!-- Section Gauche -->
-                <div style="flex: 1; min-width: 200px; text-align: left;">
-                <ul style="list-style-type: none; padding: 0;">
-                    <li><a href="#" style="color: white; text-decoration: none;">Accueil</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Produits</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">À propos</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Blog</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">FAQ</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Panier</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Contact</a></li>
-                </ul>
-                </div>
 
-                <!-- Section Milieu -->
-                <div style="flex: 1; min-width: 200px; text-align: center;">
-                <p>S'inscrire à la newsletter</p>
-                <form>
-                    <input type="email" placeholder="E-mail" style="padding: 5px; width: 70%; border: none; border-radius: 5px;">
-                    <button type="submit" style="background-color: #FF7E42; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">S'inscrire</button>
-                </form>
-                <div style="margin-top: 10px;">
-                    <a href="#" style="color: white; margin: 0 5px; font-size: 20px;"><i class="fab fa-pinterest"></i></a>
-                    <a href="#" style="color: white; margin: 0 5px; font-size: 20px;"><i class="fab fa-tiktok"></i></a>
-                    <a href="#" style="color: white; margin: 0 5px; font-size: 20px;"><i class="fab fa-instagram"></i></a>
-                    <a href="#" style="color: white; margin: 0 5px; font-size: 20px;"><i class="fab fa-facebook"></i></a>
-                </div>
-                </div>
 
-                <!-- Section Droite -->
-                <div style="flex: 1; min-width: 200px; text-align: right;">
-                <ul style="list-style-type: none; padding: 0;">
-                    <li><a href="#" style="color: white; text-decoration: none;">Mentions légales</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Politique de confidentialité</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Politique de retour et remboursement</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Politique de cookies</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Protection des données et RGPD</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Conditions générales d'utilisation</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Conditions générales de vente</a></li>
-                </ul>
-                </div>
+
+<div class="container">
+    <div class="gamme">
+        <div class="gamme-image">
+            <img src="/assets/img/produits/bundle_soin_1.jpeg" alt="Produits de la gamme 1">
+            <div class="overlay">
+                <button class="button">Découvrez la gamme 1</button>
             </div>
-
-            <div style="margin-top: 20px; font-size: 12px;">
-                © 2024 OFC Naturel. Tous droits réservés.
+        </div>
+    </div>
+    <div class="gamme">
+        <div class="gamme-image">
+            <img src="/assets/img/produits/bundle_huile.jpeg" alt="Produits de la gamme 2">
+            <div class="overlay">
+                <button class="button">Découvrez la gamme 2</button>
             </div>
-            </footer>
+        </div>
+    </div>
+</div>
 
-</body>
-</html>
+
+
+
+
+<script>
+const carouselContainer = document.querySelector('.carousel-container');
+const products = Array.from(document.querySelectorAll('.product'));
+const productWidth = products[0].offsetWidth; // Largeur d'un produit
+const productMargin = parseInt(getComputedStyle(products[0]).marginRight, 10); // Marge entre les produits
+const speed = 0.7; // Vitesse de défilement (ajustez selon vos préférences)
+let offset = 0; // Décalage initial du carrousel
+let isPaused = false; // Variable pour savoir si l'animation est en pause
+
+// Fonction pour cloner les produits et maintenir un carrousel fluide
+function duplicateProducts() {
+    const visibleWidth = carouselContainer.offsetWidth;
+
+    // Duplique les produits jusqu'à ce que la largeur totale soit suffisante pour deux fois la taille de l'écran visible
+    while (carouselContainer.scrollWidth < visibleWidth * 2) {
+        products.forEach(product => {
+            const clone = product.cloneNode(true);
+            carouselContainer.appendChild(clone);
+        });
+    }
+
+    // Ajouter les événements à tous les produits, y compris les clones
+    const allProducts = Array.from(carouselContainer.querySelectorAll('.product'));
+    allProducts.forEach(product => {
+        product.addEventListener('mouseover', pauseCarousel); // Met en pause lorsque la souris survole
+        product.addEventListener('mouseout', resumeCarousel); // Reprend l'animation lorsque la souris quitte
+    });
+}
+
+// Fonction pour gérer l'animation
+function startCarousel() {
+    function animate() {
+        if (isPaused) return; // Si le carrousel est en pause, on arrête l'animation
+
+        offset -= speed; // Déplace vers la gauche
+
+        // Si l'extrémité gauche du produit actuel quitte le carrousel, réinitialise la position
+        if (Math.abs(offset) >= (productWidth + productMargin)) {
+            offset = 0; // Réinitialise le décalage
+            // Déplace le premier produit à la fin pour maintenir le flux
+            carouselContainer.appendChild(carouselContainer.firstElementChild);
+        }
+
+        // Applique le décalage
+        carouselContainer.style.transform = `translateX(${offset}px)`;
+
+        requestAnimationFrame(animate); // Prochaine frame
+    }
+
+    requestAnimationFrame(animate);
+}
+
+// Fonction pour mettre en pause le carrousel
+function pauseCarousel() {
+    isPaused = true; // Met en pause l'animation
+}
+
+// Fonction pour reprendre l'animation
+function resumeCarousel() {
+    if (isPaused) {
+        isPaused = false; // Reprend l'animation
+        startCarousel();  // Redémarre l'animation si elle était en pause
+    }
+}
+
+// Initialisation du carrousel
+function setupCarousel() {
+    duplicateProducts(); // Assure qu'il y a assez de produits
+    startCarousel(); // Lance l'animation
+}
+
+// Démarrage
+setupCarousel();
+
+</script>
+
+
+    
+<?php 
+require 'footer.php';
+?>

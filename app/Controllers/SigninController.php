@@ -9,7 +9,7 @@ class SigninController extends BaseController
     public function index()
     {
         if (session()->get('isLoggedIn')) {
-            return redirect()->to('/ControllerSGT');
+            return redirect()->to('/ControllerOFC');
         }
     
         return view('login/signin');
@@ -24,10 +24,10 @@ class SigninController extends BaseController
         $password = $this->request->getPost('password');
     
         // Rechercher l'utilisateur par email
-        $user = $model->where('email', $email)->first();
+        $user = $model->where('mail', $email)->first();
     
         if ($user) {
-            if (password_verify($password, $user['mot_de_passe'])) {
+            if (password_verify($password, $user['mdp'])) {
                 if ($user['is_active'] == 'f') {
                     $session->setFlashdata('error', 'Votre compte n\'est pas encore activé. Veuillez vérifier vos e-mails.');
                     return redirect()->to('/signin');
@@ -35,12 +35,12 @@ class SigninController extends BaseController
     
                 // Stocker les informations utilisateur dans la session
                 $session->set([
-                    'idutilisateur' => $user['idutilisateur'],
-                    'email' => $user['email'],
+                    'idutilisateur' => $user['id_utilisateur'],
+                    'email' => $user['mail'],
                     'isLoggedIn' => true,
                 ]);
     
-                return redirect()->to('/ControllerSGT'); // Page d'accueil
+                return redirect()->to('/ControllerOFC'); // Page d'accueil
             } else {
                 $session->setFlashdata('error', 'Mot de passe incorrect.');
                 return redirect()->to('/signin');
@@ -55,7 +55,7 @@ class SigninController extends BaseController
     public function logout()
     {
         $session = session();
-        $session->destroy(); // Détruire la session
+        $session->destroy();
     
         return redirect()->to('/signin')->with('success', 'Vous avez été déconnecté avec succès.');
     }

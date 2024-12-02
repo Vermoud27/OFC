@@ -14,15 +14,15 @@ class ForgotPasswordController extends Controller
     {
         $email = $this->request->getPost('email');
         $userModel = new UtilisateurModel();
-        $user = $userModel->where('email', $email)->first();
+        $user = $userModel->where('mail', $email)->first();
     
         if ($user) {
             $token = bin2hex(random_bytes(16));
             $expiration = date('Y-m-d H:i:s', strtotime('+3 hours'));
     
             // Mise à jour du compte avec le token et désactivation
-            $userModel->update($user['idutilisateur'], [
-                'token_modif_mdp' => $token,
+            $userModel->update($user['id_utilisateur'], [
+                'reset_token' => $token,
                 'reset_token_expiration' => $expiration,
                 'is_active' => FALSE,
             ]);
@@ -45,7 +45,7 @@ class ForgotPasswordController extends Controller
             session()->setFlashdata('error', 'Adresse e-mail non trouvée.');
         }
     
-        return redirect()->to('login/signin');
+        return redirect()->to('/signin');
     }
     
 }

@@ -1,0 +1,69 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #F5F5DC;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.left-section,
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.center-section {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.logo {
+    height: 100px;
+    display: block;
+    margin-right: 165px;
+
+}
+
+.fondOFC {
+    width: 100%;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+.search-bar {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.menu {
+    background-color: #F5F5DC;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #dcdcdc;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+}
