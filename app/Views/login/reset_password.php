@@ -7,6 +7,7 @@
     <title>Réinitialiser le mot de passe</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/reset_password.css">
+    <link rel="stylesheet" href="/assets/css/notif.css">
 </head>
 
 <body>
@@ -21,7 +22,8 @@
     <div class="container">
         <h1>Réinitialisez votre mot de passe</h1>
         <p>Veuillez entrer un nouveau mot de passe pour votre compte.</p>
-        <form action="/reset-password" method="POST">
+        <form action="/reset-password/updatePassword" method="post">
+            <input type="hidden" name="token" value="<?= esc($token) ?>">
             <div class="form-group">
                 <input type="password" name="password" placeholder="Nouveau mot de passe" required>
             </div>
