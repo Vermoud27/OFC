@@ -1,15 +1,16 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    font-size: 18px; /* Augmentation de la taille de base */
+    font-size: 18px; 
     background-color: #F5F5DC;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 30px; /* Plus d'espace autour */
+    padding: 20px 30px; 
     background-color: #F5F5DC;
     border-bottom: 1px solid #dcdcdc;
 }
@@ -17,19 +18,19 @@ body {
 .left-section, .right-section {
     display: flex;
     align-items: center;
-    gap: 15px; /* Augmentation de l'espacement */
+    gap: 15px; 
 }
 
 .center-section {
     text-align: center;
-    justify-content: center; /* Centrage horizontal */
-    align-items: center; /* Centrage vertical */
-    height: 100%; /* Assure que l'élément occupe tout l'espace vertical disponible */
-    text-align: center; /* Sécurité pour le texte */
+    justify-content: center; 
+    align-items: center; 
+    height: 100%;
+    text-align: center; 
 }
 
 .logo {
-    height: 100px; /* Taille du logo augmentée */
+    height: 100px; 
     display: block;
     margin-right: 165px;
     
@@ -37,14 +38,14 @@ body {
 
 .icon {
     width: 30px;
-    height: 30px; /* Taille des icônes augmentée */
+    height: 30px; 
 }
 
 .search-bar {
-    padding: 10px; /* Plus de padding */
+    padding: 10px; 
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px; /* Taille de texte augmentée */
+    font-size: 16px; 
 }
 
 .menu {
@@ -60,27 +61,26 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    gap: 30px; /* Augmentation de l'écart entre les liens */
+    gap: 30px; 
 }
 
 .menu a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
-    font-size: 18px; /* Taille du texte augmentée */
+    font-size: 18px; 
 }
 
 footer {
     text-align: left;
-    padding: 20px 30px; /* Plus d'espace dans le footer */
-    font-size: 16px; /* Taille de texte augmentée */
+    padding: 20px 30px; 
+    font-size: 16px; 
     color: #666;
 }
 
-
 /* Style général du footer */
 footer {
-    background-color: #556B2F; /* Vert olive */
+    background-color: #556B2F; 
     color: white;
     padding: 20px;
     text-align: center;
@@ -122,7 +122,7 @@ footer {
   }
   
   footer ul li a:hover {
-    color: #FF7E42; /* Couleur orange au survol */
+    color: #FF7E42;
   }
   
   /* Formulaire de newsletter */
@@ -139,7 +139,7 @@ footer {
   }
   
   footer form button {
-    background-color: #D2691E; /* Couleur orange */
+    background-color: #D2691E; 
     color: white;
     border: none;
     padding: 8px 15px;
@@ -151,7 +151,7 @@ footer {
   }
   
   footer form button:hover {
-    background-color: #e4692f; /* Couleur orange plus foncée au survol */
+    background-color: #e4692f;
   }
   
   /* Icônes des réseaux sociaux */
@@ -164,7 +164,7 @@ footer {
   }
   
   footer div a:hover {
-    color: #FF7E42; /* Couleur orange au survol */
+    color: #FF7E42; /
   }
   
   /* Section des droits réservés */
@@ -200,13 +200,13 @@ footer {
   width: 180px;
   padding: 10px;
   text-align: center;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); /* Box shadow ajouté */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Effet interactif */
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.2s ease, box-shadow 0.2s ease; 
 }
 
 
 .product {
-  flex: 0 0 25%; /* 4 produits visibles */
+  flex: 0 0 25%; 
   box-sizing: border-box;
   padding: 10px;
   text-align: center;
@@ -214,8 +214,8 @@ footer {
 
 
 .product:hover {
-  transform: translateY(-5px); /* Légère élévation au survol */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Ombre plus marquée au survol */
+  transform: translateY(-5px); 
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .product img {
@@ -223,17 +223,14 @@ footer {
   max-height:100px;
   height: auto;
   margin-bottom: 10px;
-  border: 2px solid #556B2F; /* 5px d'épaisseur, couleur noire, style solide */
-  border-radius: 5px; /* Optionnel : arrondir les coins du contour */
+  border: 2px solid #556B2F; 
+  border-radius: 5px; 
 }
 
 .product p {
   margin: 5px 0;
   font-size: 14px;
 }
-
-
-
 
 .product button {
   background-color: #5c8a33;
@@ -248,34 +245,30 @@ footer {
   background-color: #497225;
 }
 
-
-
-
-
-
-
-
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+}
 
 /*--------------------------CAROUSSEL---------------------------------*/
 /* Conteneur du carrousel */
 .carousel-container {
   display: flex;
-  white-space: nowrap; /* Empêche les produits de se répartir sur plusieurs lignes */
-  transition: none; /* Aucune transition pour éviter l'effet de saut */
-  will-change: transform; /* Optimisation pour les animations */
+  white-space: nowrap;
+  transition: none; 
+  will-change: transform; 
 }
 
 .carousel-wrapper {
   position: relative;
   overflow: hidden;
-  width: 100%; /* Adapter à la largeur de l'écran */
+  width: 100%;
 }
 
 .product {
-  flex: 0 0 auto; /* Taille fixe pour chaque produit */
-  width: 12.5%; /* Largeur de chaque produit */
-  margin-right: 2%; /* Espace entre les produits */
-  box-sizing: border-box; /* Assure que la taille des produits ne change pas avec les marges */
+  flex: 0 0 auto; 
+  width: 12.5%; 
+  margin-right: 2%; 
+  box-sizing: border-box; 
   text-align: center;
   background-color: #f8f8f8;
   border: 1px solid #ddd;
@@ -284,12 +277,12 @@ footer {
 }
 
 .product:hover {
-  transform: scale(1.1); /* Exemple d'effet au survol */
-  transition: transform 0.3s ease; /* Douce transition */
+  transform: scale(1.1); 
+  transition: transform 0.3s ease; 
 }
 
 .product img {
-  max-width: 100%; /* Ajustement des images */
+  max-width: 100%; 
   height: auto;
   border-radius: 5px;
 }
@@ -312,7 +305,3 @@ footer {
 .product button:hover {
   background-color: #0056b3;
 }
-
-
-
-
