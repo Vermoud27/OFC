@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nouveau mot de passe</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="/assets/css/notif.css">
+    <title>Réinitialiser le mot de passe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/reset_password.css">
 </head>
 
 <body>
@@ -18,41 +18,20 @@
             </div>
         <?php endif; ?>
     </div>
-    <section class="section">
-        <div class="container">
-            <h1 class="title has-text-centered">Nouveau mot de passe</h1>
-            <p class="subtitle has-text-centered">Veuillez entrer votre nouveau mot de passe.</p>
-            <div class="columns is-centered">
-                <div class="column is-half">
-                    <form action="/reset-password/updatePassword" method="post">
-                        <input type="hidden" name="token" value="<?= esc($token) ?>">
-                        <div class="field">
-                            <label class="label">Nouveau mot de passe</label>
-                            <div class="control">
-                                <input class="input" type="password" name="password" placeholder="Nouveau mot de passe"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Confirmer le mot de passe</label>
-                            <div class="control">
-                                <input class="input" type="password" name="confirm_password"
-                                    placeholder="Confirmez le mot de passe" required>
-                            </div>
-                        </div>
-                        <div class="field is-grouped">
-                            <div class="control">
-                                <a href="/signin" class="button is-light">Annuler</a>
-                            </div>
-                            <div class="control">
-                                <button type="submit" class="button is-danger">Envoyer</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    <div class="container">
+        <h1>Réinitialisez votre mot de passe</h1>
+        <p>Veuillez entrer un nouveau mot de passe pour votre compte.</p>
+        <form action="/reset-password" method="POST">
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Nouveau mot de passe" required>
             </div>
-        </div>
-    </section>
+            <div class="form-group">
+                <input type="password" name="confirm_password" placeholder="Confirmez le mot de passe" required>
+            </div>
+            <button type="submit" class="btn-submit">Réinitialiser</button>
+        </form>
+        <a href="/signin" class="cancel-link">Annuler</a>
+    </div>
 
     <!-- Script pour masquer les notifications après 4 secondes -->
     <script src="/assets/js/notif.js"></script>
