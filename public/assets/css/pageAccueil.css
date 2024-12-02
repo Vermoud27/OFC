@@ -174,3 +174,140 @@ footer {
     text-align: center;
   }
   
+.favorites-section {
+  text-align: center;
+  padding: 20px;
+  background-color: #F5F5DC;
+}
+
+.favorites-section h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.products {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  flex-wrap: wrap;
+  background-color: F5F5DC;
+}
+
+.product {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 180px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); /* Box shadow ajouté */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Effet interactif */
+}
+
+
+.product {
+  flex: 0 0 25%; /* 4 produits visibles */
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+}
+
+
+.product:hover {
+  transform: translateY(-5px); /* Légère élévation au survol */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Ombre plus marquée au survol */
+}
+
+.product img {
+  max-width: 100px;
+  max-height:100px;
+  height: auto;
+  margin-bottom: 10px;
+  border: 2px solid #556B2F; /* 5px d'épaisseur, couleur noire, style solide */
+  border-radius: 5px; /* Optionnel : arrondir les coins du contour */
+}
+
+.product p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+
+
+
+.product button {
+  background-color: #5c8a33;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.product button:hover {
+  background-color: #497225;
+}
+
+
+
+
+
+
+
+
+
+/*--------------------------CAROUSSEL---------------------------------*/
+/* Conteneur du carrousel */
+.carousel-container {
+  display: flex;
+  white-space: nowrap; /* Empêche les produits de se répartir sur plusieurs lignes */
+  transition: none; /* Aucune transition pour éviter l'effet de saut */
+  will-change: transform; /* Optimisation pour les animations */
+}
+
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%; /* Adapter à la largeur de l'écran */
+}
+
+.product {
+  flex: 0 0 auto; /* Taille fixe pour chaque produit */
+  width: 12.5%; /* Largeur de chaque produit */
+  margin-right: 2%; /* Espace entre les produits */
+  box-sizing: border-box; /* Assure que la taille des produits ne change pas avec les marges */
+  text-align: center;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.product img {
+  max-width: 100%; /* Ajustement des images */
+  height: auto;
+  border-radius: 5px;
+}
+
+.product p {
+  font-size: 1rem;
+  color: #333;
+}
+
+.product button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product button:hover {
+  background-color: #0056b3;
+}
+
+
+
+
