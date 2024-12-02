@@ -49,24 +49,24 @@ require 'header.php';
 
 
 
-    <div class="container">
-        <div class="gamme">
-            <div class="gamme-image">
-                <img src="/assets/img/produits/bundle_soin_1.jpeg" alt="Produits de la gamme 1">
-                <div class="overlay">
-                    <button class="button">Découvrez la gamme 1</button>
-                </div>
-            </div>
-        </div>
-        <div class="gamme">
-            <div class="gamme-image">
-                <img src="/assets/img/produits/bundle_huile.jpeg" alt="Produits de la gamme 2">
-                <div class="overlay">
-                    <button class="button">Découvrez la gamme 2</button>
-                </div>
+<div class="container">
+    <div class="gamme">
+        <div class="gamme-image">
+            <img src="/assets/img/produits/bundle_soin_1.jpeg" alt="Produits de la gamme 1">
+            <div class="overlay">
+                <button class="button">Découvrez la gamme 1</button>
             </div>
         </div>
     </div>
+    <div class="gamme">
+        <div class="gamme-image">
+            <img src="/assets/img/produits/bundle_huile.jpeg" alt="Produits de la gamme 2">
+            <div class="overlay">
+                <button class="button">Découvrez la gamme 2</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -145,6 +145,7 @@ function setupCarousel() {
 
 // Démarrage
 setupCarousel();
+
 </script>
 
 
