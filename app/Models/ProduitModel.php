@@ -25,7 +25,8 @@ class ProduitModel extends Model
         'unite_mesure',
         'promotion',
         'id_categorie',
-        'id_gamme'
+        'id_gamme',
+        'actif',
     ];
 
     // Validation des données

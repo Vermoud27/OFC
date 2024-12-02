@@ -1,0 +1,239 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #556B2F;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Ajout pour permettre le retour à la ligne si nécessaire */
+    width: 100%;
+    max-width: 1400px;
+    background-color: #FAF9F6;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+    height: auto; /* Autoriser la hauteur dynamique */
+    padding: 10px; /* Ajouter un espace intérieur */
+    box-sizing: border-box; /* Inclure le padding dans la largeur totale */
+}
+
+.gallery {
+    flex: 1;
+    margin: 10px 10px 0px 10px;
+    border-right: 1px solid #888888;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.gallery .main-image {
+    width: 300px; /* Largeur fixe pour le conteneur */
+    height: 300px; /* Hauteur fixe pour le conteneur */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid #888888;
+    overflow: hidden; /* Empêche l'image de déborder */
+    background-color: #f0f0f0; /* Optionnel : couleur de fond pour un meilleur rendu */
+}
+
+.gallery .main-image img {
+    max-width: 100%; /* Limite la largeur à celle du conteneur */
+    max-height: 100%; /* Limite la hauteur à celle du conteneur */
+    object-fit: contain; /* Garde l'image contenue dans le cadre sans la déformer */
+}
+
+
+.gallery .thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.gallery .thumbnails .thumbnail {
+    position: relative; /* Nécessaire pour que le bouton soit positionné par rapport au conteneur */
+    width: 80px; /* Largeur fixe pour chaque miniature */
+    height: 80px; /* Hauteur fixe pour chaque miniature */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid #888888;
+    overflow: hidden; /* Empêche l'image de déborder */
+    background-color: #f0f0f0; /* Optionnel : couleur de fond */
+}
+
+.gallery .thumbnails .thumbnail .delete-btn {
+    position: absolute; /* Permet de placer le bouton à un endroit spécifique */
+    top: 5px; /* Position en haut */
+    right: 5px; /* Position à droite */
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    border-radius: 10%; /* Forme ronde */
+    font-size: 12px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Assure que le bouton soit au-dessus de tout */
+}
+.gallery .thumbnails .thumbnail .delete-btn:hover {
+	background-color: #A0522D;
+}
+
+.gallery .thumbnails .thumbnail img {
+    max-width: 100%; /* L'image ne dépasse pas la largeur du conteneur */
+    max-height: 100%; /* L'image ne dépasse pas la hauteur du conteneur */
+    object-fit: contain; /* Garde les proportions de l'image */
+}
+
+.gallery .thumbnails img.selected {
+    border: 3px solid #D2691E; /* Bordure plus épaisse et couleur visible */
+    border-radius: 8px; /* Garde les coins arrondis */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Ajoute une ombre pour plus de contraste */
+}
+
+.gallery #add-image-btn {
+    margin-top: auto;
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    align-self: center;
+}
+
+.form-container {
+    flex: 2;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input, select, textarea, button {
+    width: 100%; /* S'assurer que les champs ne dépassent pas */
+    padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 5px;
+    margin-bottom: 15px; /* Ajouter un espacement entre les champs */
+    border: 1px solid #888888;
+    border-radius: 5px;
+    background-color: white;
+    color: #556B2F;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+}
+
+.ingredient-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    max-height: 100px;
+}
+
+.ingredient-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.ingredient-list li:last-child {
+    border-bottom: none;
+}
+
+.ingredient-list .remove-btn {
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    border-radius: 20%;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+
+.ingredient-list .remove-btn:hover {
+    background-color: #A0522D;
+}
+
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px; /* Espacer les boutons du reste */
+	gap: 20px;
+}
+
+.actions button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #D2691E;
+    color: white;
+}
+
+.form-container .grid-2-columns,
+.form-container .grid-3-columns {
+    display: grid;
+    gap: 20px; /* Espacement entre les colonnes */
+    width: 100%; /* S'assurer que la grille ne dépasse pas */
+}
+
+.form-container .grid-2-columns {
+    grid-template-columns: 1fr 1fr; /* Deux colonnes de tailles égales */
+}
+
+.form-container .grid-3-columns {
+    grid-template-columns: 1fr 1fr 1fr; /* Trois colonnes de tailles égales */
+}
+
+.form-container .grid-full {
+    grid-column: span 2; /* S'étend sur toute la largeur dans une grille 2 colonnes */
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Passer en colonne sur petits écrans */
+    }
+
+    .gallery {
+        margin-bottom: 20px; /* Espacement entre la galerie et le formulaire */
+        border-right: none;
+    }
+
+    .form-container .grid-2-columns,
+    .form-container .grid-3-columns {
+        grid-template-columns: 1fr; /* Une seule colonne sur petit écran */
+    }
+}
