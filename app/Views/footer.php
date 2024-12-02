@@ -24,10 +24,10 @@
 
         <!-- Section Logos Réseaux Sociaux -->
         <div style="flex: 2; justify-content: center; align-items: center;">
-            <img src="assets/img/logo/pinterest.png" alt="Logo Pinterest" style="width: 40px; height: 40px;margin: 0 10px;">
-            <img src="assets/img/logo/tiktok.png" alt="Logo TikTok" style="width: 40px; height: 40px;margin: 0 10px;">
-            <img src="assets/img/logo/instagram.png" alt="Logo Instagram" style="width: 40px; height: 40px;margin: 0 10px;">
-            <img src="assets/img/logo/facebook.png" alt="Logo Facebook" style="width: 40px; height: 40px;margin: 0 10px;">
+            <img src="/assets/img/logo/pinterest.png" alt="Logo Pinterest" style="width: 40px; height: 40px;margin: 0 10px;">
+            <img src="/assets/img/logo/tiktok.png" alt="Logo TikTok" style="width: 40px; height: 40px;margin: 0 10px;">
+            <img src="/assets/img/logo/instagram.png" alt="Logo Instagram" style="width: 40px; height: 40px;margin: 0 10px;">
+            <img src="/assets/img/logo/facebook.png" alt="Logo Facebook" style="width: 40px; height: 40px;margin: 0 10px;">
         </div>
 
         <!-- Section Droite -->

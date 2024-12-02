@@ -17,25 +17,25 @@ require 'header.php';
  <div class="carousel-wrapper">
     <div class="carousel-container">
         <div class="product">
-            <img src="assets/img/produits/huile_baobab_1.jpeg" alt="Huile Baobab">
+            <img src="/assets/img/produits/huile_baobab_1.jpeg" alt="Huile Baobab">
             <p>Huile Baobab</p>
             <p>25,99 €</p>
             <button>Acheter</button>
         </div>
         <div class="product">
-            <img src="assets/img/produits/roll_on_1.jpeg" alt="Roll On">
+            <img src="/assets/img/produits/roll_on_1.jpeg" alt="Roll On">
             <p>Roll On</p>
             <p>13,99 €</p>
             <button>Acheter</button>
         </div>
         <div class="product">
-            <img src="assets/img/produits/savon_rouge_1.jpeg" alt="Savon Rouge">
+            <img src="/assets/img/produits/savon_rouge_1.jpeg" alt="Savon Rouge">
             <p>Savon Rouge</p>
             <p>9,99 €</p>
             <button>Acheter</button>
         </div>
         <div class="product">
-            <img src="assets/img/produits/gommage_clarifiant.jpeg" alt="Gommage Clarifiant">
+            <img src="/assets/img/produits/gommage_clarifiant.jpeg" alt="Gommage Clarifiant">
             <p>Gommage Clarifiant</p>
             <p>30,99 €</p>
             <button>Acheter</button>

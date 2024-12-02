@@ -283,6 +283,11 @@ footer {
   padding: 10px;
 }
 
+.product:hover {
+  transform: scale(1.1); /* Exemple d'effet au survol */
+  transition: transform 0.3s ease; /* Douce transition */
+}
+
 .product img {
   max-width: 100%; /* Ajustement des images */
   height: auto;
