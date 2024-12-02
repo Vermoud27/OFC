@@ -1,35 +1,101 @@
+/* Styles spécifiques à la page entreprise */
+
 body {
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #F5F5DC;
-    font-family: 'Montserrat', sans-serif;
     color: #333;
-    line-height: 1.6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px;
 }
 
-.container {
-    max-width: 800px;
-    width: 100%;
-    text-align: center;
-}
-
-h1, h2 {
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-p {
-    margin-bottom: 20px;
-    text-align: justify;
+.content {
+    padding: 50px 20px;
 }
 
 .section {
-    margin-bottom: 40px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.section h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.section p {
+    font-size: 16px;
+    line-height: 1.8;
+    text-align: justify;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Résolution du problème de largeur pour la zone verte */
+.map-section {
+    background-color: #556B2F;
+    color: white;
+    padding: 50px 20px;
+    text-align: center;
+    width: 100vw; /* S'assure que le vert prend toute la largeur */
+    margin-left: calc(-50vw + 50%); /* Annule les marges du conteneur */
+    box-sizing: border-box;
+}
+
+.map-section h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.map-section p {
+    margin: 15px 0;
+    font-size: 18px;
+}
+
+.map-section iframe {
+    border: none;
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    margin: 20px 0;
+}
+
+/* Styles pour le bloc Contact */
+.contact-section {
+    background-color: #F5F5DC;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.contact-section form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.contact-section input,
+.contact-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.contact-section button {
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.contact-section button:hover {
+    background-color: #B2520D;
 }
 
 h1, h2, h3 {

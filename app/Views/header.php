@@ -5,7 +5,7 @@
             <p> 🔍 </p>
         </div>
         <div class="center-section">
-            <img src="/assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo">
+            <a href="/ControllerOFC"><img src="/assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo"></a>
         </div>
         <div class="right-section">
             <p> 🇫🇷  </p>
