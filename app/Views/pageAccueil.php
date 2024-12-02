@@ -12,10 +12,10 @@ require 'header.php';
     <link rel="stylesheet" href="/assets/css/pageAccueil.css">
 </head>
 <body>
-
+<img src="/assets/img/logo/fondOFC.png" alt="Banniere" class="fondOFC">
 
  <!-- Conteneur principal du carrousel -->
- <h1> Les Favoris du moments </h
+ <h1> Les Favoris du moments </h1>
  <div class="carousel-wrapper">
     <div class="carousel-container">
         <div class="product">
@@ -46,8 +46,33 @@ require 'header.php';
 </div>
 
 
-<script>
 
+
+
+    <div class="container">
+        <div class="gamme">
+            <div class="gamme-image">
+                <img src="/assets/img/produits/bundle_soin_1.jpeg" alt="Produits de la gamme 1">
+                <div class="overlay">
+                    <button class="button">Découvrez la gamme 1</button>
+                </div>
+            </div>
+        </div>
+        <div class="gamme">
+            <div class="gamme-image">
+                <img src="/assets/img/produits/bundle_huile.jpeg" alt="Produits de la gamme 2">
+                <div class="overlay">
+                    <button class="button">Découvrez la gamme 2</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<script>
 const carouselContainer = document.querySelector('.carousel-container');
 const products = Array.from(document.querySelectorAll('.product'));
 const productWidth = products[0].offsetWidth; // Largeur d'un produit
@@ -120,8 +145,6 @@ function setupCarousel() {
 
 // Démarrage
 setupCarousel();
-
-
 </script>
 
 
