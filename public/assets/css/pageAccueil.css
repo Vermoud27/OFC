@@ -277,13 +277,8 @@ h1, h2, h3 {
 }
 
 .product:hover {
-<<<<<<< HEAD
     transform: scale(1.1); /* Exemple d'effet au survol */
     transition: transform 0.3s ease; /* Douce transition */
-=======
-  transform: scale(1.1); 
-  transition: transform 0.3s ease; 
->>>>>>> 33ace630ecc4af43d14512966ba2a4ef8b901751
 }
 
 .product img {
@@ -309,7 +304,6 @@ h1, h2, h3 {
 
 .product button:hover {
   background-color: #0056b3;
-<<<<<<< HEAD
 }
 
 
@@ -320,6 +314,3 @@ body, html {
   overflow-x: hidden; /* Empêche le débordement horizontal global */
 }
 
-=======
-}
->>>>>>> 33ace630ecc4af43d14512966ba2a4ef8b901751
