@@ -284,8 +284,8 @@ footer {
 }
 
 .product:hover {
-  transform: scale(1.1); /* Exemple d'effet au survol */
-  transition: transform 0.3s ease; /* Douce transition */
+    transform: scale(1.1); /* Exemple d'effet au survol */
+    transition: transform 0.3s ease; /* Douce transition */
 }
 
 .product img {
@@ -314,5 +314,10 @@ footer {
 }
 
 
-
+/* Pour garantir que le carrousel ne dépasse pas et reste responsive */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Empêche le débordement horizontal global */
+}
 
