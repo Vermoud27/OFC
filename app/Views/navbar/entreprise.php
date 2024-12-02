@@ -57,7 +57,7 @@
         </div>
 
         <!-- Bloc Contact -->
-        <div class="contact-section">
+        <div id="contact" class="contact-section">
             <h1>Nous contacter</h1>
             <form action="/send-contact" method="POST">
                 <input type="text" name="prenom" placeholder="Prénom" required>
