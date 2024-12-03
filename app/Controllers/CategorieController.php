@@ -98,15 +98,12 @@ class CategorieController extends BaseController
 		return redirect()->to('admin/categories');
     }
 
-    /*public function supprimer($id)
+    public function supprimer($id)
     {
-        $this->produitModel->delete($id);
-        return redirect()->to('admin/categories');
-    }*/
+		$produitModel = new ProduitModel();
+		$produitModel->where('id_categorie', $id)->set('id_categorie', NULL)->update();
 
-	/*public function desactiver($id)
-    {
-        $this->produitModel->update($id, ['actif' => 'f']);
+		$this->categorieModel->delete($id);
         return redirect()->to('admin/categories');
-    }*/
+    }
 }

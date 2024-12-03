@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des ingrédients</title>
+    <title>Liste des Bundles</title>
     <link rel="stylesheet" href="/assets/css/admin/liste.css">
     <link rel="stylesheet" href="/assets/css/admin/entete.css">
 </head>
@@ -36,23 +36,23 @@
 
         <!-- Liste des produits -->
         <div class="product-section">
-            <a href="/admin/ingredients/creation/"><button class="add-product-btn">➕ Ajouter un ingrédient</button></a>
-            <h2>Liste des Ingrédients</h2>
+            <a href="/admin/bundles/creation/"><button class="add-product-btn">➕ Ajouter un bundle</button></a>
+            <h2>Liste des Bundles</h2>
 
             <div class="product-grid">
 
-                <?php foreach ($ingredients as $ingredient): ?>
+                <?php foreach ($bundles as $bundle): ?>
 
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/ingredients/modification/<?= $ingredient['id_ingredient'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/ingredients/desactiver/<?= $ingredient['id_ingredient'] ?>" ><button class="delete-btn">🗑️</button></a>
+                        <a href="/admin/bundles/modification/<?= $bundle['id_bundle'] ?>" ><button class="edit-btn">✏️</button></a>
+                            <a href="/admin/bundles/supprimer/<?= $bundle['id_bundle'] ?>" ><button class="delete-btn">🗑️</button></a>
                         </div>
 
                         <div class="product-info">
-                            <p><span>Nom : </span><?= $ingredient['nom'] ?></p>
-                            <p><span>Provenance : </span><?= $ingredient['provenance'] ?></p>
+                            <p><span>Description : </span><?= $bundle['description'] ?></p>
+                            <p><span>Prix : </span><?= $bundle['prix'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>

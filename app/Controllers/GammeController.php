@@ -5,21 +5,25 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\GammeModel;
 use App\Models\IngredientModel;
+use App\Models\ProduitModel;
 
 class GammeController extends BaseController
 {
     protected $gammeModel;
+	protected $produitModel;
 
     public function __construct()
     {
         $this->gammeModel = new GammeModel();
+		$this->produitModel = new ProduitModel();
 		helper(['form']);
     }
 
     public function index()
 	{
-		$gammes = $this->gammeModel->orderBy('id_ingredient')->paginate(8);
+		$gammes = $this->gammeModel->orderBy('id_gamme')->paginate(8);
 		
+		$data['produits'] = $this->produitModel->findAll();
 		$data['gammes'] = $gammes;
 		$data['pager'] = \Config\Services::pager();
 
@@ -28,7 +32,9 @@ class GammeController extends BaseController
 
 	public function creation()
     {
-        return view('administrateur/gammes/creation');
+		$data['produits']  = $this->produitModel->orderBy('nom')->findAll();
+
+		return view('administrateur/gammes/creation', $data);
     }
 	
     public function creer()
@@ -62,18 +68,17 @@ class GammeController extends BaseController
 	public function modification($id)
 	{
 		// Récupérer les informations du produit avec l'ID
-		$gamme = $this->gammeModel->find($id);
+		$data['gamme']  = $this->gammeModel->find($id);
+		$data['produits']  = $this->produitModel->orderBy('nom')->findAll();
 		
 		// Vérifier si le produit existe
-		if (!$gamme) {
+		if (!$data['gamme']) {
 			// Si le produit n'existe pas, rediriger vers la liste des produits avec un message d'erreur
 			return redirect()->to('/admin/gammes')->with('error', 'Gamme non trouvé');
 		}
 
 		// Charger la vue de modification avec les données du produit et ses images
-		return view('administrateur/gammes/modification', [
-			'gamme' => $gamme,
-		]);
+		return view('administrateur/gammes/modification', $data);
 	}
 
 
@@ -108,10 +113,26 @@ class GammeController extends BaseController
 
     public function supprimer($id)
     {
-        //TODO supprimer les idgamme dans produit
+		$this->produitModel->where('id_gamme', $id)->set('id_gamme', NULL)->update();
 		
 		$this->gammeModel->delete($id);
         return redirect()->to('admin/gammes');
     }
+
+	public function ajouter_produit($gamme_id)
+	{
+		$produit_id = $this->request->getPost('produit_id');
+		$this->produitModel->update($produit_id,['id_gamme' => $gamme_id]);
+
+		return redirect()->to('/admin/gammes/modification/' . $gamme_id);
+	}
+
+	public function enlever_produit($gamme_id)
+	{
+		$produit_id = $this->request->getPost('produit_id');
+		$this->produitModel->update($produit_id,['id_gamme' => NULL]);
+
+		return redirect()->to('/admin/gammes/modification/' . $gamme_id);
+	}
 
 }

@@ -80,3 +80,8 @@ foreach ($entites as $entite => $controller) {
     });
 }
 
+$routes->post('/admin/gammes/ajouter-produit/(:num)', "GammeController::ajouter_produit/$1");
+$routes->post('/admin/gammes/enlever-produit/(:num)', "GammeController::enlever_produit/$1");
+
+$routes->post('/admin/bundles/ajouter-produit/(:num)', "BundleController::ajouter_produit/$1");
+$routes->post('/admin/bundles/enlever-produit/(:num)', "BundleController::enlever_produit/$1");

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des ingrédients</title>
+    <title>Liste des Gammes</title>
     <link rel="stylesheet" href="/assets/css/admin/liste.css">
     <link rel="stylesheet" href="/assets/css/admin/entete.css">
 </head>
@@ -36,23 +36,25 @@
 
         <!-- Liste des produits -->
         <div class="product-section">
-            <a href="/admin/ingredients/creation/"><button class="add-product-btn">➕ Ajouter une ingrédients</button></a>
-            <h2>Liste des Ingrédients</h2>
+            <a href="/admin/gammes/creation/"><button class="add-product-btn">➕ Ajouter une gamme</button></a>
+            <h2>Liste des Gammes</h2>
 
             <div class="product-grid">
 
-                <?php foreach ($ingredients as $ingredient): ?>
+                <?php foreach ($gammes as $gamme): ?>
 
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/ingredients/modification/<?= $ingredient['id_ingredient'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/ingredients/desactiver/<?= $ingredient['id_ingredient'] ?>" ><button class="delete-btn">🗑️</button></a>
+                        <a href="/admin/gammes/modification/<?= $gamme['id_gamme'] ?>" ><button class="edit-btn">✏️</button></a>
+                            <a href="/admin/gammes/supprimer/<?= $gamme['id_gamme'] ?>" ><button class="delete-btn">🗑️</button></a>
                         </div>
 
                         <div class="product-info">
-                            <p><span>Nom : </span><?= $ingredient['nom'] ?></p>
-                            <p><span>Provenance : </span><?= $ingredient['provenance'] ?></p>
+                            <p><span>Nom : </span><?= $gamme['nom'] ?></p>
+                            <p><span>Description : </span><?= $gamme['description'] ?></p>
+                            <p><span>Prix HT : </span><?= $gamme['prixht'] ?></p>
+                            <p><span>Prix TTC : </span><?= $gamme['prixttc'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>
