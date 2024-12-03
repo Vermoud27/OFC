@@ -73,16 +73,12 @@
                     <div>
                         <label for="ingredient-list">Liste des ingrédients</label>
                         <ul class="ingredient-list" id="ingredient-list">
-    <?php foreach ($ingredientsMis as $ingredient) : ?>
-        <li>
-            <?= esc($ingredient['nom']); ?>
-            <input type="hidden" name="ingredients[]" value="<?= esc($ingredient['nom']); ?>">
-            <button type="button" class="remove-btn" onclick="this.parentElement.remove();">×</button>
-        </li>
-    <?php endforeach; ?>
-</ul>
+                            
+                        </ul>
 
                     </div>
+                    <input type="hidden" id="ingredients" name="ingredients">
+                    <input type="hidden" name="deleted_ingredients[]" id="deleted-ingredients">
                 </div>
 
                 <div class="grid-3-columns">
@@ -150,132 +146,194 @@
         </div>
     </div>
 
- <script>
+    <script>
         const addImageBtn = document.getElementById('add-image-btn');
-const imageInput = document.getElementById('image-input');
-const thumbnails = document.getElementById('thumbnails');
-const mainImage = document.getElementById('main-image').querySelector('img');
-const formContainer = document.querySelector('form'); // Récupère le formulaire principal
+        const imageInput = document.getElementById('image-input');
+        const thumbnails = document.getElementById('thumbnails');
+        const mainImage = document.getElementById('main-image').querySelector('img');
+        const formContainer = document.querySelector('form'); 
 
-addImageBtn.addEventListener('click', () => {
-    imageInput.click();
-});
-
-imageInput.addEventListener('change', () => {
-    const file = imageInput.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        // Créer une miniature
-        const thumbnailContainer = document.createElement('div');
-        thumbnailContainer.classList.add('thumbnail');
-
-        const img = document.createElement('img');
-        img.src = e.target.result;
-
-        // Ajouter un événement pour changer l'image principale
-        img.addEventListener('click', () => {
-            mainImage.src = e.target.result;
+        addImageBtn.addEventListener('click', () => {
+            imageInput.click();
         });
 
-        // Bouton de suppression
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = "×";
-        deleteBtn.classList.add('delete-btn');
-        deleteBtn.addEventListener('click', () => {
-            thumbnails.removeChild(thumbnailContainer);
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (!file) return;
 
-            // Supprimer l'input file correspondant
-            const hiddenInput = document.querySelector(`input[data-filename="${file.name}"]`);
-            if (hiddenInput) {
-                formContainer.removeChild(hiddenInput);
-            }
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Créer une miniature
+                const thumbnailContainer = document.createElement('div');
+                thumbnailContainer.classList.add('thumbnail');
 
-            if (thumbnails.children.length > 0) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+
+                // Ajouter un événement pour changer l'image principale
+                img.addEventListener('click', () => {
+                    mainImage.src = e.target.result;
+                });
+
+                // Bouton de suppression
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = "×";
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.addEventListener('click', () => {
+                    thumbnails.removeChild(thumbnailContainer);
+
+                    // Supprimer l'input file correspondant
+                    const hiddenInput = document.querySelector(`input[data-filename="${file.name}"]`);
+                    if (hiddenInput) {
+                        formContainer.removeChild(hiddenInput);
+                    }
+
+                    if (thumbnails.children.length > 0) {
+                        mainImage.src = thumbnails.children[0].querySelector('img').src;
+                    } else {
+                        mainImage.src = "https://via.placeholder.com/300x300?text=Aperçu";
+                    }
+                });
+
+                thumbnailContainer.appendChild(img);
+                thumbnailContainer.appendChild(deleteBtn);
+                thumbnails.appendChild(thumbnailContainer);
+
+                // Mettre à jour l'image principale
+                mainImage.src = e.target.result;
+
+                // Ajouter un champ input type="file" caché au formulaire
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'file';
+                hiddenInput.name = 'images[]';
+                hiddenInput.style.display = 'none';
+                hiddenInput.files = imageInput.files; // Associe directement le fichier
+                hiddenInput.setAttribute('data-filename', file.name); // Identifiant unique pour suppression
+                formContainer.appendChild(hiddenInput);
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        function removeImage(imageId) {
+            const thumbnails = document.getElementById('thumbnails');
+            const thumbnailToRemove = document.querySelector(`.thumbnail button[onclick="removeImage(${imageId})"]`).parentElement;
+            thumbnails.removeChild(thumbnailToRemove);
+
+            // Ajouter un champ caché pour signaler la suppression
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'deleted_images[]'; // Tableau des images supprimées
+            hiddenInput.value = imageId;
+            document.querySelector('form').appendChild(hiddenInput);
+
+            // Mettre à jour l'image principale si elle est supprimée
+            const mainImage = document.getElementById('main-image').querySelector('img');
+            if (mainImage.src === thumbnailToRemove.querySelector('img').src && thumbnails.children.length > 0) {
                 mainImage.src = thumbnails.children[0].querySelector('img').src;
-            } else {
+            } else if (thumbnails.children.length === 0) {
                 mainImage.src = "https://via.placeholder.com/300x300?text=Aperçu";
             }
-        });
-
-        thumbnailContainer.appendChild(img);
-        thumbnailContainer.appendChild(deleteBtn);
-        thumbnails.appendChild(thumbnailContainer);
-
-        // Mettre à jour l'image principale
-        mainImage.src = e.target.result;
-
-        // Ajouter un champ input type="file" caché au formulaire
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'file';
-        hiddenInput.name = 'images[]';
-        hiddenInput.style.display = 'none';
-        hiddenInput.files = imageInput.files; // Associe directement le fichier
-        hiddenInput.setAttribute('data-filename', file.name); // Identifiant unique pour suppression
-        formContainer.appendChild(hiddenInput);
-    };
-
-    reader.readAsDataURL(file);
-});
+        }
 
     </script>
 
-<script>
-        const addIngredientBtn = document.getElementById('add-ingredient-btn');
+    <script>
         const ingredientInput = document.getElementById('ingredient');
         const ingredientList = document.getElementById('ingredient-list');
+        const ingredientHiddenInput = document.getElementById('ingredients');
+        const addIngredientBtn = document.getElementById('add-ingredient-btn');
 
-        addIngredientBtn.addEventListener('click', () => {
-            const ingredientName = ingredientInput.value.trim();
-        if (ingredientName) {
-            // Ajouter un nouvel ingrédient à la liste
+        // Récupérer les ingrédients déjà ajoutés (s'ils existent)
+        let currentIngredients = JSON.parse(ingredientHiddenInput.value || '[]');
+
+        // Ajouter les ingrédients existants dans la liste
+        currentIngredients.forEach(ingredient => {
             const listItem = document.createElement('li');
-            listItem.textContent = ingredientName;
+            listItem.textContent = ingredient;
 
             const hiddenInput = document.createElement('input');
             hiddenInput.type = 'hidden';
             hiddenInput.name = 'ingredients[]'; // Tableau pour les ingrédients
-            hiddenInput.value = ingredientName;
-
+            hiddenInput.value = ingredient;
             listItem.appendChild(hiddenInput);
 
-            // Ajouter un bouton de suppression
             const removeBtn = document.createElement('button');
             removeBtn.textContent = '×';
             removeBtn.classList.add('remove-btn');
             removeBtn.addEventListener('click', () => {
                 ingredientList.removeChild(listItem);
+                currentIngredients = currentIngredients.filter(ing => ing !== ingredient);
+                ingredientHiddenInput.value = JSON.stringify(currentIngredients); // Mettre à jour le champ caché
             });
             listItem.appendChild(removeBtn);
 
             ingredientList.appendChild(listItem);
-            ingredientInput.value = '';
-        }
-    });
-    </script> 
+        });
 
-    <script>
-    function removeImage(imageId) {
-    const thumbnails = document.getElementById('thumbnails');
-    const thumbnailToRemove = document.querySelector(`.thumbnail button[onclick="removeImage(${imageId})"]`).parentElement;
-    thumbnails.removeChild(thumbnailToRemove);
+        addIngredientBtn.addEventListener('click', () => {
+            const ingredientName = ingredientInput.value.trim();
+            if (ingredientName && !currentIngredients.includes(ingredientName)) {
+                // Créer un nouvel élément de liste pour l'ingrédient
+                const listItem = document.createElement('li');
+                listItem.textContent = ingredientName;
 
-    // Ajouter un champ caché pour signaler la suppression
-    const hiddenInput = document.createElement('input');
-    hiddenInput.type = 'hidden';
-    hiddenInput.name = 'deleted_images[]'; // Tableau des images supprimées
-    hiddenInput.value = imageId;
-    document.querySelector('form').appendChild(hiddenInput);
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'ingredients[]'; // Tableau pour les ingrédients
+                hiddenInput.value = ingredientName;
+                listItem.appendChild(hiddenInput);
 
-    // Mettre à jour l'image principale si elle est supprimée
-    const mainImage = document.getElementById('main-image').querySelector('img');
-    if (mainImage.src === thumbnailToRemove.querySelector('img').src && thumbnails.children.length > 0) {
-        mainImage.src = thumbnails.children[0].querySelector('img').src;
-    } else if (thumbnails.children.length === 0) {
-        mainImage.src = "https://via.placeholder.com/300x300?text=Aperçu";
-    }
-}
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = '×';
+                removeBtn.classList.add('remove-btn');
+                removeBtn.addEventListener('click', () => {
+                    ingredientList.removeChild(listItem);
+                    currentIngredients = currentIngredients.filter(ing => ing !== ingredientName);
+                    ingredientHiddenInput.value = JSON.stringify(currentIngredients); // Mettre à jour le champ caché
+                });
+                listItem.appendChild(removeBtn);
+
+                ingredientList.appendChild(listItem);
+
+                // Ajouter l'ingrédient à la liste des ingrédients
+                currentIngredients.push(ingredientName);
+                ingredientHiddenInput.value = JSON.stringify(currentIngredients); // Mettre à jour le champ caché
+
+                // Réinitialiser le champ de saisie
+                ingredientInput.value = '';
+            }
+        });
+
+        // Initialiser le champ caché avec les ingrédients existants
+        const existingIngredients = <?= json_encode(array_column($ingredientsMis, 'nom')); ?>; // Charger les ingrédients existants
+        currentIngredients = existingIngredients || [];
+        ingredientHiddenInput.value = JSON.stringify(currentIngredients); // Mettre à jour le champ caché
+
+        // Ajouter les ingrédients existants à la liste visible
+        existingIngredients.forEach(ingredient => {
+            const listItem = document.createElement('li');
+            listItem.textContent = ingredient;
+
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'ingredients[]'; // Tableau pour les ingrédients
+            hiddenInput.value = ingredient;
+            listItem.appendChild(hiddenInput);
+
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = '×';
+            removeBtn.classList.add('remove-btn');
+            removeBtn.addEventListener('click', () => {
+                ingredientList.removeChild(listItem);
+                currentIngredients = currentIngredients.filter(ing => ing !== ingredient);
+                ingredientHiddenInput.value = JSON.stringify(currentIngredients); // Mettre à jour le champ caché
+            });
+            listItem.appendChild(removeBtn);
+
+            ingredientList.appendChild(listItem);
+        });
+
     </script>
 
 </body>

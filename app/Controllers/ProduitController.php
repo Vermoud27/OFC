@@ -30,13 +30,14 @@ class ProduitController extends BaseController
 
     public function index()
 	{
-		$produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->findAll();
+		$produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->paginate(8);
 		foreach ($produits as &$produit) {
 			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
 			$produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/user.png']];
 		}
 
 		$data['produits'] = $produits;
+		$data['pager'] = \Config\Services::pager();
 		
 		return view('administrateur/produits/liste', $data);
 	}
@@ -187,9 +188,7 @@ class ProduitController extends BaseController
 		$this->produitModel->update($id, $data);
 
 		$existingImageIds = $this->request->getPost('existing_images') ?? [];
-    
-		// Récupérer les images à supprimer
-		$deletedImageIds = $this->request->getPost('deleted_images') ?? [];
+    	$deletedImageIds = $this->request->getPost('deleted_images') ?? [];
 		
 		// Supprimer les images qui ne sont plus sélectionnées
 		foreach ($deletedImageIds as $deletedImageId) {
@@ -216,22 +215,57 @@ class ProduitController extends BaseController
 			}
 		}
 
-		// ** Suppression des anciennes associations d'ingrédients **
-		$this->produit_ingredient->where('id_produit', $id)->delete();
+		// Traitement des ingrédients
 
-		// Ajout des nouvelles associations d'ingrédients
-		$ingredientNames = $this->request->getPost('ingredients');
-		if ($ingredientNames && is_array($ingredientNames)) {
-			foreach ($ingredientNames as $ingredientName) {
-				$ingredient = $this->ingredientModel->where('nom', $ingredientName)->first();
-				if ($ingredient) {
-					$this->produit_ingredient->insert([
-						'id_produit' => $id,
-						'id_ingredient' => $ingredient['id_ingredient'],
-					]);
-				}
-			}
-		}
+// 1. Obtenir les ingrédients envoyés par le formulaire
+$ingredients = $this->request->getPost('ingredients') ?? '[]';
+$ingredients = json_decode($ingredients, true); // Décoder les données JSON
+if (!is_array($ingredients)) {
+    $ingredients = []; // S'assurer que c'est un tableau
+}
+$ingredients = array_unique(array_map('trim', $ingredients)); // Supprimer doublons et espaces inutiles
+
+// 2. Récupérer les ingrédients existants associés à ce produit
+$existingIngredients = $this->produit_ingredient
+    ->where('id_produit', $id)
+    ->join('ingredient', 'ingredient.id_ingredient = produit_ingredient.id_ingredient') // Jointure pour obtenir les noms
+    ->findAll();
+
+$existingIngredientNames = array_column($existingIngredients, 'nom');
+
+// 3. Déterminer les ingrédients à ajouter et à supprimer
+$ingredientsToAdd = array_diff($ingredients, $existingIngredientNames); // Nouveaux ingrédients
+$ingredientsToRemove = array_diff($existingIngredientNames, $ingredients); // Ingrédients à supprimer
+
+// 4. Supprimer les relations pour les ingrédients à retirer
+if (!empty($ingredientsToRemove)) {
+    $this->produit_ingredient
+        ->where('id_produit', $id)
+        ->whereIn('id_ingredient', function ($builder) use ($ingredientsToRemove) {
+            return $builder->select('id_ingredient')->from('ingredient')->whereIn('nom', $ingredientsToRemove);
+        })
+        ->delete();
+}
+
+// 5. Ajouter les nouvelles relations pour les ingrédients à ajouter
+foreach ($ingredientsToAdd as $ingredientName) {
+    // Vérifier si l'ingrédient existe déjà dans la table `ingredient`
+    $ingredient = $this->ingredientModel->where('nom', $ingredientName)->first();
+
+    // Si l'ingrédient n'existe pas, le créer
+    if (!$ingredient) {
+        $ingredientId = $this->ingredientModel->insert(['nom' => $ingredientName], true);
+    } else {
+        $ingredientId = $ingredient['id_ingredient'];
+    }
+
+    // Ajouter la relation dans la table pivot
+    $this->produit_ingredient->insert([
+        'id_produit' => $id,
+        'id_ingredient' => $ingredientId,
+    ]);
+}
+
 
 		return redirect()->to('admin/produits')->with('success', 'Produit modifié avec succès.');
 	}
