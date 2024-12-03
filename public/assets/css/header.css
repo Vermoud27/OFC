@@ -7,11 +7,18 @@
     border-bottom: 1px solid #dcdcdc;
 }
 
-.left-section,
-.right-section {
+.left-section
+{
     display: flex;
     align-items: center;
     gap: 15px;
+    font-size: 30px;
+}
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    font-size:35px;
 }
 
 .center-section {

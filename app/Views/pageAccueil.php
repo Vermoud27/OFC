@@ -12,6 +12,7 @@ require 'header.php';
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/pageAccueil.css">
+    <script src="/assets/js/faq.js"></script>
 </head>
 <body>
 <img src="/assets/img/logo/fondOFC.png" alt="Banniere" class="fondOFC">
@@ -115,6 +116,41 @@ require 'header.php';
     </div>
   </div>
 </div>
+
+
+
+<div class="faq-container">
+  <h2>Vos grandes questions</h2>
+  <?php if (!empty($faqs)): ?>
+      <?php 
+      $count = 0; // Initialiser un compteur
+      foreach ($faqs as $faq): 
+          if ($count >= 2) break; // Arrêter après 2 questions
+          $count++;
+      ?>
+          <div class="faq-item">
+              <div class="faq-question">
+                  <?= esc($faq['question']); ?>
+                  <span class="arrow">▼</span>
+              </div>
+              <div class="faq-answer">
+                  <?= esc($faq['reponse']); ?> 
+              </div>
+          </div>
+      <?php endforeach; ?>
+  <?php else: ?>
+      <p>Aucune question n'a été trouvée dans la FAQ.</p>
+  <?php endif; ?>
+  <a href= "/faq">
+      <p class="more"> Voir plus ... </p>
+  </a>
+
+</div>
+
+
+
+
+
 
 
 <script>
