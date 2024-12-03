@@ -8,7 +8,7 @@
                 <li><a href="#" style="color: white; text-decoration: none;">Produits</a></li>
                 <li><a href="<?= base_url('navbar/entreprise#info') ?>" class="link-white">À propos</a></li>
                 <li><a href="#" style="color: white; text-decoration: none;">Blog</a></li>
-                <li><a href="#" style="color: white; text-decoration: none;">FAQ</a></li>
+                <li><a href="/faq" style="color: white; text-decoration: none;">FAQ</a></li>
                 <li><a href="#" style="color: white; text-decoration: none;">Panier</a></li>
                 <li><a href="<?= base_url('navbar/entreprise#contact') ?>" class="link-white">Contact</a></li>
             </ul>

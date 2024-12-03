@@ -36,6 +36,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Profil utilisateur
 
     // Changer le mot de passe
+
+    // FAQ
+    $routes->get('/faq', 'FaqController::index');
 });
 
 //Administrateur
