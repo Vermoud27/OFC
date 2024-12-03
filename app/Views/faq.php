@@ -121,7 +121,7 @@
 
     <div class="contact-section">
         <h2>Vous ne trouvez pas votre question ?</h2>
-        <form action="/send-contact" method="POST">
+        <form action="<?= base_url('/faq/send') ?>" method="POST">
             <input type="text" name="prenom" placeholder="Prénom" required>
             <input type="text" name="nom" placeholder="Nom" required>
             <input type="email" name="email" placeholder="E-mail" required>

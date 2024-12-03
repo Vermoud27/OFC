@@ -4,27 +4,22 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class FaqController extends Controller
+class ContactController extends Controller
 {
-    public function index()
-    {
-        return view('faq');
-    }
-
     public function sendMail()
     {
         // Charger le service Email
         $emailService = \Config\Services::email();
 
         // Récupérer les données du formulaire
-        $fromEmail = $this->request->getPost('email'); 
+        $fromEmail = $this->request->getPost('email'); // Email de l'utilisateur
         $prenom = $this->request->getPost('prenom');
         $nom = $this->request->getPost('nom');
         $message = $this->request->getPost('message');
 
         // Contenu du message
         $emailContent = "
-            Vous avez reçu une question depuis la FAQ de :\n
+            Vous avez reçu un message de :\n
             Prénom : $prenom\n
             Nom : $nom\n
             Email : $fromEmail\n\n
@@ -33,8 +28,8 @@ class FaqController extends Controller
 
         // Configurer l'email
         $emailService->setFrom('ofc99935@gmail.com', 'OFC Naturel');
-        $emailService->setTo('ofc99935@gmail.com');
-        $emailService->setSubject('Nouvelle question posé dans la FAQ');
+        $emailService->setTo('ofc99935@gmail.com');                 
+        $emailService->setSubject('Nouveau message depuis le formulaire de contact');
         $emailService->setMessage($emailContent);
 
         // Tenter d'envoyer l'email
