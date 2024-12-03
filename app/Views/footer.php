@@ -46,7 +46,6 @@
             </a>
         </div>
 
-
         <!-- Section Droite -->
         <div style="flex: 1; min-width: 200px; text-align: right;">
             <ul style="list-style-type: none; padding: 0; margin: 0;">
