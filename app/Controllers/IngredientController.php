@@ -17,9 +17,11 @@ class IngredientController extends BaseController
 
     public function index()
 	{
-		$ingredients = $this->ingredientModel->orderBy('id_ingredient')->findAll();
+		$ingredients = $this->ingredientModel->orderBy('nom')->paginate(8);
 		
 		$data['ingredients'] = $ingredients;
+		$data['pager'] = \Config\Services::pager();
+
 		return view('administrateur/ingredients/liste', $data);
 	}
 
@@ -30,11 +32,24 @@ class IngredientController extends BaseController
 	
     public function creer()
 	{
-		// Sauvegarder les données du produit
-		$produitId = $this->ingredientModel->insert([
+		$isValid = $this->validate([
+			'nom' => 'required|max_length[100]',
+			'provenance' => 'permit_empty',
+		]);
+
+		if (!$isValid)
+		{
+			return view('administrateur/ingredients/creation', [
+				'validation' => \Config\Services::validation(),
+			]);
+		}
+
+		$data = [
 			'nom' => $this->request->getPost('nom'),
 			'provenance' => $this->request->getPost('provenance'),
-		]);
+		];
+
+		$this->ingredientModel->insert( $data);
 
 		return redirect()->to('admin/ingredients');
 	}
@@ -60,10 +75,25 @@ class IngredientController extends BaseController
 
     public function modifier($id)
     {
-		$this->ingredientModel->update($id, [
+		$isValid = $this->validate([
+			'nom' => 'required|max_length[100]',
+			'provenance' => 'permit_empty',
+		]);
+
+		if (!$isValid)
+		{
+			return view('administrateur/ingredients/creation', [
+				'validation' => \Config\Services::validation(),
+			]);
+		}
+
+		$data = [
 			'nom' => $this->request->getPost('nom'),
 			'provenance' => $this->request->getPost('provenance'),
-		]);
+		];
+
+		$this->ingredientModel->update( $id,$data);
+
 		return redirect()->to('admin/ingredients');
     }
 
