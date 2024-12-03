@@ -15,7 +15,7 @@ class FaqController extends Controller
         $data['faqs'] = $faqModel->orderBy('id_faq', 'ASC')->findAll(10);
 
         // Chargez la vue avec les questions
-        return view('administrateur/faq/faq', $data);
+        return view('/faq', $data);
     }
 
     public function admin()
