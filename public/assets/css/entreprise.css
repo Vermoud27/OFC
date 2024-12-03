@@ -1,5 +1,9 @@
 /* Styles spécifiques à la page entreprise */
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;

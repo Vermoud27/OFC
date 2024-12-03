@@ -16,7 +16,7 @@
 
     <div class="content">
         <!-- Bloc Histoire de l'entreprise -->
-        <div class="section">
+        <div class="section" id="info">
             <h1>Histoire de l’entreprise</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -57,9 +57,9 @@
         </div>
 
         <!-- Bloc Contact -->
-        <div class="contact-section">
+        <div id="contact" class="contact-section">
             <h1>Nous contacter</h1>
-            <form action="/send-contact" method="POST">
+            <form action="<?= base_url('/contact/send') ?>" method="POST">
                 <input type="text" name="prenom" placeholder="Prénom" required>
                 <input type="text" name="nom" placeholder="Nom" required>
                 <input type="email" name="email" placeholder="E-mail" required>
