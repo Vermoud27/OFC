@@ -21,7 +21,9 @@ require 'header.php';
  <div class="carousel-wrapper">
     <div class="carousel-container">
         <div class="product">
-            <img src="/assets/img/produits/huile_baobab_1.jpeg" alt="Huile Baobab">
+            <a href="/InfoProduitController">
+                <img src="/assets/img/produits/huile_baobab_1.jpeg" alt="Huile Baobab">
+            </a>
             <p>Huile Baobab</p>
             <p>25,99 €</p>
             <button>Acheter</button>
