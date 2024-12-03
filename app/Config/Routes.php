@@ -24,6 +24,7 @@ $routes->post('/reset-password/updatePassword', 'ResetPasswordController::update
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Page d'accueil et ses fonctionnalités
     $routes->get('/ControllerOFC', 'ControllerOFC::index');
+    $routes->get('/InfoProduitController', 'InfoProduitController::index');
     $routes->get('/navbar/entreprise', 'EntrepriseController::index');
 
     // Les tâches
