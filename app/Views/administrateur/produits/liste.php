@@ -69,10 +69,10 @@
                         <div class="product-info">
                             <p><span>Nom : </span><?= $produit['nom'] ?></p>
                             <p><span>Description : </span><?= $produit['description'] ?></p>
-                            <p><span>Prix HT : </span><?= $produit['prixht'] ?></p>
-                            <p><span>Prix TTC : </span><?= $produit['prixttc'] ?></p>
+                            <p><span>Prix HT : </span><?= $produit['prixht'] ?> €</p>
+                            <p><span>Prix TTC : </span><?= $produit['prixttc'] ?> €</p>
                             <p><span>Quantité en stock : </span><?= $produit['qte_stock'] ?></p>
-                            <p><span>Unité : </span> <?= $produit['unite_mesure'] ?></p>
+                            <p><span>Contenu : </span><?= $produit['contenu'] ?><?= $produit['unite_mesure'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>

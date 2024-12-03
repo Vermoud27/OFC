@@ -33,7 +33,7 @@
                     </div>
                     <div>
                         <label for="categorie">Catégorie</label>
-                        <select id="categorie" name="categorie" required>
+                        <select id="categorie" name="categorie">
                             <option value="">Sélectionnez une catégorie</option>
                             <?php foreach ($categories as $categorie) : ?>
                                 <option value="<?= $categorie['id_categorie']; ?>">
@@ -75,8 +75,14 @@
 
                 <div class="grid-3-columns">
                     <div>
-                        <label for="quantity">Quantité</label>
-                        <input type="number" id="quantity" name="quantity">
+                        <?php echo form_label('Contenu', 'contenu'); ?>
+                        <?php echo form_input('contenu', set_value('contenu'), [
+                            'type' => 'number',
+                            'min' => '0',
+                            'step' => '1',
+                            'required' => 'required'
+                        ]); ?>
+                        <?= validation_show_error('contenu') ?>
                     </div>
                     <div>
                         <?php echo form_label('Unité de mesure', 'unite_mesure'); ?>
