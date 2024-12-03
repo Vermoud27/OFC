@@ -7,25 +7,40 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // Routes publiques (sans authentification)
-$routes->get('/', 'SigninController::index');
+// Accueil et pages statiques
+$routes->get('/', 'ControllerOFC::index');
+$routes->get('/ControllerOFC', 'ControllerOFC::index');
+$routes->get('/navbar/entreprise', 'EntrepriseController::index');
+
+// Connexion
 $routes->get('/signin', 'SigninController::index');
 $routes->post('/signin', 'SigninController::loginAuth');
 
+// Inscription
 $routes->get('/signup', 'SignupController::index');
 $routes->post('/signup', 'SignupController::enregistrer');
 $routes->get('/signup/activateAccount/(:any)', 'SignupController::activateAccount/$1');
 
+// Mot de passe oublié
 $routes->get('/forgot-password', 'ForgotPasswordController::index');
 $routes->post('/forgot-password/sendResetLink', 'ForgotPasswordController::sendResetLink');
 $routes->get('/reset-password/(:any)', 'ResetPasswordController::index/$1');
 $routes->post('/reset-password/updatePassword', 'ResetPasswordController::updatePassword');
 
+// FAQ
+$routes->get('/faq', 'FaqController::index');
+
+// Contact
+$routes->post('/contact/send', 'ContactController::sendMail');
+$routes->post('/faq/send', 'FaqController::sendMail');
+
+// Produits
+$routes->get('/InfoProduitController', 'InfoProduitController::index');
+
+
 // Routes protégées (requièrent une session active)
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Page d'accueil et ses fonctionnalités
-    $routes->get('/ControllerOFC', 'ControllerOFC::index');
-    $routes->get('/InfoProduitController', 'InfoProduitController::index');
-    $routes->get('/navbar/entreprise', 'EntrepriseController::index');
 
     // Les tâches
 
@@ -36,13 +51,6 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Profil utilisateur
 
     // Changer le mot de passe
-
-    // FAQ
-    $routes->get('/faq', 'FaqController::index');
-
-    // Contact
-    $routes->post('/contact/send', 'ContactController::sendMail');
-    $routes->post('/faq/send', 'FaqController::sendMail');
 
     // Admin - Produits
 

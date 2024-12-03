@@ -16,7 +16,6 @@ require 'header.php';
 </head>
 <body>
 <img src="/assets/img/logo/fondOFC.png" alt="Banniere" class="fondOFC">
-
  <!-- Conteneur principal du carrousel -->
  <h2> Les Favoris du moments </h2>
  <div class="carousel-wrapper">
@@ -49,11 +48,6 @@ require 'header.php';
         </div>
     </div>
 </div>
-
-
-
-
-
 <div class="container">
     <div class="gamme">
         <div class="gamme-image">
@@ -72,11 +66,7 @@ require 'header.php';
         </div>
     </div>
 </div>
-
-
-
 <h2> Les témoignages de nos clients ! </h2>
-
 <div class="customer-carousel">
   <div class="customer-carousel-wrapper">
     <div class="customer-story-container">
@@ -102,7 +92,6 @@ require 'header.php';
         </p>
       </div>
     </div>
-
     <div class="customer-story-container">
       <div class="image-section">
         <img src="/assets/img/customers/customer_3.png" alt="Image Client" class="customer-image">
@@ -116,9 +105,6 @@ require 'header.php';
     </div>
   </div>
 </div>
-
-
-
 <div class="faq-container">
   <h2>Vos grandes questions</h2>
   <?php if (!empty($faqs)): ?>
@@ -144,15 +130,7 @@ require 'header.php';
   <a href= "/faq">
       <p class="more"> Voir plus ... </p>
   </a>
-
 </div>
-
-
-
-
-
-
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   let index = 0;
@@ -174,22 +152,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
 const carouselContainer = document.querySelector('.carousel-container');
@@ -266,9 +228,7 @@ function setupCarousel() {
 setupCarousel();
 
 </script>
-
-
-    
+</body>  
 <?php 
 require 'footer.php';
 ?>

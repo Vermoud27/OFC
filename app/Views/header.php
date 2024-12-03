@@ -12,7 +12,11 @@
     <div class="right-section">
         <p> 🇫🇷 </p>
         <p> 🛒 </p>
-        <p> 👤 </p>
+        <?php if (session()->get('isLoggedIn')): ?>
+            <a href="<?= base_url('/profile') ?>">👤 Profile</a>
+        <?php else: ?>
+            <a href="<?= base_url('/signin') ?>">👤 Se connecter</a>
+        <?php endif; ?>
     </div>
 </header>
 <nav class="menu">
