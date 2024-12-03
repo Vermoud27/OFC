@@ -27,8 +27,10 @@
 
         <!-- Section Logos Réseaux Sociaux -->
         <div style="flex: 2; justify-content: center; align-items: center;">
+            <a href="https://es.pinterest.com/ofcnaturel/" target="_blank" title="Pinterest OFC Naturel">
             <img src="/assets/img/logo/pinterest.png" alt="Logo Pinterest"
                 style="width: 40px; height: 40px;margin: 0 10px;">
+            </a>
 
             <a href="https://www.tiktok.com/@ofc.naturel" target="_blank" title="TikTok OFC Naturel">
                 <img src="/assets/img/logo/tiktok.png" alt="Logo TikTok"
