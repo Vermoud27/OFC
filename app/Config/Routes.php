@@ -41,9 +41,6 @@ $routes->get('/InfoProduitController', 'InfoProduitController::index');
 // Routes protégées (requièrent une session active)
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Page d'accueil et ses fonctionnalités
-    $routes->get('/ControllerOFC', 'ControllerOFC::index');
-    $routes->get('/InfoProduitController', 'InfoProduitController::index');
-    $routes->get('/navbar/entreprise', 'EntrepriseController::index');
     $routes->get('/PanierController', 'PanierController::index');
 
     // Les tâches
@@ -53,6 +50,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Se déconnecter
 
     // Profil utilisateur
+    $routes->get('/profile', 'ProfileController::index');
 
     // Changer le mot de passe
 
