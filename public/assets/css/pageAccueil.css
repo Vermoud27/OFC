@@ -332,5 +332,15 @@ h1, h2, h3 {
 
 .more {
   text-align: center;
+  text-decoration: none; /* Supprime le soulignement */
   color: #D2691E;
+}
+
+a p.more {
+  text-decoration: none; /* Supprime le soulignement */
+  cursor: pointer; /* Affiche un curseur adapté pour un lien */
+}
+
+a {
+  text-decoration: none; /* Supprime le soulignement par défaut */
 }

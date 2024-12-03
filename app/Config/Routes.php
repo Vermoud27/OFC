@@ -26,6 +26,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/ControllerOFC', 'ControllerOFC::index');
     $routes->get('/InfoProduitController', 'InfoProduitController::index');
     $routes->get('/navbar/entreprise', 'EntrepriseController::index');
+    $routes->get('/PanierController', 'PanierController::index');
 
     // Les tâches
 

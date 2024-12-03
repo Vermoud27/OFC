@@ -141,7 +141,7 @@ require 'header.php';
   <?php else: ?>
       <p>Aucune question n'a été trouvée dans la FAQ.</p>
   <?php endif; ?>
-  <a href= "/faq">
+  <a href= "<?= base_url('/faq') ?>">
       <p class="more"> Voir plus ... </p>
   </a>
 

@@ -1,6 +1,6 @@
 <header class="navbar">
     <div class="left-section">
-        <a href="<?= base_url('navbar/entreprise#contact') ?>" title="Nous contacter" class="no-underline">
+        <a href="<?= base_url('navbar/entreprise#contact') ?>" title="Nous contacter">
             <p> 📞 </p>
         </a>
         <input type="text" placeholder="Rechercher..." class="search-bar">
@@ -11,7 +11,9 @@
     </div>
     <div class="right-section">
         <p> 🇫🇷 </p>
-        <p> 🛒 </p>
+        <a href="<?= base_url('PanierController') ?>">
+            <p> 🛒 </p>
+        </a>
         <p> 👤 </p>
     </div>
 </header>
