@@ -17,108 +17,22 @@
 
     <div class="faq-container">
         <h1 class="faq-title">Vos grandes questions</h1>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">
-                Sed ut perspiciatis ?
-                <span class="arrow">▼</span>
-            </div>
-            <div class="faq-answer">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </div>
-        </div>
+        <?php if (!empty($faqs)): ?>
+            <?php foreach ($faqs as $faq): ?>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <?= esc($faq['question']); ?>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <?= esc($faq['reponse']); ?> 
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Aucune question n'a été trouvée dans la FAQ.</p>
+        <?php endif; ?>
     </div>
-
     <div class="contact-section">
         <h2>Vous ne trouvez pas votre question ?</h2>
         <form action="<?= base_url('/faq/send') ?>" method="POST">

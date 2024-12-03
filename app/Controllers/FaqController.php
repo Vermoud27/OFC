@@ -3,12 +3,19 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\FAQModel;
 
 class FaqController extends Controller
 {
     public function index()
     {
-        return view('faq');
+        $faqModel = new FaqModel(); // Instanciez le modèle
+
+        // Récupérez les 10 premières questions
+        $data['faqs'] = $faqModel->orderBy('id_faq', 'ASC')->findAll(10);
+
+        // Chargez la vue avec les questions
+        return view('faq', $data);
     }
 
     public function sendMail()
