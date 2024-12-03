@@ -1,0 +1,214 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #F5F5DC;
+}
+
+.container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1600px;
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    background-color: #556B2F; 
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+}
+
+.navigation {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.navigation li {
+    margin: 0 15px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px;
+}
+
+.nav-link:hover {
+    background-color: #D2691E; 
+    color: #fff;
+}
+
+header h1 {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-weight: 600;
+}
+
+.dataTables_length label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.dataTables_length select {
+    border: 1px solid #556B2F;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #F5F5DC;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.dataTables_info {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.paginate_button {
+    background-color: #556B2F; /* Vert */
+    color: white;
+    border: 1px solid #556B2F;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.paginate_button:hover {
+    background-color: #D2691E; /* Orange */
+    color: white;
+}
+
+.paginate_button.current {
+    background-color: #D2691E; /* Orange pour la page active */
+    color: white;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.dataTables_wrapper .dataTables_length {
+    float: left;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+#faqTable tbody tr:nth-child(odd) {
+    background-color: #F5F5DC;
+}
+#faqTable tbody tr:nth-child(even) {
+    background-color: #FFFFFF; 
+}
+#faqTable th {
+    background-color: #556B2F; 
+    color: white;
+    text-align: left;
+    padding: 10px;
+}
+#faqTable td {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+.btn-modifier {
+    background-color: #D2691E; /* Orange */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-modifier:hover {
+    background-color: #a55218; 
+}
+.btn-supprimer {
+    background-color: #FF6347; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-supprimer:hover {
+    background-color: #cc5240; 
+}
+
+.dataTables_filter input {
+    border: 1px solid #556B2F;
+    border-radius: 5px;
+    padding: 5px;
+    width: 200px;
+}
+
+/* Nouvelle pagination */
+
+.dataTables_paginate .paginate_button {
+    background-color: #D2691E; /* Orange */
+    color: white; /* Texte blanc */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0 2px;
+    cursor: pointer;
+}
+
+.dataTables_paginate .paginate_button:hover {
+    background-color: #556B2F; /* Vert */
+}
+
+.dataTables_paginate .paginate_button.current {
+    background-color: #556B2F; /* Vert pour la page active */
+    color: white;
+    font-weight: bold;
+}
+
+.btn-create {
+    background-color: #D2691E; /* Orange */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+.btn-create:hover {
+    background-color: #556B2F; /* Vert foncé */
+}

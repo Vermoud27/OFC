@@ -17,6 +17,7 @@
                 <li><a href="/admin/gammes" class="nav-link">Gammes</a></li>
                 <li><a href="/admin/bundles" class="nav-link">Bundles</a></li>
                 <li><a href="/admin/codes-promo" class="nav-link">Codes Promo</a></li>
+                <li><a href="/faq/admin" class="nav-link">FAQ</a></li>
             </ul>
         </nav>
     </header>
@@ -69,10 +70,10 @@
                         <div class="product-info">
                             <p><span>Nom : </span><?= $produit['nom'] ?></p>
                             <p><span>Description : </span><?= $produit['description'] ?></p>
-                            <p><span>Prix HT : </span><?= $produit['prixht'] ?> €</p>
-                            <p><span>Prix TTC : </span><?= $produit['prixttc'] ?> €</p>
+                            <p><span>Prix HT : </span><?= $produit['prixht'] ?></p>
+                            <p><span>Prix TTC : </span><?= $produit['prixttc'] ?></p>
                             <p><span>Quantité en stock : </span><?= $produit['qte_stock'] ?></p>
-                            <p><span>Contenu : </span><?= $produit['contenu'] ?><?= $produit['unite_mesure'] ?></p>
+                            <p><span>Unité : </span> <?= $produit['unite_mesure'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>

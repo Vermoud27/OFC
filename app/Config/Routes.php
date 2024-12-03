@@ -43,6 +43,16 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Contact
     $routes->post('/contact/send', 'ContactController::sendMail');
     $routes->post('/faq/send', 'FaqController::sendMail');
+
+    // Admin - Produits
+
+    // Admin - FAQ
+    $routes->get('/faq/admin', 'FaqController::admin');
+    $routes->get('/faq/create', 'FaqController::viewCreate');
+    $routes->post('/faq/create', 'FaqController::create');
+    $routes->get('/faq/edit/(:num)', 'FaqController::edit/$1');
+    $routes->post('/faq/update/(:num)', 'FaqController::update/$1');
+    $routes->get('/faq/delete/(:num)', 'FaqController::delete/$1');
 });
 
 // Administrateur
@@ -60,13 +70,13 @@ $entites = [
 // Boucle pour générer les routes
 foreach ($entites as $entite => $controller) {
     $routes->group("admin/$entite", function ($routes) use ($controller) {
-        $routes->get('', "$controller::index"); 
-        $routes->get('creation', "$controller::creation"); 
-        $routes->post('creer', "$controller::creer"); 
-        $routes->get('modification/(:num)', "$controller::modification/$1"); 
+        $routes->get('', "$controller::index");
+        $routes->get('creation', "$controller::creation");
+        $routes->post('creer', "$controller::creer");
+        $routes->get('modification/(:num)', "$controller::modification/$1");
         $routes->post('modifier/(:num)', "$controller::modifier/$1");
         $routes->get('supprimer/(:num)', "$controller::supprimer/$1");
-        $routes->get('desactiver/(:num)', "$controller::desactiver/$1"); 
+        $routes->get('desactiver/(:num)', "$controller::desactiver/$1");
     });
 }
 
