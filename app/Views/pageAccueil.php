@@ -17,7 +17,7 @@ require 'header.php';
 <img src="/assets/img/logo/fondOFC.png" alt="Banniere" class="fondOFC">
 
  <!-- Conteneur principal du carrousel -->
- <h1> Les Favoris du moments </h1>
+ <h2> Les Favoris du moments </h2>
  <div class="carousel-wrapper">
     <div class="carousel-container">
         <div class="product">
@@ -71,6 +71,85 @@ require 'header.php';
         </div>
     </div>
 </div>
+
+
+
+<h2> Les témoignages de nos clients ! </h2>
+
+<div class="customer-carousel">
+  <div class="customer-carousel-wrapper">
+    <div class="customer-story-container">
+      <div class="image-section">
+        <img src="/assets/img/customers/customer_1.png" alt="Image Client" class="customer-image">
+      </div>
+      <div class="text-section">
+        <h2 class="subtitle">"Peau éclatante"<br>Je n'ai jamais eu une peau aussi belle !</h2>
+        <p class="description">
+          “Depuis que j'utilise la Crème Baobab, ma peau est incroyablement lisse et lumineuse. C'est vraiment un miracle en pot !”
+        </p>
+      </div>
+    </div>
+
+    <div class="customer-story-container">
+      <div class="image-section">
+        <img src="/assets/img/customers/customer_2.png" alt="Image Client" class="customer-image">
+      </div>
+      <div class="text-section">
+        <h2 class="subtitle">"Résultats incroyables"<br>Je recommande vivement !</h2>
+        <p class="description">
+          “Le roll-on anti-cerne est absolument incroyable. Mes cernes et poches sont visiblement réduites et ma peau est plus ferme et rajeunie.”
+        </p>
+      </div>
+    </div>
+
+    <div class="customer-story-container">
+      <div class="image-section">
+        <img src="/assets/img/customers/customer_3.png" alt="Image Client" class="customer-image">
+      </div>
+      <div class="text-section">
+        <h2 class="subtitle">"Peau claire et fraîche"<br>La meilleure routine de soin !</h2>
+        <p class="description">
+          “Le Masque Clarifiant au Nila a complètement transformé ma routine de soins. Il nettoie en douceur et laisse ma peau fraîche et nette.”
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  let index = 0;
+  const carouselItems = document.querySelectorAll('.customer-story-container');
+  const totalItems = carouselItems.length;
+  const carouselWrapper = document.querySelector('.customer-carousel-wrapper');
+  
+  // Fonction pour afficher le carousel suivant
+  function showNextItem() {
+    // Incrémenter l'index et revenir à 0 si nécessaire
+    index = (index + 1) % totalItems;
+
+    // Appliquer une transformation pour faire défiler horizontalement
+    carouselWrapper.style.transform = `translateX(-${index * 33}%)`;
+  }
+
+  // Initialiser le carousel
+  setInterval(showNextItem, 10000); // 5 secondes entre les transitions
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

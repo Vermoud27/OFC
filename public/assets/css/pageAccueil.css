@@ -6,6 +6,12 @@ body {
     overflow-x: hidden;
 }
 
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #D2691E;
+    text-align:center;
+}
+
 /*--------------------------FAVORIES---------------------------------*/
 
 .products {
@@ -136,10 +142,10 @@ h1, h2, h3 {
     gap: 20px; /* Espacement entre les colonnes */
     padding: 20px; /* Espace autour du contenu à l'intérieur */
     width: 100%; /* Prend toute la largeur disponible de l'écran */
-    max-width: 1400px; /* Limite la largeur du container à 1200px */
+    max-width: 1200px; /* Limite la largeur du container à 1200px */
     box-sizing: border-box; /* Inclut le padding dans la largeur totale */
     flex-wrap: wrap; /* Permet d'empiler les colonnes sur des petits écrans */
-    margin-left: 320px;
+    margin: 0 auto; /* Centre le container horizontalement avec une marge automatique */
   }
 
 .gamme {
@@ -202,12 +208,67 @@ h1, h2, h3 {
   background-color: #496945;
 }
 
-/* Responsivité pour petits écrans */
-@media (max-width: 768px) {
-  .gamme {
-    max-width: 100%; /* Les éléments prennent toute la largeur sur petits écrans */
-  }
-  .container {
-    flex-direction: column; /* Les éléments s'empilent verticalement sur petits écrans */
-  }
+
+
+
+
+/*--------------------------CS---------------------------------*/
+
+.customer-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden; /* Masquer les éléments qui débordent du conteneur */
+}
+
+.customer-carousel-wrapper {
+  display: flex;
+  transition: transform 1s ease-in-out; /* Transition fluide lors du défilement */
+  width: 300%; /* Trois éléments, donc le wrapper fait 300% de la largeur visible */
+}
+
+.customer-story-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%; /* Chaque élément prend 100% de la largeur visible du conteneur */
+  max-width: 900px;
+  box-sizing: border-box;
+}
+
+.image-section {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  max-width: 400px;
+  max-height: 400px;
+}
+
+.customer-image {
+  width: 60%;
+  border-radius: 10px;
+}
+
+.text-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.description {
+  font-size: 25px;
+  font-style: italic;
+  color: #555;
+  line-height: 1.5;
+  max-width: 500px;
+  font-family: 'Great Vibes', cursive;
 }
