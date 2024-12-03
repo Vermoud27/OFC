@@ -17,11 +17,12 @@
             <div class="thumbnails" id="thumbnails">
                 <!-- Affichage des vignettes -->
                 <?php foreach ($images as $image): ?>
-                    <div class="thumbnail">
-                        <img src="<?= base_url($image['chemin']) ?>" alt="Image miniature">
-                        <button class="delete-btn" onclick="removeImage(<?= $image['id_image'] ?>)">×</button>
-                    </div>
-                <?php endforeach; ?>
+            <div class="thumbnail">
+                <img src="<?= base_url($image['chemin']) ?>" alt="Image miniature">
+                <button class="delete-btn" onclick="removeImage(<?= $image['id_image'] ?>)">×</button>
+                <input type="hidden" name="existing_images[]" value="<?= $image['id_image'] ?>"> <!-- Champ caché pour les images existantes -->
+            </div>
+        <?php endforeach; ?>
             </div>
             <button type="button" id="add-image-btn">Ajouter une image</button>
             <input type="file" id="image-input" accept="image/*" style="display: none;">
@@ -41,7 +42,7 @@
                     
 					<div>
                         <label for="categorie">Catégorie</label>
-                        <select id="categorie" name="categorie" required>
+                        <select id="categorie" name="categorie" >
                             <option value="">Sélectionnez une catégorie</option>
                             <?php foreach ($categories as $categorie) : ?>
                                 <option value="<?= $categorie['id_categorie']; ?>" <?= ($categorie['id_categorie'] == $produit['id_categorie'] ) ? 'selected' : ''; ?>>
@@ -61,7 +62,7 @@
                 <div class="grid-2-columns">
                     <div>
                         <label for="ingredient">Ajouter un ingrédient</label>
-                        <input type="text" id="ingredient" name="ingredient" placeholder="Rechercher un ingrédient...">
+                        <input list="ingredient-option" type="text" id="ingredient" name="ingredient" placeholder="Rechercher un ingrédient...">
                         <datalist id="ingredient-option">
                             <?php foreach ($ingredients as $ingredient): ?>
                                 <option value="<?= esc($ingredient['nom']); ?>"></option>
@@ -72,19 +73,28 @@
                     <div>
                         <label for="ingredient-list">Liste des ingrédients</label>
                         <ul class="ingredient-list" id="ingredient-list">
-							<?php foreach ($ingredientsMis as $ingredient) : ?>
-                                <li value="<?= $ingredient['id_ingredient']; ?>">
-                                    <?= $ingredient['nom']; ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
+    <?php foreach ($ingredientsMis as $ingredient) : ?>
+        <li>
+            <?= esc($ingredient['nom']); ?>
+            <input type="hidden" name="ingredients[]" value="<?= esc($ingredient['nom']); ?>">
+            <button type="button" class="remove-btn" onclick="this.parentElement.remove();">×</button>
+        </li>
+    <?php endforeach; ?>
+</ul>
+
                     </div>
                 </div>
 
                 <div class="grid-3-columns">
                     <div>
-                        <label for="quantity">Quantité</label>
-                        <input type="number" id="quantity" name="quantity" value="<?= set_value('unite_mesure', $produit['unite_mesure']) ?>">
+                    <?php echo form_label('Contenu', 'contenu'); ?>
+                        <?php echo form_input('contenu', set_value('contenu',$produit['contenu']), [
+                            'type' => 'number',
+                            'min' => '0',
+                            'step' => '1',
+                            'required' => 'required'
+                        ]); ?>
+                        <?= validation_show_error('contenu') ?>
                     </div>
                     <div>
                         <?php echo form_label('Unité de mesure', 'unite_mesure'); ?>
@@ -140,8 +150,132 @@
         </div>
     </div>
 
+ <script>
+        const addImageBtn = document.getElementById('add-image-btn');
+const imageInput = document.getElementById('image-input');
+const thumbnails = document.getElementById('thumbnails');
+const mainImage = document.getElementById('main-image').querySelector('img');
+const formContainer = document.querySelector('form'); // Récupère le formulaire principal
+
+addImageBtn.addEventListener('click', () => {
+    imageInput.click();
+});
+
+imageInput.addEventListener('change', () => {
+    const file = imageInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        // Créer une miniature
+        const thumbnailContainer = document.createElement('div');
+        thumbnailContainer.classList.add('thumbnail');
+
+        const img = document.createElement('img');
+        img.src = e.target.result;
+
+        // Ajouter un événement pour changer l'image principale
+        img.addEventListener('click', () => {
+            mainImage.src = e.target.result;
+        });
+
+        // Bouton de suppression
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = "×";
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.addEventListener('click', () => {
+            thumbnails.removeChild(thumbnailContainer);
+
+            // Supprimer l'input file correspondant
+            const hiddenInput = document.querySelector(`input[data-filename="${file.name}"]`);
+            if (hiddenInput) {
+                formContainer.removeChild(hiddenInput);
+            }
+
+            if (thumbnails.children.length > 0) {
+                mainImage.src = thumbnails.children[0].querySelector('img').src;
+            } else {
+                mainImage.src = "https://via.placeholder.com/300x300?text=Aperçu";
+            }
+        });
+
+        thumbnailContainer.appendChild(img);
+        thumbnailContainer.appendChild(deleteBtn);
+        thumbnails.appendChild(thumbnailContainer);
+
+        // Mettre à jour l'image principale
+        mainImage.src = e.target.result;
+
+        // Ajouter un champ input type="file" caché au formulaire
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'file';
+        hiddenInput.name = 'images[]';
+        hiddenInput.style.display = 'none';
+        hiddenInput.files = imageInput.files; // Associe directement le fichier
+        hiddenInput.setAttribute('data-filename', file.name); // Identifiant unique pour suppression
+        formContainer.appendChild(hiddenInput);
+    };
+
+    reader.readAsDataURL(file);
+});
+
+    </script>
+
+<script>
+        const addIngredientBtn = document.getElementById('add-ingredient-btn');
+        const ingredientInput = document.getElementById('ingredient');
+        const ingredientList = document.getElementById('ingredient-list');
+
+        addIngredientBtn.addEventListener('click', () => {
+            const ingredientName = ingredientInput.value.trim();
+        if (ingredientName) {
+            // Ajouter un nouvel ingrédient à la liste
+            const listItem = document.createElement('li');
+            listItem.textContent = ingredientName;
+
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'ingredients[]'; // Tableau pour les ingrédients
+            hiddenInput.value = ingredientName;
+
+            listItem.appendChild(hiddenInput);
+
+            // Ajouter un bouton de suppression
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = '×';
+            removeBtn.classList.add('remove-btn');
+            removeBtn.addEventListener('click', () => {
+                ingredientList.removeChild(listItem);
+            });
+            listItem.appendChild(removeBtn);
+
+            ingredientList.appendChild(listItem);
+            ingredientInput.value = '';
+        }
+    });
+    </script> 
+
     <script>
-        // Ajoutez la logique JavaScript nécessaire pour la gestion des images et des ingrédients
+    function removeImage(imageId) {
+    const thumbnails = document.getElementById('thumbnails');
+    const thumbnailToRemove = document.querySelector(`.thumbnail button[onclick="removeImage(${imageId})"]`).parentElement;
+    thumbnails.removeChild(thumbnailToRemove);
+
+    // Ajouter un champ caché pour signaler la suppression
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'deleted_images[]'; // Tableau des images supprimées
+    hiddenInput.value = imageId;
+    document.querySelector('form').appendChild(hiddenInput);
+
+    // Mettre à jour l'image principale si elle est supprimée
+    const mainImage = document.getElementById('main-image').querySelector('img');
+    if (mainImage.src === thumbnailToRemove.querySelector('img').src && thumbnails.children.length > 0) {
+        mainImage.src = thumbnails.children[0].querySelector('img').src;
+    } else if (thumbnails.children.length === 0) {
+        mainImage.src = "https://via.placeholder.com/300x300?text=Aperçu";
+    }
+}
     </script>
 
 </body>
