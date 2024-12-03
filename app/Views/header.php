@@ -9,17 +9,22 @@
     <div class="center-section">
         <a href="/ControllerOFC"><img src="/assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo"></a>
     </div>
+
+
     <div class="right-section">
-        <p> 🇫🇷 </p>
-        <a href="<?php base_url('PanierController')?>">
-            <p> 🛒 </p>
-        </a>
-        <?php if (session()->get('isLoggedIn')): ?>
-            <a href="<?= base_url('/profile') ?>">👤 Profile</a>
-        <?php else: ?>
-            <a href="<?= base_url('/signin') ?>">👤 Se connecter</a>
-        <?php endif; ?>
-    </div>
+    <p> 🇫🇷 </p>
+    <a href="<?= base_url('PanierController') ?>">
+        <p> 🛒 </p>
+    </a>
+
+    <?php if (session()->get('isLoggedIn')): ?>
+        <a href="<?= base_url('/profile') ?>" class="profile-icon-logged-in"></a>
+    <?php else: ?>
+        <a href="<?= base_url('/signin') ?>" class="profile-icon"></a>
+    <?php endif; ?>
+</div>
+
+
 </header>
 <nav class="menu">
     <ul>
