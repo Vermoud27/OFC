@@ -41,13 +41,10 @@ $routes->get('/InfoProduitController', 'InfoProduitController::index');
 // Routes protégées (requièrent une session active)
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Page d'accueil et ses fonctionnalités
-<<<<<<< HEAD
     $routes->get('/ControllerOFC', 'ControllerOFC::index');
     $routes->get('/InfoProduitController', 'InfoProduitController::index');
     $routes->get('/navbar/entreprise', 'EntrepriseController::index');
     $routes->get('/PanierController', 'PanierController::index');
-=======
->>>>>>> 6f51183602595efd709ec99a1c2940dac461e3ba
 
     // Les tâches
 
