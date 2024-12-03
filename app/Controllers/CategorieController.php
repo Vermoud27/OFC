@@ -19,9 +19,11 @@ class CategorieController extends BaseController
 
     public function index()
 	{
-		$categories = $this->categorieModel->orderBy('id_categorie')->findAll();
+		$categories = $this->categorieModel->orderBy('id_categorie')->paginate(8);
 		
 		$data['categories'] = $categories;
+		$data['pager'] = \Config\Services::pager();
+
 		return view('administrateur/categories/liste', $data);
 	}
 
@@ -32,12 +34,24 @@ class CategorieController extends BaseController
 	
     public function creer()
 	{
-		// Sauvegarder les données du produit
-		$produitId = $this->categorieModel->insert([
-			'nom' => $this->request->getPost('nom'),
-			'description' => $this->request->getPost('description'),
+		$isValid = $this->validate([
+			'nom' => 'required|max_length[100]',
+			'description' => 'permit_empty',
 		]);
 
+		if (!$isValid)
+		{
+			return view('administrateur/categories/creation', [
+				'validation' => \Config\Services::validation(),
+			]);
+		}
+
+		$data = [
+			'nom' => $this->request->getPost('nom'),
+			'description' => $this->request->getPost('description'),
+		];
+
+		$this->categorieModel->insert($data);
 		return redirect()->to('admin/categories');
 	}
 
@@ -62,10 +76,25 @@ class CategorieController extends BaseController
 
     public function modifier($id)
     {
-		$this->categorieModel->update($id, [
+		$isValid = $this->validate([
+			'nom' => 'required|max_length[100]',
+			'description' => 'permit_empty',
+		]);
+
+		if (!$isValid)
+		{
+			return view('administrateur/categories/creation', [
+				'validation' => \Config\Services::validation(),
+			]);
+		}
+
+		$data = [
 			'nom' => $this->request->getPost('nom'),
 			'description' => $this->request->getPost('description'),
-		]);
+		];
+
+		$this->categorieModel->update($id, $data);
+		
 		return redirect()->to('admin/categories');
     }
 

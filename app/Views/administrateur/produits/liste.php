@@ -79,6 +79,9 @@
                 <?php endforeach; ?>
 
             </div>
+            <div class="footer">
+                <?= $pager->links('default','perso') ?>
+            </div>
         </div>
     </div>
 

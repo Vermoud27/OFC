@@ -10,7 +10,7 @@ class ProduitIngredientModel extends Model
     protected $table = 'produit_ingredient';
 
     // Clé primaire composite
-    protected $primaryKey = ['id_produit', 'id_ingredient'];
+    protected $primaryKey = 'id_produit_ingredient';
 
     // Type de retour des résultats
     protected $returnType = 'array';
