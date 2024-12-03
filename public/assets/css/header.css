@@ -68,6 +68,10 @@
     font-size: 18px;
 }
 
+.menu a:hover {
+    color: #FF7E42;
+}
+
 .no-underline {
     text-decoration: none;
     color: inherit;        

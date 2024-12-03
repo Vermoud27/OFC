@@ -76,9 +76,18 @@ footer form button {
     margin-left: 5px;
     transition: background-color 0.3s ease;
 }
+button {
+    background-color: #FF7E42; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    margin: 10px;
+}
 
-footer form button:hover {
-    background-color: #e4692f;
+button:hover {
+    background-color: #FF9B4D;
 }
 
 /* Icônes des réseaux sociaux */
@@ -87,11 +96,10 @@ footer div a {
     margin: 0 5px;
     font-size: 20px;
     text-decoration: none;
-    transition: color 0.3s ease;
 }
 
 footer div a:hover {
-    color: #FF7E42;/
+    color: #FF7E42;
 }
 
 /* Section des droits réservés */
@@ -99,4 +107,51 @@ footer div:last-child {
     margin-top: 20px;
     font-size: 12px;
     text-align: center;
+}
+
+  /* Style de base pour les liens de logo */
+.social-logo a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 0 10px;
+    background-size: cover; /* Pour que l'image couvre entièrement le conteneur */
+    transition: background-image 0.3s ease; /* Animation pour le changement d'image */
+    background-position: center; /* Centrer l'image */
+}
+
+/* Pinterest */
+.pinterest {
+    background-image: url('/assets/img/logo/pinterest.png');
+}
+
+.pinterest:hover {
+    background-image: url('/assets/img/logo/pinterest_orange.png');
+}
+
+/* TikTok */
+.tiktok {
+    background-image: url('/assets/img/logo/tiktok.png');
+}
+
+.tiktok:hover {
+    background-image: url('/assets/img/logo/tiktok_orange.png');
+}
+
+/* Instagram */
+.instagram {
+    background-image: url('/assets/img/logo/instagram.png');
+}
+
+.instagram:hover {
+    background-image: url('/assets/img/logo/instagram_orange.png');
+}
+
+/* Facebook */
+.facebook {
+    background-image: url('/assets/img/logo/facebook.png');
+}
+
+.facebook:hover {
+    background-image: url('/assets/img/logo/facebook_orange.png');
 }
