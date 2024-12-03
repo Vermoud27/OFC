@@ -1,0 +1,221 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #F5F5DC;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #556B2F;
+    margin-bottom: 20px;
+}
+
+.profile-card {
+    text-align: left;
+    background-color: #F5F5DC;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.profile-card h2 {
+    color: #D2691E;
+    margin-bottom: 10px;
+}
+
+.profile-card ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.profile-card li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.profile-card li strong {
+    color: #556B2F;
+}
+
+.actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.actions .btn-edit {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #D2691E;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.actions .btn-edit:hover {
+    background-color: #a65018;
+}
+
+/* Conteneur principal */
+.profile-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    background-color: #F5F5DC;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat', sans-serif;
+    text-align: left; /* Aligne le texte à gauche */
+}
+
+/* Titre principal */
+.profile-container h1 {
+    color: #556B2F;
+    text-align: center;
+}
+
+/* Détails du profil */
+.profile-details p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Bouton Modifier */
+.profile-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-actions .btn-edit {
+    background-color: #D2691E;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.profile-actions .btn-edit:hover {
+    background-color: #b55519;
+}
+
+---------------
+
+/* Conteneur principal */
+.profile-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    background-color: #F5F5DC;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Détails du profil */
+.profile-details {
+    margin-top: 20px;
+}
+
+.profile-field {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* Alignement des labels et des valeurs */
+.field-label {
+    font-weight: bold;
+    color: #556B2F;
+    min-width: 120px; /* Largeur fixe pour aligner toutes les colonnes */
+    text-align: left;
+}
+
+.field-value {
+    flex: 1; /* La valeur occupe l'espace restant */
+    text-align: left;
+    color: #333;
+    word-wrap: break-word; /* Gestion des longues valeurs */
+}
+
+/* Bouton Modifier */
+.profile-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-actions .btn-edit {
+    background-color: #D2691E;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.profile-actions .btn-edit:hover {
+    background-color: #b55519;
+}
+
+
+
+
+/* Actions du profil */
+.profile-actions {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly; /* Espacement égal entre les boutons */
+}
+
+/* Bouton Retour */
+.btn-return {
+    background-color: #556B2F; /* Vert */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-return:hover {
+    background-color: #3e4f23; /* Vert foncé */
+}
+
+/* Bouton Modifier */
+.btn-edit {
+    background-color: #D2691E; /* Orange */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover {
+    background-color: #b55519; /* Orange foncé */
+}

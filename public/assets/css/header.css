@@ -1,6 +1,5 @@
 .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 20px 30px;
     background-color: #F5F5DC;
@@ -13,26 +12,31 @@
     align-items: center;
     gap: 15px;
     font-size: 30px;
+    flex:1;
 }
 .right-section {
     display: flex;
     align-items: center;
-    gap: 60px;
+    justify-content: flex-end;
+    gap: 50px;
     font-size:35px;
+    text-decoration: none; /* Supprime le soulignement */
+    flex:1;
 }
 
 .center-section {
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    flex-grow: 1; /* Permet à cette section de prendre l'espace restant */
     text-align: center;
 }
 
 .logo {
     height: 100px;
-    display: block;
-    margin-right: 165px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
 }
 
@@ -55,8 +59,9 @@
 .menu {
     background-color: #F5F5DC;
     padding: 20px 0;
-    text-align: center;
     border-top: 1px solid #dcdcdc;
+    display: flex;
+    justify-content: center;
 }
 
 .menu ul {
@@ -84,6 +89,38 @@
     color: inherit;        
 }
 
-.no-underline:visited {
-    color: inherit;        
+.right-section a {
+    text-decoration: none;
 }
+
+.profile-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('/assets/img/logo/login.png'); /* Image par défaut */
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease; /* Transition fluide */
+}
+
+.profile-icon-logged-in {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('/assets/img/logo/profil.png'); /* Image par défaut */
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease; /* Transition fluide */
+}
+
+/* Change l'image au survol */
+.profile-icon-logged-in:hover {
+    background-image: url('/assets/img/logo/profil_orange.png'); /* Image au survol */
+}
+
+
+/* Change l'image au survol */
+.profile-icon:hover {
+    background-image: url('/assets/img/logo/login_orange.png'); /* Image au survol */
+}
+

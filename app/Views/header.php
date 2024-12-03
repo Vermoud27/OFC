@@ -1,6 +1,6 @@
 <header class="navbar">
     <div class="left-section">
-        <a href="<?= base_url('navbar/entreprise#contact') ?>" title="Nous contacter" class="no-underline">
+        <a href="<?= base_url('navbar/entreprise#contact') ?>" title="Nous contacter">
             <p> 📞 </p>
         </a>
         <input type="text" placeholder="Rechercher..." class="search-bar">
@@ -9,11 +9,22 @@
     <div class="center-section">
         <a href="/ControllerOFC"><img src="/assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo"></a>
     </div>
+
+
     <div class="right-section">
-        <p> 🇫🇷 </p>
+    <p> 🇫🇷 </p>
+    <a href="<?= base_url('PanierController') ?>">
         <p> 🛒 </p>
-        <p> 👤 </p>
-    </div>
+    </a>
+
+    <?php if (session()->get('isLoggedIn')): ?>
+        <a href="<?= base_url('/profile') ?>" class="profile-icon-logged-in"></a>
+    <?php else: ?>
+        <a href="<?= base_url('/signin') ?>" class="profile-icon"></a>
+    <?php endif; ?>
+</div>
+
+
 </header>
 <nav class="menu">
     <ul>
