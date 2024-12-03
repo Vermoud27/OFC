@@ -16,7 +16,7 @@
 
     <div class="content">
         <!-- Bloc Histoire de l'entreprise -->
-        <div class="section">
+        <div class="section" id="info">
             <h1>Histoire de l’entreprise</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -35,7 +35,7 @@
         </div>
 
         <!-- Bloc Description de l'entreprise -->
-        <div class="section">
+        <div class="section" >
             <h1>Description de l’entreprise</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
