@@ -26,7 +26,6 @@
         </div>
 
         <!-- Section Logos Réseaux Sociaux -->
-        <!-- Section Logos Réseaux Sociaux -->
         <div style="flex: 2; justify-content: center; align-items: center;">
             <img src="/assets/img/logo/pinterest.png" alt="Logo Pinterest"
                 style="width: 40px; height: 40px;margin: 0 10px;">
