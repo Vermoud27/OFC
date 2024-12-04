@@ -40,8 +40,8 @@ class CodePromoController extends BaseController
             'code' => 'required|max_length[100]',
             'valeur' => 'permit_empty|numeric',
             'pourcentage' => 'permit_empty|numeric',
-            'date_debut' => 'required|valid_date[Y-m-d H:i:s]',
-            'date_fin' => 'required|valid_date[Y-m-d H:i:s]',
+            'date_debut' => 'required',
+            'date_fin' => 'required',
             'max_utilisations' => 'permit_empty|integer',
             'conditions_utilisation' => 'permit_empty',
             'actif' => 'required|in_list[TRUE,FALSE]',
@@ -65,7 +65,7 @@ class CodePromoController extends BaseController
         ];
     
         $this->codePromoModel->insert($data);
-        return redirect()->to('/admin/produits')->with('success', 'Code promo créé avec succès.');
+        return redirect()->to('/admin/codes-promos')->with('success', 'Code promo créé avec succès.');
     }
 
 	public function modification($id)
@@ -81,7 +81,7 @@ class CodePromoController extends BaseController
 
 		// Charger la vue de modification avec les données du produit et ses images
 		return view('administrateur/codes-promos/modification', [
-			'codes-promos' => $codePromoModel,
+			'codepromo' => $codePromoModel,
 		]);
 	}
 
@@ -90,21 +90,32 @@ class CodePromoController extends BaseController
     public function modifier($id)
     {
 		$isValid = $this->validate([
-			'code' => 'required|max_length[100]',
-			'conditions' => 'permit_empty',
-		]);
-
-		if (!$isValid)
-		{
-			return view('administrateur/codes-promos/creation', [
-				'validation' => \Config\Services::validation(),
-			]);
-		}
-
-		$data = [
-			'code' => $this->request->getPost('code'),
-			'conditions' => $this->request->getPost(index: 'conditions'),
-		];
+            'code' => 'required|max_length[100]',
+            'valeur' => 'permit_empty|numeric',
+            'pourcentage' => 'permit_empty|numeric',
+            'date_debut' => 'required',
+            'date_fin' => 'required',
+            'max_utilisations' => 'permit_empty|integer',
+            'conditions_utilisation' => 'permit_empty',
+            'actif' => 'required|in_list[TRUE,FALSE]',
+        ]);
+    
+        if (!$isValid) {
+            return view('administrateur/codes-promos/modification', [
+                'validation' => \Config\Services::validation(),
+            ]);
+        }
+    
+        $data = [
+            'code' => $this->request->getPost('code'),
+            'valeur' => $this->request->getPost('valeur') ?: null,
+            'pourcentage' => $this->request->getPost('pourcentage') ?: null,
+            'date_debut' => $this->request->getPost('date_debut'),
+            'date_fin' => $this->request->getPost('date_fin'),
+            'max_utilisations' => $this->request->getPost('max_utilisations') ?: null,
+            'conditions_utilisation' => $this->request->getPost('conditions_utilisation'),
+            'actif' => $this->request->getPost('actif'),
+        ];
 
 		$this->codePromoModel->update($id, $data);
 		
@@ -113,9 +124,6 @@ class CodePromoController extends BaseController
 
     public function supprimer($id)
     {
-		$codePromoModel = new CodePromoModel();
-		$codePromoModel->where('id_codepromo', $id)->set('id_codepromo', NULL)->update();
-
 		$this->codePromoModel->delete($id);
         return redirect()->to('admin/codes-promos');
     }

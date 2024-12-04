@@ -12,61 +12,96 @@
     <div class="container">
         <div class="form-container">
             <h1>Créer un code promo</h1>
-            <form method="post" action="<?= base_url('/admin/codes-promos/creer') ?>">
+
+            <?php echo form_open('/admin/codes-promos/creer', ['enctype' => 'multipart/form-data']); ?>
+
                 <div>
-                    <label for="code">Code Promo</label>
-                    <input type="text" id="code" name="code" placeholder="Entrez le code promo" required>
+                    <?php echo form_label('Code Promo', 'code'); ?>
+                    <?php echo form_input('code', set_value('code'), 'required'); ?>
+                    <?= validation_show_error('code') ?>
                 </div>
 
                 <div class="grid-2-columns">
                     <div>
-                        <label for="valeur">Réduction en € (optionnelle)</label>
-                        <input type="number" id="valeur" name="valeur" placeholder="Entrez la réduction en euros">
+                        <?php echo form_label('Réduction en € (optionnelle)', 'valeur'); ?>
+                        <?php echo form_input('valeur', set_value('valeur'), [
+                            'type' => 'number',
+                            'min' => '0',
+                            'step' => '1',
+                        ]); ?>
+                        <?= validation_show_error('valeur') ?>
                     </div>
                     <div>
-                        <label for="pourcentage">Réduction en % (optionnelle)</label>
-                        <input type="number" id="pourcentage" name="pourcentage"
-                            placeholder="Entrez la réduction en pourcentage">
+                        <?php echo form_label('Réduction en % (optionnelle)', 'pourcentage'); ?>
+                        <?php echo form_input('pourcentage', set_value('pourcentage'), [
+                            'type' => 'number',
+                            'min' => '0',
+                            'step' => '1',
+                        ]); ?>
+                        <?= validation_show_error('pourcentage') ?>
                     </div>
                 </div>
-
+          
                 <div class="grid-2-columns">
                     <div>
-                        <label for="date_debut">Date de début</label>
-                        <input type="datetime-local" id="date_debut" name="date_debut" required>
+                        <?php echo form_label('Date de début', 'date_debut'); ?>
+                        <?php echo form_input([
+                            'type' => 'datetime-local',
+                            'name' => 'date_debut',
+                            'value' => set_value('date_debut'),
+                            'required' => true,
+                            'id' => 'date_debut'
+                        ]); ?>
+                        <?= validation_show_error('date_debut') ?>
                     </div>
+
                     <div>
-                        <label for="date_fin">Date de fin</label>
-                        <input type="datetime-local" id="date_fin" name="date_fin" required>
+                        <?php echo form_label('Date de fin', 'date_fin'); ?>
+                        <?php echo form_input([
+                            'type' => 'datetime-local',
+                            'name' => 'date_fin',
+                            'value' => set_value('date_fin'),
+                            'required' => true,
+                            'id' => 'date_fin'
+                        ]); ?>
+                        <?= validation_show_error('date_fin') ?>
                     </div>
                 </div>
 
                 <div>
-                    <label for="max_utilisations">Nombre maximal d'utilisations</label>
-                    <input type="number" id="max_utilisations" name="max_utilisations"
-                        placeholder="Entrez le nombre maximal d'utilisations">
+                    <?php echo form_label('Nombre maximal d\'utilisations', 'max_utilisations'); ?>
+                    <?php echo form_input('max_utilisations', set_value('max_utilisations'), [
+                        'type' => 'number',
+                        'min' => '0',
+                        'step' => '1',
+                    ]); ?>
+                    <?= validation_show_error('max_utilisations') ?>
                 </div>
 
                 <div>
-                    <label for="conditions_utilisation">Conditions d'utilisation (optionnelles)</label>
-                    <textarea id="conditions_utilisation" name="conditions_utilisation" rows="3"
-                        placeholder="Entrez les conditions d'utilisation"></textarea>
+                    <?php echo form_label('Conditions d\'utilisation (optionnelles)', 'conditions_utilisation'); ?>
+                    <?php echo form_textarea('conditions_utilisation', set_value('conditions_utilisation')); ?>
+                    <?= validation_show_error('conditions_utilisation') ?>
                 </div>
 
                 <div>
-                    <label for="actif">Actif :</label>
-                    <select name="actif" id="actif" required>
-                        <option value="TRUE">Oui</option>
-                        <option value="FALSE">Non</option>
-                    </select>
+                    <?= form_label('Actif :', 'actif') ?>
+                    <?= form_dropdown(
+                        'actif', 
+                        [ 
+                            'TRUE' => 'Oui', 
+                            'FALSE' => 'Non' 
+                        ], 
+                        old('actif') ?? 'TRUE',
+                        ['id' => 'actif', 'required' => 'required'] 
+                    ) ?>
                 </div>
 
                 <div class="actions">
-                    <button type="submit">Créer</button>
-                    <button type="button"
-                        onclick="window.location='<?= base_url('/admin/codes-promos') ?>';">Annuler</button>
+                    <button type="submit" class="submit-btn">Ajouter l'ingrédient</button>
+                    <button type="button" class="cancel-btn" onclick="window.location.href='/admin/codes-promos';">Annuler</button>
                 </div>
-            </form>
+            <?php echo form_close(); ?>
         </div>
     </div>
 
