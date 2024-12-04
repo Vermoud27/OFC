@@ -35,7 +35,7 @@ $routes->post('/contact/send', 'ContactController::sendMail');
 $routes->post('/faq/send', 'FaqController::sendMail');
 
 // Produits
-$routes->get('/InfoProduitController', 'InfoProduitController::index');
+$routes->get('/produit/(:any)', 'InfoProduitController::index/$1');
 
 
 // Routes protégées (requièrent une session active)
@@ -89,4 +89,10 @@ foreach ($entites as $entite => $controller) {
         $routes->get('desactiver/(:num)', "$controller::desactiver/$1");
     });
 }
+$routes->post('/admin/ingredients/supprimer/(:num)', "IngredientController::supprimer/$1");
 
+$routes->post('/admin/gammes/ajouter-produit/(:num)', "GammeController::ajouter_produit/$1");
+$routes->post('/admin/gammes/enlever-produit/(:num)', "GammeController::enlever_produit/$1");
+
+$routes->post('/admin/bundles/ajouter-produit/(:num)', "BundleController::ajouter_produit/$1");
+$routes->post('/admin/bundles/enlever-produit/(:num)', "BundleController::enlever_produit/$1");

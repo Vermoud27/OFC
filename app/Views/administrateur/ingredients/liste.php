@@ -20,7 +20,19 @@
             </ul>
         </nav>
     </header>
-   
+
+    <?php if (isset($_GET['warning']) && isset($_GET['id'])): ?>
+        <div class="alert alert-warning">
+            Cet ingrédient est lié à des produits. Voulez-vous le supprimer ?
+            <form action="/admin/ingredients/supprimer/<?= htmlspecialchars($_GET['id']) ?>" method="post">
+                <?= csrf_field() ?>
+                <button type="submit" name="confirm" value="yes">Oui, Supprimer</button>
+                <a href="/admin/ingredients"><button type="button">Annuler</button></a>
+            </form>
+        </div>
+    <?php endif; ?>
+
+
     <div class="container">
         <!-- Panel de statistiques -->
         <div class="panel">
@@ -36,7 +48,7 @@
 
         <!-- Liste des produits -->
         <div class="product-section">
-            <a href="/admin/ingredients/creation/"><button class="add-product-btn">➕ Ajouter une ingrédients</button></a>
+            <a href="/admin/ingredients/creation/"><button class="add-product-btn">➕ Ajouter un ingrédient</button></a>
             <h2>Liste des Ingrédients</h2>
 
             <div class="product-grid">
@@ -46,8 +58,8 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/ingredients/modification/<?= $ingredient['id_ingredient'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/ingredients/desactiver/<?= $ingredient['id_ingredient'] ?>" ><button class="delete-btn">🗑️</button></a>
+                            <a href="/admin/ingredients/modification/<?= $ingredient['id_ingredient'] ?>" ><button class="edit-btn">✏️</button></a>
+                            <a href="/admin/ingredients/supprimer/<?= $ingredient['id_ingredient'] ?>" ><button class="delete-btn">🗑️</button></a>
                         </div>
 
                         <div class="product-info">

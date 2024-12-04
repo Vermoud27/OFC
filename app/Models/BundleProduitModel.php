@@ -10,7 +10,7 @@ class BundleProduitModel extends Model
     protected $table = 'bundle_produit';
 
     // Clé primaire composée
-    protected $primaryKey = ['id_bundle', 'id_produit'];
+    protected $primaryKey = 'id_bundle_produit';
 
     // Type de retour des résultats
     protected $returnType = 'array';

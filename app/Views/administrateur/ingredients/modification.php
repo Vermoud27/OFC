@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="actions">
-                    <button type="submit" class="submit-btn">Mettre à jour la catégorie</button>
+                    <button type="submit" class="submit-btn">Mettre à jour l'ingrédient</button>
                     <button type="button" class="cancel-btn" onclick="window.location.href='/admin/ingredients';">Annuler</button>
                 </div>
             <?php echo form_close(); ?>

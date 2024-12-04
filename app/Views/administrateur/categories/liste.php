@@ -47,7 +47,7 @@
                     <div class="product-card">
                         <div class="product-buttons">
                         <a href="/admin/categories/modification/<?= $categorie['id_categorie'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/categories/desactiver/<?= $categorie['id_categorie'] ?>" ><button class="delete-btn">🗑️</button></a>
+                            <a href="/admin/categories/supprimer/<?= $categorie['id_categorie'] ?>" ><button class="delete-btn">🗑️</button></a>
                         </div>
 
                         <div class="product-info">

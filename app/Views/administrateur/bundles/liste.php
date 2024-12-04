@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Gammes</title>
+    <title>Liste des Bundles</title>
     <link rel="stylesheet" href="/assets/css/admin/liste.css">
     <link rel="stylesheet" href="/assets/css/admin/entete.css">
 </head>
@@ -36,25 +36,23 @@
 
         <!-- Liste des produits -->
         <div class="product-section">
-            <a href="/admin/gammes/creation/"><button class="add-product-btn">➕ Ajouter une gamme</button></a>
-            <h2>Liste des Gammes</h2>
+            <a href="/admin/bundles/creation/"><button class="add-product-btn">➕ Ajouter un bundle</button></a>
+            <h2>Liste des Bundles</h2>
 
             <div class="product-grid">
 
-                <?php foreach ($gammes as $gamme): ?>
+                <?php foreach ($bundles as $bundle): ?>
 
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/gammes/modification/<?= $gamme['id_gamme'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/gammes/supprimer/<?= $gamme['id_gamme'] ?>" ><button class="delete-btn">🗑️</button></a>
+                        <a href="/admin/bundles/modification/<?= $bundle['id_bundle'] ?>" ><button class="edit-btn">✏️</button></a>
+                            <a href="/admin/bundles/supprimer/<?= $bundle['id_bundle'] ?>" ><button class="delete-btn">🗑️</button></a>
                         </div>
 
                         <div class="product-info">
-                            <p><span>Nom : </span><?= $gamme['nom'] ?></p>
-                            <p><span>Description : </span><?= $gamme['description'] ?></p>
-                            <p><span>Prix HT : </span><?= $gamme['prixht'] ?></p>
-                            <p><span>Prix TTC : </span><?= $gamme['prixttc'] ?></p>
+                            <p><span>Description : </span><?= $bundle['description'] ?></p>
+                            <p><span>Prix : </span><?= $bundle['prix'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>
