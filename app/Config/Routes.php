@@ -10,6 +10,7 @@ use CodeIgniter\Router\RouteCollection;
 // Accueil et pages statiques
 $routes->get('/', 'ControllerOFC::index');
 $routes->get('/ControllerOFC', 'ControllerOFC::index');
+$routes->get('/ProduitsController', 'ProduitsController::index');
 $routes->get('/navbar/entreprise', 'EntrepriseController::index');
 
 // Connexion

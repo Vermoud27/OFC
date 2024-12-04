@@ -22,7 +22,7 @@ require 'header.php';
     <div class="carousel-container">
         <div class="product">
             <a href="/InfoProduitController">
-                <img src="/assets/img/produits/huile_baobab_1.jpeg" alt="Huile Baobab">
+              <img src="/assets/img/produits/huile_baobab_1.jpeg" alt="Huile Baobab">
             </a>
             <p>Huile Baobab</p>
             <p>25,99 €</p>
