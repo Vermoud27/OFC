@@ -14,17 +14,21 @@
     <!-- Affichage des messages flash -->
     <section class="section">
         <div class="container">
-            <?php if (session()->getFlashdata('success')): ?>
-                <div class="notification is-success">
-                    <?= session()->getFlashdata('success') ?>
-                </div>
-            <?php endif; ?>
+            <div id="notifications" class="notifications">
+                <?php if (session()->getFlashdata('success')): ?>
+                    <div class="notification is-success">
+                        <?= session()->getFlashdata('success') ?>
+                    </div>
+                <?php endif; ?>
 
-            <?php if (session()->getFlashdata('error')): ?>
-                <div class="notification is-danger">
-                    <?= session()->getFlashdata('error') ?>
-                </div>
-            <?php endif; ?>
+                <?php foreach (['email', 'password', 'password_confirmation', 'first_name', 'last_name', 'phone'] as $field): ?>
+                    <?php if (session()->getFlashdata('error_' . $field)): ?>
+                        <div class="notification is-danger">
+                            <?= session()->getFlashdata('error_' . $field) ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
     </section>
 
@@ -37,80 +41,74 @@
             <!-- Ouverture du formulaire avec le helper form_open() -->
             <?= form_open('/signup') ?>
 
-                <!-- Champ E-mail -->
-                <div class="form-group">
-                    <?= form_input([
-                        'type' => 'email',
-                        'name' => 'email',
-                        'placeholder' => 'E-mail *',
-                        'value' => old('email'),
-                        'required' => 'required'
-                    ]) ?>
-                    <small><?= validation_show_error('email') ?></small>
-                </div>
+            <!-- Champ E-mail -->
+            <div class="form-group">
+                <?= form_input([
+                    'type' => 'email',
+                    'name' => 'email',
+                    'placeholder' => 'E-mail *',
+                    'value' => old('email'),
+                    'required' => 'required'
+                ]) ?>
+            </div>
 
-                <!-- Champ Mot de passe -->
-                <div class="form-group">
-                    <?= form_password([
-                        'name' => 'password',
-                        'placeholder' => 'Mot de passe *',
-                        'required' => 'required'
-                    ]) ?>
-                    <small><?= validation_show_error('password') ?></small>
-                </div>
+            <!-- Champ Mot de passe -->
+            <div class="form-group">
+                <?= form_password([
+                    'name' => 'password',
+                    'placeholder' => 'Mot de passe *',
+                    'required' => 'required'
+                ]) ?>
+            </div>
 
-                <!-- Champ Confirmation mot de passe -->
-                <div class="form-group">
-                    <?= form_password([
-                        'name' => 'password_confirmation',
-                        'placeholder' => 'Confirmation mot de passe *',
-                        'required' => 'required'
-                    ]) ?>
-                    <small><?= validation_show_error('password_confirmation') ?></small>
-                </div>
+            <!-- Champ Confirmation mot de passe -->
+            <div class="form-group">
+                <?= form_password([
+                    'name' => 'password_confirmation',
+                    'placeholder' => 'Confirmation mot de passe *',
+                    'required' => 'required'
+                ]) ?>
+            </div>
 
-                <!-- Champ Nom -->
-                <div class="form-group">
-                    <?= form_input([
-                        'type' => 'text',
-                        'name' => 'first_name',
-                        'placeholder' => 'Nom *',
-                        'value' => old('first_name'),
-                        'required' => 'required'
-                    ]) ?>
-                    <small><?= validation_show_error('first_name') ?></small>
-                </div>
+            <!-- Champ Nom -->
+            <div class="form-group">
+                <?= form_input([
+                    'type' => 'text',
+                    'name' => 'first_name',
+                    'placeholder' => 'Nom *',
+                    'value' => old('first_name'),
+                    'required' => 'required'
+                ]) ?>
+            </div>
 
-                <!-- Champ Prénom -->
-                <div class="form-group">
-                    <?= form_input([
-                        'type' => 'text',
-                        'name' => 'last_name',
-                        'placeholder' => 'Prénom *',
-                        'value' => old('last_name'),
-                        'required' => 'required'
-                    ]) ?>
-                    <small><?= validation_show_error('last_name') ?></small>
-                </div>
+            <!-- Champ Prénom -->
+            <div class="form-group">
+                <?= form_input([
+                    'type' => 'text',
+                    'name' => 'last_name',
+                    'placeholder' => 'Prénom *',
+                    'value' => old('last_name'),
+                    'required' => 'required'
+                ]) ?>
+            </div>
 
-                <!-- Champ Numéro de téléphone -->
-                <div class="form-group">
-                    <?= form_input([
-                        'type' => 'tel',
-                        'name' => 'phone',
-                        'placeholder' => 'Numéro de téléphone',
-                        'value' => old('phone')
-                    ]) ?>
-                    <small><?= validation_show_error('phone') ?></small>
-                </div>
+            <!-- Champ Numéro de téléphone -->
+            <div class="form-group">
+                <?= form_input([
+                    'type' => 'tel',
+                    'name' => 'phone',
+                    'placeholder' => 'Numéro de téléphone',
+                    'value' => old('phone')
+                ]) ?>
+            </div>
 
-                <!-- Bouton de soumission -->
-                <button type="submit" class="btn-signup">Inscription</button>
+            <!-- Bouton de soumission -->
+            <button type="submit" class="btn-signup">Inscription</button>
 
-                <!-- Lien de connexion -->
-                <div class="login-link">
-                    Déjà un compte ? <a href="/signin">Connectez-vous</a>
-                </div>
+            <!-- Lien de connexion -->
+            <div class="login-link">
+                Déjà un compte ? <a href="/signin">Connectez-vous</a>
+            </div>
 
             <?= form_close() ?> <!-- Fermeture du formulaire -->
         </div>

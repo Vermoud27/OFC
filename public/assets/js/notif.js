@@ -18,3 +18,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 4000); // Temps avant la disparition
 });
+
+function addNotification(type, message) {
+    const notificationContainer = document.getElementById('notifications');
+    if (!notificationContainer) return;
+
+    const notification = document.createElement('div');
+    notification.className = `notification is-${type} show`;
+    notification.textContent = message;
+
+    // Ajout de la notification au conteneur
+    notificationContainer.appendChild(notification);
+
+    // Supprime la notification après 5 secondes
+    setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => notification.remove(), 500);
+    }, 5000);
+}
