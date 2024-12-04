@@ -16,7 +16,7 @@
                 <li><a href="/admin/ingredients" class="nav-link">Ingrédients</a></li>
                 <li><a href="/admin/gammes" class="nav-link">Gammes</a></li>
                 <li><a href="/admin/bundles" class="nav-link">Bundles</a></li>
-                <li><a href="/admin/codes-promo" class="nav-link">Codes Promo</a></li>
+                <li><a href="/admin/codes-promos" class="nav-link">Codes Promo</a></li>
                 <li><a href="/faq/admin" class="nav-link">FAQ</a></li>
             </ul>
         </nav>

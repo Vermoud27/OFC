@@ -37,6 +37,13 @@ $routes->post('/faq/send', 'FaqController::sendMail');
 // Produits
 $routes->get('/InfoProduitController', 'InfoProduitController::index');
 
+// Admin - FAQ
+$routes->get('/faq/admin', 'FaqController::admin');
+$routes->get('/faq/create', 'FaqController::viewCreate');
+$routes->post('/faq/create', 'FaqController::create');
+$routes->get('/faq/edit/(:num)', 'FaqController::edit/$1');
+$routes->post('/faq/update/(:num)', 'FaqController::update/$1');
+$routes->get('/faq/delete/(:num)', 'FaqController::delete/$1');
 
 // Routes protégées (requièrent une session active)
 $routes->group('', ['filter' => 'auth'], function ($routes) {
@@ -56,13 +63,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     // Admin - Produits
 
-    // Admin - FAQ
-    $routes->get('/faq/admin', 'FaqController::admin');
-    $routes->get('/faq/create', 'FaqController::viewCreate');
-    $routes->post('/faq/create', 'FaqController::create');
-    $routes->get('/faq/edit/(:num)', 'FaqController::edit/$1');
-    $routes->post('/faq/update/(:num)', 'FaqController::update/$1');
-    $routes->get('/faq/delete/(:num)', 'FaqController::delete/$1');
+
 });
 
 // Administrateur
