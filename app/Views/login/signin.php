@@ -28,7 +28,7 @@
     <!-- Formulaire de connexion -->
     <div class="container">
         <div class="left-section">
-            <h1>Log In</h1>
+            <h1>Se connecter</h1>
             <form action="/signin" method="POST">
                 <div class="form-group">
                     <label for="email">E-mail</label>

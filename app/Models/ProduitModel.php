@@ -54,4 +54,9 @@ class ProduitModel extends Model
     {
         return $this->hasOne('App\Models\GammeModel', 'id_gamme', 'id_gamme');
     }
+
+    public function get_all()
+	{
+		return $this->findAll();
+	}
 }

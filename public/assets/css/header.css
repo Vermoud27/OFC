@@ -89,6 +89,10 @@
     color: inherit;        
 }
 
+a {
+    text-decoration: none; /* Supprime le soulignement par défaut */
+  }
+
 .right-section a {
     text-decoration: none;
 }

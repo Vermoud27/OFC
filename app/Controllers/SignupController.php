@@ -8,6 +8,7 @@ class SignupController extends BaseController
 {
     public function index()
     {
+        helper(['form']);
         return view('login/signup');
     }
 
@@ -22,7 +23,7 @@ class SignupController extends BaseController
             'password_confirmation' => 'required|matches[password]',
             'first_name' => 'required',
             'last_name' => 'required',
-            'phone' => 'permit_empty|numeric',
+            'phone' => 'permit_empty|numeric|min_length[10]|max_length[15]',
         ];
 
         if ($this->validate($rules)) {
@@ -38,7 +39,7 @@ class SignupController extends BaseController
             'nom' => $this->request->getPost('first_name'),
             'prenom' => $this->request->getPost('last_name'),
             'role' => 'Client',
-            'telephone' => $this->request->getPost('phone'),
+            'telephone' => $this->request->getPost('phone') ?? null,
             'reset_token' => $token,
             'reset_token_expiration' => Time::now()->addHours(24),
             ]);
@@ -48,8 +49,9 @@ class SignupController extends BaseController
 
             return redirect()->to('signin')->with('success', 'Un e-mail de validation vous a été envoyé. Veuillez vérifier votre boîte de réception.');
         } else {
-            return view('signup', [
-                'validation' => $this->validator
+
+            return view('login/signup', [
+                'validation' => \Config\Services::validation()
             ]);
         }
     }
