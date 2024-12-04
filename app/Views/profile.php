@@ -11,7 +11,10 @@
 
 <body>
     <div class="container">
-        <h1>Mon Profil</h1>
+        <div class="header">
+            <h1>Mon Profil</h1>
+            <a href="/logout" class="btn-logout">Déconnexion</a>
+        </div>
 
         <div class="container profile-container">
 

@@ -31,4 +31,13 @@ class ProfileController extends BaseController
         // Charger la vue avec les données utilisateur
         return view('profile', ['utilisateur' => $utilisateur]);
     }
+
+    public function logout()
+    {
+        // Supprime toutes les données de session
+        session()->destroy();
+
+        // Redirige vers la page d'accueil ou la page désirée
+        return redirect()->to('/');
+    }
 }

@@ -64,7 +64,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     // Admin - Produits
 
-
+    // Déconnexion
+    $routes->get('/logout', 'ProfileController::logout');
 });
 
 // Administrateur

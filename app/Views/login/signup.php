@@ -115,7 +115,6 @@
             <?= form_close() ?> <!-- Fermeture du formulaire -->
         </div>
     </div>
-
     <!-- Script pour masquer les notifications après 4 secondes -->
     <script src="/assets/js/notif.js"></script>
 </body>
