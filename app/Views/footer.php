@@ -9,7 +9,7 @@
                 <li><a href="<?= base_url('navbar/entreprise#info') ?>" class="link-white">À propos</a></li>
                 <li><a href="#" >Blog</a></li>
                 <li><a href="/faq" >FAQ</a></li>
-                <li><a href="#" >Panier</a></li>
+                <li><a href="<?= base_url('PanierController') ?>" class="link-white">Panier</a></li>
                 <li><a href="<?= base_url('navbar/entreprise#contact') ?>" class="link-white">Contact</a></li>
             </ul>
         </div>
