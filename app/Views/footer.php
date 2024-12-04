@@ -5,7 +5,6 @@
         <div style="flex: 1; min-width: 50px; text-align: left;">
             <ul style="list-style-type: none; padding: 0; margin: 0;">
                 <li><a href="<?= base_url('ControllerOFC') ?>" class="link-white">Accueil</a></li>
-                <li><a href="<?= base_url('ProduitsController') ?>" class="link-white">Produits</a></li>
                 <li><a href="<?= base_url('navbar/entreprise#info') ?>" class="link-white">À propos</a></li>
                 <li><a href="#" >Blog</a></li>
                 <li><a href="/faq" >FAQ</a></li>

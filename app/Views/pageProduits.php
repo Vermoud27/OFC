@@ -18,27 +18,32 @@ require 'header.php';
     <section class="products">
         <h1>Nos Produits</h1>
         <div class="product-grid">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Produit 1">
-                <h2>Produit 1</h2>
-                <p class="description">Une courte description du produit 1.</p>
-                <p class="price">19,99 €</p>
-                <button>Ajouter au panier</button>
-            </div>
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Produit 2">
-                <h2>Produit 2</h2>
-                <p class="description">Une courte description du produit 2.</p>
-                <p class="price">29,99 €</p>
-                <button>Ajouter au panier</button>
-            </div>
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Produit 3">
-                <h2>Produit 3</h2>
-                <p class="description">Une courte description du produit 3.</p>
-                <p class="price">39,99 €</p>
-                <button>Ajouter au panier</button>
-            </div>
+            <?php if (!empty($produits) && is_array($produits)): ?>
+                <?php foreach ($produits as $produit): ?>
+                    <div class="product-card">
+                    <?php if (!empty($images)): ?>
+                        <div class="product-images">
+                            <div class="image-wrapper">
+                                <button class="nav-btn" onclick="changeImage(-1)">&lt;</button>
+                                <img src="<?= htmlspecialchars($images[0]['chemin']) ?>" alt="Image Produit" class="product-image" id="product-image">
+                                <button class="nav-btn" onclick="changeImage(1)">&gt;</button>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="product-images">
+                            <div class="image-wrapper">
+                                <img src="/assets/img/user.png" alt="Aucune image disponible" class="product-image">
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <h2><?= $produit['nom'] ?></h2>
+                    <p><?= $produit['description'] ?></p>
+                    <p><?= $produit['prixttc'] ?> €</p>
+                    <button>Ajouter au panier</button>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </section>
 </main>
