@@ -107,6 +107,16 @@ a {
     transition: background-image 0.3s ease; /* Transition fluide */
 }
 
+.phone-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('/assets/img/logo/phone.png'); /* Image par défaut */
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease; /* Transition fluide */
+}
+
 .profile-icon-logged-in {
     display: inline-block;
     width: 30px;
@@ -126,5 +136,9 @@ a {
 /* Change l'image au survol */
 .profile-icon:hover {
     background-image: url('/assets/img/logo/login_orange.png'); /* Image au survol */
+}
+
+.phone-icon:hover {
+    background-image: url('/assets/img/logo/phone_orange.png'); /* Image au survol */
 }
 

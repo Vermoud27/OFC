@@ -1,8 +1,6 @@
 <header class="navbar">
     <div class="left-section">
-        <a href="<?= base_url('navbar/entreprise#contact') ?>" title="Nous contacter">
-            <p> 📞 </p>
-        </a>
+        <a href="<?= base_url('/profile') ?>" class="phone-icon"></a>
         <input type="text" placeholder="Rechercher..." class="search-bar">
         <p> 🔍 </p>
     </div>
