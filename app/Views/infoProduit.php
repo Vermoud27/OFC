@@ -14,33 +14,48 @@ require 'header.php';
 ?>
 <body>
   <div class="container">
-      <h1>Accueil - Nom Produit</h1>
+      <h1>Accueil - <?= $produit['nom'] ?></h1>
     <main>
       <div class="product">
-        <div class="product-images">
-          <button class="nav-btn">&lt;</button>
-          <img src="/assets/img/produits/gommage_clarifiant.jpeg" alt="Produit 1" class="main-image">
-          <button class="nav-btn">&gt;</button>
-        </div>
+
+        <?php if (!empty($images)): ?>
+            <div class="product-images">
+                <div class="image-wrapper">
+                    <button class="nav-btn" onclick="changeImage(-1)">&lt;</button>
+                    <img src="<?= htmlspecialchars($images[0]['chemin']) ?>" alt="Image Produit" class="product-image" id="product-image">
+                    <button class="nav-btn" onclick="changeImage(1)">&gt;</button>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="product-images">
+                <div class="image-wrapper">
+                    <img src="/assets/img/user.png" alt="Aucune image disponible" class="product-image">
+                </div>
+            </div>
+        <?php endif; ?>
+
         <div class="product-details">
-          <h2>Produit 1</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <select>
-            <option>50 cl</option>
-          </select>
+          <h2><?= $produit['nom'] ?></h2>
+          <p><?= $produit['description'] ?></p>
+          <p><?= $produit['contenu'] ?><?= $produit['unite_mesure'] ?></p>
           <div class="info-grid">
             <div class="composition">
               <h3>Composition</h3>
-              <ul>
-                <li>lorem ipsum</li>
-                <li>lorem ipsum</li>
-                <li>lorem ipsum</li>
-                <li>lorem ipsum</li>
-              </ul>
+              <?php if (!empty($ingredients)): ?>
+                  <ul>
+                      <?php foreach ($ingredients as $ingredient): ?>
+                          <li>
+                              <?= htmlspecialchars($ingredient['nom']) ?> (Provenance : <?= htmlspecialchars($ingredient['provenance']) ?>)
+                          </li>
+                      <?php endforeach; ?>
+                  </ul>
+              <?php else: ?>
+              <p>Aucun ingrédient associé à ce produit.</p>
+          <?php endif; ?>
             </div>
             <div class="payment-delivery">
               <h3>Paiement et livraison</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <p>Prix : <?= $produit['prixttc'] ?> €</p>
             </div>
           </div>
           <button class="add-to-cart">Ajouter au panier</button>
@@ -65,6 +80,20 @@ require 'header.php';
       </div>
     </main>
   </div>
+
+  <script>
+        // Tableau des chemins d'images
+        var images = <?= json_encode(array_column($images, 'chemin')) ?>;
+        var currentIndex = 0;
+
+        function changeImage(direction) {
+            // Calculer l'index suivant
+            currentIndex = (currentIndex + direction + images.length) % images.length;
+
+            // Mettre à jour la source de l'image affichée
+            document.getElementById('product-image').src = images[currentIndex];
+        }
+  </script>
     
 <?php 
 require 'footer.php';

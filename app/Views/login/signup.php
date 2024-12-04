@@ -27,38 +27,107 @@
             <?php endif; ?>
         </div>
     </section>
+
     <!-- Formulaire d'inscription -->
     <div class="container">
         <div class="left-section"></div>
         <div class="right-section">
-            <h1>Sign In</h1>
-            <form action="/signup" method="POST">
+            <h1>Créer un compte</h1>
+
+            <!-- Ouverture du formulaire avec le helper form_open() -->
+            <?= form_open('/signup') ?>
+
+                <!-- Champ E-mail -->
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="E-mail" required>
+                    <?= form_input([
+                        'type' => 'email',
+                        'name' => 'email',
+                        'placeholder' => 'E-mail *',
+                        'value' => old('email'),
+                        'required' => 'required'
+                    ]) ?>
+                    <?php if (isset($validation) && $validation->hasError('email')): ?>
+                        <small class="error"><?= $validation->getError('email') ?></small>
+                    <?php endif; ?>
                 </div>
+
+                <!-- Champ Mot de passe -->
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="Mot de passe" required>
+                    <?= form_password([
+                        'name' => 'password',
+                        'placeholder' => 'Mot de passe *',
+                        'required' => 'required'
+                    ]) ?>
+                    <?php if (isset($validation) && $validation->hasError('password')): ?>
+                        <small class="error"><?= $validation->getError('password') ?></small>
+                    <?php endif; ?>
                 </div>
+
+                <!-- Champ Confirmation mot de passe -->
                 <div class="form-group">
-                    <input type="password" name="password_confirmation" placeholder="Confirmation mot de passe"
-                        required>
+                    <?= form_password([
+                        'name' => 'password_confirmation',
+                        'placeholder' => 'Confirmation mot de passe *',
+                        'required' => 'required'
+                    ]) ?>
+                    <?php if (isset($validation) && $validation->hasError('password_confirmation')): ?>
+                        <small class="error"><?= $validation->getError('password_confirmation') ?></small>
+                    <?php endif; ?>
                 </div>
+
+                <!-- Champ Nom -->
                 <div class="form-group">
-                    <input type="text" name="first_name" placeholder="Nom" required>
+                    <?= form_input([
+                        'type' => 'text',
+                        'name' => 'first_name',
+                        'placeholder' => 'Nom *',
+                        'value' => old('first_name'),
+                        'required' => 'required'
+                    ]) ?>
+                    <?php if (isset($validation) && $validation->hasError('first_name')): ?>
+                        <small class="error"><?= $validation->getError('first_name') ?></small>
+                    <?php endif; ?>
                 </div>
+
+                <!-- Champ Prénom -->
                 <div class="form-group">
-                    <input type="text" name="last_name" placeholder="Prénom" required>
+                    <?= form_input([
+                        'type' => 'text',
+                        'name' => 'last_name',
+                        'placeholder' => 'Prénom *',
+                        'value' => old('last_name'),
+                        'required' => 'required'
+                    ]) ?>
+                    <?php if (isset($validation) && $validation->hasError('last_name')): ?>
+                        <small class="error"><?= $validation->getError('last_name') ?></small>
+                    <?php endif; ?>
                 </div>
+
+                <!-- Champ Numéro de téléphone -->
                 <div class="form-group">
-                    <input type="tel" name="phone" placeholder="Numéro de téléphone" required>
+                    <?= form_input([
+                        'type' => 'tel',
+                        'name' => 'phone',
+                        'placeholder' => 'Numéro de téléphone',
+                        'value' => old('phone')
+                    ]) ?>
+                    <?php if (isset($validation) && $validation->hasError('phone')): ?>
+                        <small class="error"><?= $validation->getError('phone') ?></small>
+                    <?php endif; ?>
                 </div>
+
+                <!-- Bouton de soumission -->
                 <button type="submit" class="btn-signup">Inscription</button>
+
+                <!-- Lien de connexion -->
                 <div class="login-link">
                     Déjà un compte ? <a href="/signin">Connectez-vous</a>
                 </div>
-            </form>
+
+            <?= form_close() ?> <!-- Fermeture du formulaire -->
         </div>
     </div>
+
     <!-- Script pour masquer les notifications après 4 secondes -->
     <script src="/assets/js/notif.js"></script>
 </body>
