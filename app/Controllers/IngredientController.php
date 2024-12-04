@@ -97,15 +97,33 @@ class IngredientController extends BaseController
 		return redirect()->to('admin/ingredients');
     }
 
-    /*public function supprimer($id)
-    {
-        $this->produitModel->delete($id);
-        return redirect()->to('admin/categories');
-    }*/
+	public function supprimer($id)
+	{
+		// Charger le modèle Produit_Ingredient si ce n'est pas déjà fait
+		$produitIngredientModel = new \App\Models\ProduitIngredientModel();
+	
 
-	/*public function desactiver($id)
-    {
-        $this->produitModel->update($id, ['actif' => 'f']);
-        return redirect()->to('admin/categories');
-    }*/
+		if ($this->request->getPost('confirm') === 'yes') {
+			// Supprimez les références dans Produit_Ingredient
+			$produitIngredientModel->where('id_ingredient', $id)->delete();
+			// Supprimez l'ingrédient
+			$this->ingredientModel->delete($id);
+	
+			session()->setFlashdata('success', 'Ingrédient supprimé avec succès.');
+			return redirect()->to('/admin/ingredients');
+		}
+
+		$references = $produitIngredientModel->where('id_ingredient', $id)->findAll();
+
+		if ($references) {
+			return redirect()->to("/admin/ingredients?warning=1&id=$id");
+		}
+	
+		// Si pas de références, supprimer directement
+		$this->ingredientModel->delete($id);
+		session()->setFlashdata('success', 'Ingrédient supprimé avec succès.');
+		return redirect()->to('/admin/ingredients');
+	}
+	
+
 }

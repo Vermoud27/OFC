@@ -165,3 +165,52 @@ body {
 .prev-btn:hover, .next-btn:hover {
     background: rgba(0, 0, 0, 0.8);
 }
+
+
+.alert {
+    position: fixed; /* Permet de placer l'alerte par rapport à l'écran */
+    top: 50%; /* Centre verticalement */
+    left: 50%; /* Centre horizontalement */
+    transform: translate(-50%, -50%); /* Ajuste le positionnement */
+    background-color: #fff4e5; /* Fond de couleur d'avertissement */
+    border: 1px solid #ffc107; /* Bordure assortie à l'avertissement */
+    color: #856404; /* Couleur du texte */
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ombre pour effet visuel */
+    border-radius: 8px; /* Coins arrondis */
+    z-index: 1000; /* Passe au-dessus des autres éléments */
+    text-align: center;
+    font-family: Arial, sans-serif; /* Police propre */
+}
+
+.alert form {
+    margin-top: 15px;
+}
+
+.alert button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.alert button[type="submit"] {
+    background-color: #dc3545; /* Couleur rouge pour supprimer */
+    color: white;
+}
+
+.alert button[type="button"] {
+    background-color: #6c757d; /* Couleur grise pour annuler */
+    color: white;
+}
+
+.alert button:hover {
+    opacity: 0.9; /* Légère opacité au survol */
+}
+
+.alert a {
+    text-decoration: none;
+}
