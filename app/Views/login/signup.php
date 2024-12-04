@@ -46,9 +46,7 @@
                         'value' => old('email'),
                         'required' => 'required'
                     ]) ?>
-                    <?php if (isset($validation) && $validation->hasError('email')): ?>
-                        <small class="error"><?= $validation->getError('email') ?></small>
-                    <?php endif; ?>
+                    <small><?= validation_show_error('email') ?></small>
                 </div>
 
                 <!-- Champ Mot de passe -->
@@ -58,9 +56,7 @@
                         'placeholder' => 'Mot de passe *',
                         'required' => 'required'
                     ]) ?>
-                    <?php if (isset($validation) && $validation->hasError('password')): ?>
-                        <small class="error"><?= $validation->getError('password') ?></small>
-                    <?php endif; ?>
+                    <small><?= validation_show_error('password') ?></small>
                 </div>
 
                 <!-- Champ Confirmation mot de passe -->
@@ -70,9 +66,7 @@
                         'placeholder' => 'Confirmation mot de passe *',
                         'required' => 'required'
                     ]) ?>
-                    <?php if (isset($validation) && $validation->hasError('password_confirmation')): ?>
-                        <small class="error"><?= $validation->getError('password_confirmation') ?></small>
-                    <?php endif; ?>
+                    <small><?= validation_show_error('password_confirmation') ?></small>
                 </div>
 
                 <!-- Champ Nom -->
@@ -84,9 +78,7 @@
                         'value' => old('first_name'),
                         'required' => 'required'
                     ]) ?>
-                    <?php if (isset($validation) && $validation->hasError('first_name')): ?>
-                        <small class="error"><?= $validation->getError('first_name') ?></small>
-                    <?php endif; ?>
+                    <small><?= validation_show_error('first_name') ?></small>
                 </div>
 
                 <!-- Champ Prénom -->
@@ -98,9 +90,7 @@
                         'value' => old('last_name'),
                         'required' => 'required'
                     ]) ?>
-                    <?php if (isset($validation) && $validation->hasError('last_name')): ?>
-                        <small class="error"><?= $validation->getError('last_name') ?></small>
-                    <?php endif; ?>
+                    <small><?= validation_show_error('last_name') ?></small>
                 </div>
 
                 <!-- Champ Numéro de téléphone -->
@@ -111,9 +101,7 @@
                         'placeholder' => 'Numéro de téléphone',
                         'value' => old('phone')
                     ]) ?>
-                    <?php if (isset($validation) && $validation->hasError('phone')): ?>
-                        <small class="error"><?= $validation->getError('phone') ?></small>
-                    <?php endif; ?>
+                    <small><?= validation_show_error('phone') ?></small>
                 </div>
 
                 <!-- Bouton de soumission -->

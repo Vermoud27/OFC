@@ -97,3 +97,9 @@ body {
 h1, h2, h3 {
     font-family: 'Montserrat', sans-serif;
 }
+
+small {
+    font-size: 0.75rem; /* Taille légèrement réduite */
+    font-weight: 400; /* Poids de police standard */
+    margin-top: 5px; /* Espacement au-dessus du texte */
+}
