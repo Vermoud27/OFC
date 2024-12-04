@@ -28,6 +28,20 @@ class ProduitController extends BaseController
 		helper(['form']);
     }
 
+	public function page_produits(): string
+    {
+        $produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->paginate(8);
+		foreach ($produits as &$produit) {
+			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
+			$produit['images'] = $images;
+		}
+
+		$data['produits'] = $produits;
+		$data['pager'] = \Config\Services::pager();
+        
+        return view('pageProduits', $data);
+    }
+
     public function index()
 	{
 		$produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->paginate(8);

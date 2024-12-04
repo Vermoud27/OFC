@@ -18,15 +18,14 @@ require 'header.php';
     <section class="products">
         <h1>Nos Produits</h1>
         <div class="product-grid">
+
             <?php if (!empty($produits) && is_array($produits)): ?>
                 <?php foreach ($produits as $produit): ?>
                     <div class="product-card">
-                    <?php if (!empty($images)): ?>
+                    <?php if (!empty($produit['images'])): ?>
                         <div class="product-images">
                             <div class="image-wrapper">
-                                <button class="nav-btn" onclick="changeImage(-1)">&lt;</button>
-                                <img src="<?= htmlspecialchars($images[0]['chemin']) ?>" alt="Image Produit" class="product-image" id="product-image">
-                                <button class="nav-btn" onclick="changeImage(1)">&gt;</button>
+                                <img src="<?= $produit['images'][0]['chemin'] ?>" alt="Image Produit" class="product-image" id="image-<?= $produit['id_produit'] ?>">
                             </div>
                         </div>
                     <?php else: ?>
@@ -37,6 +36,8 @@ require 'header.php';
                         </div>
                     <?php endif; ?>
 
+                    
+
                     <h2><?= $produit['nom'] ?></h2>
                     <p><?= $produit['description'] ?></p>
                     <p><?= $produit['prixttc'] ?> €</p>
@@ -44,6 +45,7 @@ require 'header.php';
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
+            
         </div>
     </section>
 </main>

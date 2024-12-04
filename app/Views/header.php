@@ -26,7 +26,7 @@
 </header>
 <nav class="menu">
     <ul>
-        <li><a href="<?= base_url('ProduitsController') ?>" class="link-white">Produits</a></li>
+        <li><a href="<?= base_url('produits') ?>" class="link-white">Produits</a></li>
         <li><a href="#">Gammes</a></li>
         <li><a href="#">Huiles</a></li>
         <li><a href="#">Soins peau au détail</a></li>
