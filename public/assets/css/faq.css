@@ -47,10 +47,11 @@ body {
 
 .faq-item.open .faq-answer {
     display: block;
+    background-color: #6B8E23;
 }
 
 .faq-item.open .faq-question {
-    background-color: #6B8E23;
+    background-color: #556B2F;
 }
 
 .arrow {
