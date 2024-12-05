@@ -65,6 +65,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/profile', 'ProfileController::index');
     $routes->get('/profile/edit', 'ProfileController::edit');
     $routes->post('/profile/update', 'ProfileController::update');    
+    $routes->post('/profile/update-password', 'ProfileController::updatePassword');
+    $routes->get('profile/edit-password', 'ProfileController::editPassword');
 
     // Changer le mot de passe
 
