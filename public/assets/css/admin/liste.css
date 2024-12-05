@@ -1,4 +1,3 @@
-
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -7,12 +6,14 @@ body {
     height: 100vh;
     color: #556B2F;
 }
+
 .container {
     display: flex;
     flex-direction: row; /* Organiser les éléments en ligne (gauche pour le panneau et droite pour la section produit) */
     height: 100vh; /* Assurez-vous que le conteneur prend toute la hauteur de la fenêtre */
     width: 100%;
 }
+
 .panel {
     width: 30%;
     background-color: #F5F5DC;
@@ -20,15 +21,19 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     flex-shrink: 0; /* Empêche le panneau de se réduire */
 }
+
 .panel h2 {
 	color: #D2691E;
 }
+
 .stats {
 	margin-bottom: 20px;
 }
+
 .stats p {
 	margin: 5px 0;
 }
+
 .product-section {
     flex-grow: 1; /* La section des produits prend tout l'espace restant */
     background-color: #FAF9F6;
@@ -37,6 +42,7 @@ body {
     position: relative;
     height: calc(100vh - 40px); /* Soustraction de la hauteur du panneau pour que la section produit occupe le reste de l'espace */
 }
+
 .add-product-btn {
     position: absolute;
     top: 20px;
@@ -49,17 +55,21 @@ body {
     font-size: 16px;
     cursor: pointer;
 }
+
 .add-product-btn:hover {
 	background-color: #005f73;
 }
+
 .product-section h2 {
 	margin-bottom: 20px;
 }
+
 .product-grid {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr); /* Deux colonnes */
 	gap: 20px; /* Espace entre les produits */
 }
+
 .product-card {
 	position: relative;
 	background-color: #FFFFFF;
@@ -73,20 +83,25 @@ body {
     word-wrap: break-word; 
     word-break: break-word; 
 }
+
 .product-card img {
 	max-width: 100px;
 	max-height: 100px;
 	border-radius: 5px;
 }
+
 .product-info {
 	flex-grow: 1;
 }
+
 .product-info p {
 	margin: 5px 0;
 }
+
 .product-info p span {
 	font-weight: bold;
 }
+
 .product-buttons {
 	position: absolute;
 	top: 10px;
@@ -94,6 +109,7 @@ body {
 	display: flex;
 	gap: 5px;
 }
+
 .product-buttons button {
 	border: none;
 	padding: 5px 10px;
@@ -104,14 +120,17 @@ body {
 	align-items: center;
 	font-size: 14px;
 }
+
 .product-buttons .edit-btn {
 	background-color: #4CAF50; /* Vert */
 	color: white;
 }
+
 .product-buttons .delete-btn {
 	background-color: #F44336; /* Rouge */
 	color: white;
 }
+
 .product-buttons button:hover {
 	opacity: 0.8;
 }
@@ -165,7 +184,6 @@ body {
 .prev-btn:hover, .next-btn:hover {
     background: rgba(0, 0, 0, 0.8);
 }
-
 
 .alert {
     position: fixed; /* Permet de placer l'alerte par rapport à l'écran */

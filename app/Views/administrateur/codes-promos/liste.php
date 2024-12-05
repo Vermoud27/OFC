@@ -6,23 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des codes promo</title>
     <link rel="stylesheet" href="/assets/css/admin/liste.css">
-    <link rel="stylesheet" href="/assets/css/admin/entete.css">
+    <link rel="stylesheet" href="/assets/css/admin/navbar_admin.css">
 </head>
 
 <body>
-    <header>
-        <nav>
-            <ul class="navigation">
-                <li><a href="/admin/produits" class="nav-link">Produits</a></li>
-                <li><a href="/admin/categories" class="nav-link">Catégories</a></li>
-                <li><a href="/admin/ingredients" class="nav-link">Ingrédients</a></li>
-                <li><a href="/admin/gammes" class="nav-link">Gammes</a></li>
-                <li><a href="/admin/bundles" class="nav-link">Bundles</a></li>
-                <li><a href="/admin/codes-promos" class="nav-link">Codes Promo</a></li>
-                <li><a href="/faq/admin" class="nav-link">FAQ</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php require APPPATH . 'Views/administrateur/header_admin.php'; ?>
 
     <div class="container">
         <!-- Panel de statistiques -->

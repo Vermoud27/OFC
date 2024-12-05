@@ -15,23 +15,12 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <!-- Nos CSS -->
     <link rel="stylesheet" href="/assets/css/admin/faq.css">
+    <link rel="stylesheet" href="/assets/css/admin/navbar_admin.css">
     <link rel="stylesheet" href="/assets/css/notif.css">
 </head>
 
 <body>
-    <header>
-        <nav>
-            <ul class="navigation">
-                <li><a href="/admin/produits" class="nav-link">Produits</a></li>
-                <li><a href="/admin/categories" class="nav-link">Catégories</a></li>
-                <li><a href="/admin/ingredients" class="nav-link">Ingrédients</a></li>
-                <li><a href="/admin/gammes" class="nav-link">Gammes</a></li>
-                <li><a href="/admin/bundles" class="nav-link">Bundles</a></li>
-                <li><a href="/admin/codes-promo" class="nav-link">Codes Promo</a></li>
-                <li><a href="/faq/admin" class="nav-link">FAQ</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php require APPPATH . 'Views/administrateur/header_admin.php'; ?>
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2>Administration des FAQ</h2>

@@ -1,7 +1,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <header class="navbar">
     <div class="left-section">
-        <a href="<?= base_url('/') ?>" class="phone-icon"></a>
+        <a href="<?= base_url('/navbar/entreprise#contact') ?>" class="phone-icon"></a>
         <input type="text" placeholder="Rechercher..." class="search-bar">
         <p> 🔍 </p>
     </div>
