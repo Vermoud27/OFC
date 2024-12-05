@@ -20,32 +20,17 @@ require 'header.php';
  <h2> Les Favoris du moments </h2>
  <div class="carousel-wrapper">
     <div class="carousel-container">
+
+      <?php foreach ($produits as $produit): ?>
         <div class="product">
-            <a href="/InfoProduitController">
-              <img src="/assets/img/produits/huile_baobab_1.jpeg" alt="Huile Baobab">
+            <a href="/produit/<?= $produit['id_produit']?>">
+              <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/default.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
+              <p><?= $produit['nom']?></p>
+              <p><?= $produit['prixttc']?> €</p>
             </a>
-            <p>Huile Baobab</p>
-            <p>25,99 €</p>
             <button>Acheter</button>
         </div>
-        <div class="product">
-            <img src="/assets/img/produits/roll_on_1.jpeg" alt="Roll On">
-            <p>Roll On</p>
-            <p>13,99 €</p>
-            <button>Acheter</button>
-        </div>
-        <div class="product">
-            <img src="/assets/img/produits/savon_rouge_1.jpeg" alt="Savon Rouge">
-            <p>Savon Rouge</p>
-            <p>9,99 €</p>
-            <button>Acheter</button>
-        </div>
-        <div class="product">
-            <img src="/assets/img/produits/gommage_clarifiant.jpeg" alt="Gommage Clarifiant">
-            <p>Gommage Clarifiant</p>
-            <p>30,99 €</p>
-            <button>Acheter</button>
-        </div>
+      <?php endforeach; ?>
     </div>
 </div>
 <div class="container">
