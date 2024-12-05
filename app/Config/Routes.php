@@ -54,6 +54,12 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Panier
     $routes->post('/panier/ajouter/(:num)', 'PanierController::ajouterPanier/$1');
     $routes->get('/panier/modifier/(:num)/(:any)', 'PanierController::modifierPanier/$1/$2');
+    $routes->get('/panier/commande', 'PanierController::recapitulatif');
+
+    // Commande
+    $routes->post('/commande/traiterPaiement', 'PaymentController::traiterPaiement');
+    $routes->get('/commande/retourPayPal', 'PaymentController::retourPayPal');
+    $routes->post('/commande/enregistrer', 'CommandeController::enregistrerCommande');
 
     // Les tâches
 

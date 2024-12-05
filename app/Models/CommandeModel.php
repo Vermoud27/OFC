@@ -21,7 +21,8 @@ class CommandeModel extends Model
         'statut',
         'prixht',
         'prixttc',
-        'id_utilisateur'
+        'id_utilisateur',
+        'informations'
     ];
 
     // Validation des données
@@ -30,7 +31,7 @@ class CommandeModel extends Model
         'statut'        => 'required|max_length[20]',
         'prixht'        => 'required|decimal',
         'prixttc'       => 'required|decimal',
-        'id_utilisateur'=> 'required|integer|is_not_unique[Utilisateur.id_utilisateur]',
+        'id_utilisateur'=> 'required|integer|is_not_unique[utilisateur.id_utilisateur]',
     ];
 
     // Messages personnalisés pour la validation

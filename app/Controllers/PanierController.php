@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ImageModel;
 use App\Models\ProduitModel;
+use App\Models\UtilisateurModel;
 
 class PanierController extends BaseController
 {
@@ -93,5 +94,40 @@ class PanierController extends BaseController
 
         service('response')->send(); 
     }
+
+    public function recapitulatif(): string
+    {
+        $produitModel = new ProduitModel();
+        $utilisateurModel = new UtilisateurModel(); // Modèle pour les utilisateurs
+
+        // Récupérer les produits dans le panier
+        $panier = $this->getPanier(); // Méthode à adapter pour récupérer les produits du panier
+        $produits = [];
+        $totalTTC = 0;
+
+        foreach ($panier as $idProduit => $quantite) {
+            $produit = $produitModel->find($idProduit);
+            if ($produit) {
+                $produit['quantite'] = $quantite;
+                $produit['total'] = $quantite * $produit['prixttc'];
+                $produits[] = $produit;
+                $totalTTC += $produit['total'];
+            }
+        }
+
+        // Récupérer l'utilisateur connecté et son adresse
+        $utilisateur = $utilisateurModel->find(session()->get('idutilisateur'));
+
+        $data = [
+            'produits' => $produits,
+            'totalTTC' => $totalTTC,
+            'utilisateur' => $utilisateur,
+            'modesLivraison' => ['Standard', 'Express', 'Point relais'], // Options de livraison
+            'modesPaiement' => ['Carte bancaire', 'PayPal', 'Virement bancaire'], // Moyens de paiement
+        ];
+
+        return view('recapitulatif', $data);
+    }
+
 }
 ?>
