@@ -24,15 +24,11 @@ require 'header.php';
                     <div class="product-card">
                     <?php if (!empty($produit['images'])): ?>
                         <div class="product-images">
-                            <div class="image-wrapper">
-                                <img src="<?= $produit['images'][0]['chemin'] ?>" alt="Image Produit" class="product-image" id="image-<?= $produit['id_produit'] ?>">
-                            </div>
+                            <img src="<?= $produit['images'][0]['chemin'] ?>" alt="Image Produit" id="image-<?= $produit['id_produit'] ?>">
                         </div>
                     <?php else: ?>
                         <div class="product-images">
-                            <div class="image-wrapper">
-                                <img src="/assets/img/user.png" alt="Aucune image disponible" class="product-image">
-                            </div>
+                            <img src="/assets/img/user.png" alt="Aucune image disponible">
                         </div>
                     <?php endif; ?>
 
