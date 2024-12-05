@@ -86,7 +86,7 @@ button {
     margin: 10px;
 }
 
-button:hover {
+button #signup :hover {
     background-color: #FF9B4D;
 }
 

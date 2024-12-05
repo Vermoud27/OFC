@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FAF9F6;
+    color: #556B2F;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #D2691E;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 90%;
+    margin: 20px auto;
+}
+
+.table-container {
+    width: 48%;
+    background-color: #F5F5DC;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #F5F5DC;
+}
+
+.table-container table th, .table-container table td {
+    border: 1px solid #888888;
+    padding: 12px;
+    text-align: left;
+}
+
+.table-container table th {
+    background-color: #556B2F;
+    color: #FAF9F6;
+}
+
+.table-container table tfoot td {
+    font-weight: bold;
+    background-color: #D2691E;
+    color: #FAF9F6;
+}
+
+.info-container {
+    width: 48%;
+    background-color: #F5F5DC;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-container form div {
+    margin-bottom: 15px;
+}
+
+.info-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.info-container input[type="text"], 
+.info-container select {
+    width: calc(100% - 10px);
+    padding: 8px;
+    border: 1px solid #888888;
+    border-radius: 4px;
+}
+
+.options-container {
+	width: 90%;
+    margin: 20px auto;
+    background-color: #F5F5DC;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.options-container .section {
+    width: 48%;
+}
+
+.radio-group div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.radio-group input {
+    margin-right: 10px;
+}
+
+.button-container {
+    text-align: center;
+    margin: 40px 20px;
+}
+
+.button-container button {
+    background-color: #D2691E;
+    color: #FAF9F6;
+    padding: 20px 60px;
+    border: none;
+    border-radius: 8px; 
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s; 
+}
+
+button:hover {
+    background-color: #D2691E;
+}

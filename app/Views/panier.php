@@ -51,13 +51,37 @@ require 'header.php';
                                 <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)">+</button>
                             </div>
                         </div>
-                        <p class="price"><?= number_format($produit['prixttc'], 2) ?> €</p>
+                        <div class="cart-item-right">  
+                            <p class="price"><?= number_format($produit['prixttc'], 2) ?> €</p>
+                            <button class="sup" onclick="retirerProduit(<?= $produit['id_produit'] ?>)"></button>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p>Votre panier est vide.</p>
+                <p class ="empty">Votre panier est vide.</p>
             <?php endif; ?>
         </div>
+
+
+
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+            // Sélection du bouton
+            const viderPanierBtn = document.getElementById('viderPanierBtn');
+
+            // Ajout d'un gestionnaire d'événements pour détecter le clic
+            viderPanierBtn.addEventListener('click', function () {
+
+            
+                    });
+                });
+        </script>
+
+        <!-- Bouton Vider le panier -->
+        <button class="clear-cart" onclick="location.href='/panier/vider'">Vider le panier</button>
 
         <!-- Récapitulatif -->
         <div class="cart-summary">
@@ -75,6 +99,7 @@ require 'header.php';
             </div>
             <button class="checkout">Commander</button>
         </div>
+
     </div>
 </body>
 <!-- Script pour masquer les notifications après 4 secondes -->
