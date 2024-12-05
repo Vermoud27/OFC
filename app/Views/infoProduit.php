@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/assets/css/header.css">
   <link rel="stylesheet" href="/assets/css/footer.css">
   <link rel="stylesheet" href="/assets/css/infoProduit.css">
+  <script src="/assets/js/panier.js"></script>
 
 </head>
 <?php
@@ -58,7 +59,7 @@ require 'header.php';
               <p>Prix : <?= $produit['prixttc'] ?> €</p>
             </div>
           </div>
-          <button class="add-to-cart">Ajouter au panier</button>
+          <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)" class="add-to-cart">Ajouter au panier</button>
         </div>
       </div>
       <div class="user-reviews">
