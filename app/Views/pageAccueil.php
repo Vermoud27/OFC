@@ -13,6 +13,7 @@ require 'header.php';
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/pageAccueil.css">
     <script src="/assets/js/faq.js"></script>
+    <script src="/assets/js/panier.js"></script>
 </head>
 <body>
 <img src="/assets/img/logo/fondOFC.png" alt="Banniere" class="fondOFC">
@@ -28,7 +29,7 @@ require 'header.php';
               <p><?= $produit['nom']?></p>
               <p><?= $produit['prixttc']?> €</p>
             </a>
-            <button>Acheter</button>
+            <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)">Acheter</button>
         </div>
       <?php endforeach; ?>
     </div>
