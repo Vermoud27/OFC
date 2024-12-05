@@ -32,6 +32,55 @@ class ProfileController extends BaseController
         return view('profile', ['utilisateur' => $utilisateur]);
     }
 
+    public function update()
+    {
+        helper(['form']);
+
+        // Règles de validation
+        $rules = [
+            'nom' => 'required',
+            'prenom' => 'required',
+            'telephone' => 'permit_empty|numeric|min_length[10]|max_length[15]',
+            'adresse' => 'permit_empty',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $data = [
+            'nom' => $this->request->getPost('nom'),
+            'prenom' => $this->request->getPost('prenom'),
+            'telephone' => $this->request->getPost('telephone'),
+            'adresse' => $this->request->getPost('adresse'),
+        ];
+
+        $model = new UtilisateurModel();
+        $userId = session()->get('idutilisateur');
+
+        $test = $model->update($userId, $data);
+
+        if ($test) {
+            return redirect()->to('/profile')->with('success', 'Vos informations ont été mises à jour avec succès.');
+        } else {
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la mise à jour.');
+        }
+    }
+
+    public function edit()
+    {
+        $model = new UtilisateurModel();
+        $userId = session()->get('idutilisateur');
+
+        $utilisateur = $model->find($userId);
+
+        if (!$utilisateur) {
+            return redirect()->to('/profile')->with('error', 'Utilisateur introuvable.');
+        }
+
+        return view('edit_profile', ['utilisateur' => $utilisateur]);
+    }
+
     public function logout()
     {
         // Supprime toutes les données de session
