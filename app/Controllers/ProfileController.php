@@ -85,6 +85,51 @@ class ProfileController extends BaseController
         return view('edit_profile', ['utilisateur' => $utilisateur]);
     }
 
+    public function editPassword()
+    {
+        return view('change_password');
+    }
+
+    public function updatePassword()
+    {
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'current_password' => 'required',
+            'new_password' => 'required|min_length[6]',
+            'confirm_password' => 'required|matches[new_password]',
+        ]);
+    
+        if (!$validation->withRequest($this->request)->run()) {
+            if ($validation->hasError('current_password')) {
+                return redirect()->back()->withInput()->with('error', 'Le champ du mot de passe actuel est obligatoire.');
+            }
+    
+            if ($validation->hasError('new_password')) {
+                return redirect()->back()->withInput()->with('error', 'Le nouveau mot de passe doit contenir au moins 6 caractères.');
+            }
+    
+            if ($validation->hasError('confirm_password')) {
+                return redirect()->back()->withInput()->with('error', 'Les mots de passe ne correspondent pas.');
+            }
+        }
+    
+        $currentPassword = $this->request->getPost('current_password');
+        $newPassword = $this->request->getPost('new_password');
+        $userId = session()->get('idutilisateur'); // ID utilisateur depuis la session
+    
+        $model = new UtilisateurModel();
+        $user = $model->find($userId);
+    
+        // Vérifier le mot de passe actuel
+        if (!password_verify($currentPassword, $user['mdp'])) {
+            return redirect()->back()->with('error', 'Le mot de passe actuel est incorrect.');
+        }
+    
+        // Mettre à jour le mot de passe
+        $model->update($userId, ['mdp' => password_hash($newPassword, PASSWORD_DEFAULT)]);
+        return redirect()->to('/profile')->with('success', 'Mot de passe modifié avec succès.');
+    }    
+
     public function logout()
     {
         // Supprime toutes les données de session
