@@ -12,13 +12,19 @@
 
     <div class="right-section">
         <p> 🇫🇷 </p>
-            <div class="cart-container">
-                <a href="/PanierController">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span
-                        class="cart-count"><?= isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ?></span>
-                </a>
-            </div>
+        <?php if (session()->get('isLoggedIn')): ?>
+            <a href="<?= base_url('/admin/produits') ?>" class="admin-icon">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>
+        <?php endif; ?>
+
+        <div class="cart-container">
+            <a href="/PanierController">
+                <i class="fas fa-shopping-cart"></i>
+                <span
+                    class="cart-count"><?= isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ?></span>
+            </a>
+        </div>
         </a>
 
         <?php if (session()->get('isLoggedIn')): ?>

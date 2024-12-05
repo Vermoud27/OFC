@@ -119,8 +119,8 @@ a {
 
 .profile-icon-logged-in {
     display: inline-block;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background-image: url('/assets/img/logo/profil.png'); /* Image par défaut */
     background-size: cover;
     background-position: center;
@@ -182,4 +182,19 @@ a {
     display: inline-block;
     min-width: 20px; /* Taille minimale pour garder un cercle */
     text-align: center;
+}
+
+.fa {
+    color: black; /* Couleur noire par défaut pour toutes les icônes */
+}
+
+.admin-icon {
+    color: black !important; /* Force la couleur noire dès le chargement */
+    font-size: 40px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.admin-icon:hover {
+    color: #D2691E !important; /* Couleur orange au survol */
 }
