@@ -142,3 +142,44 @@ a {
     background-image: url('/assets/img/logo/phone_orange.png'); /* Image au survol */
 }
 
+.cart-container {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-container .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #ff4500;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.cart-container a {
+    color: black; /* Couleur par défaut de l'icône */
+    text-decoration: none; /* Supprime le soulignement */
+    position: relative; /* Pour positionner le compteur */
+}
+
+.cart-container a:hover {
+    color: #D2691E; /* Couleur orange au survol */
+}
+
+.cart-container .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #556B2F; /* Couleur de fond du compteur */
+    color: white; /* Couleur du texte */
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%; /* Pour un compteur circulaire */
+    display: inline-block;
+    min-width: 20px; /* Taille minimale pour garder un cercle */
+    text-align: center;
+}
