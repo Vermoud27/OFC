@@ -42,6 +42,8 @@ class ProfileController extends BaseController
             'prenom' => 'required',
             'telephone' => 'permit_empty|numeric|min_length[10]|max_length[15]',
             'adresse' => 'permit_empty',
+            'code_postal' => 'permit_empty',
+            'ville' => 'permit_empty',
         ];
 
         if (!$this->validate($rules)) {
@@ -53,6 +55,8 @@ class ProfileController extends BaseController
             'prenom' => $this->request->getPost('prenom'),
             'telephone' => $this->request->getPost('telephone'),
             'adresse' => $this->request->getPost('adresse'),
+            'code_postal' => $this->request->getPost('code_postal'),
+            'ville' => $this->request->getPost('ville'),
         ];
 
         $model = new UtilisateurModel();

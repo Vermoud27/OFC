@@ -1,27 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des produits</title>
     <link rel="stylesheet" href="/assets/css/admin/liste.css">
-    <link rel="stylesheet" href="/assets/css/admin/entete.css">
+    <link rel="stylesheet" href="/assets/css/admin/navbar_admin.css">
 </head>
+
 <body>
-    <header>
-        <nav>
-            <ul class="navigation">
-                <li><a href="/admin/produits" class="nav-link">Produits</a></li>
-                <li><a href="/admin/categories" class="nav-link">Catégories</a></li>
-                <li><a href="/admin/ingredients" class="nav-link">Ingrédients</a></li>
-                <li><a href="/admin/gammes" class="nav-link">Gammes</a></li>
-                <li><a href="/admin/bundles" class="nav-link">Bundles</a></li>
-                <li><a href="/admin/codes-promos" class="nav-link">Codes Promo</a></li>
-                <li><a href="/faq/admin" class="nav-link">FAQ</a></li>
-            </ul>
-        </nav>
-    </header>
-   
+    <?php require APPPATH . 'Views/administrateur/header_admin.php'; ?>
     <div class="container">
         <!-- Panel de statistiques -->
         <div class="panel">
@@ -47,16 +36,20 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/produits/modification/<?= $produit['id_produit'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/produits/desactiver/<?= $produit['id_produit'] ?>" ><button class="delete-btn">🗑️</button></a>
+                            <a href="/admin/produits/modification/<?= $produit['id_produit'] ?>"><button
+                                    class="edit-btn">✏️</button></a>
+                            <a href="/admin/produits/desactiver/<?= $produit['id_produit'] ?>"><button
+                                    class="delete-btn">🗑️</button></a>
                         </div>
 
                         <?php if (!empty($produit['images'])): ?>
                             <div class="image-gallery">
                                 <div class="image-wrapper">
-                                    <button class="prev-btn" onclick="changeImage(<?= $produit['id_produit'] ?>, -1)">⬅️</button>
-                                    <img src="<?= $produit['images'][0]['chemin'] ?>" alt="Image Produit" class="product-image" id="image-<?= $produit['id_produit'] ?>">
-                                    <button class="next-btn" onclick="changeImage(<?= $produit['id_produit'] ?>, 1)">➡️</button>                                
+                                    <button class="prev-btn"
+                                        onclick="changeImage(<?= $produit['id_produit'] ?>, -1)">⬅️</button>
+                                    <img src="<?= $produit['images'][0]['chemin'] ?>" alt="Image Produit" class="product-image"
+                                        id="image-<?= $produit['id_produit'] ?>">
+                                    <button class="next-btn" onclick="changeImage(<?= $produit['id_produit'] ?>, 1)">➡️</button>
                                 </div>
                             </div>
                         <?php else: ?>
@@ -65,7 +58,7 @@
                                     <img src="/assets/img/user.png" alt="Aucune image disponible" class="product-image">
                                 </div>
                             </div>
-                        <?php endif; ?> 
+                        <?php endif; ?>
 
                         <div class="product-info">
                             <p><span>Nom : </span><?= $produit['nom'] ?></p>
@@ -80,7 +73,7 @@
 
             </div>
             <div class="footer">
-                <?= $pager->links('default','perso') ?>
+                <?= $pager->links('default', 'perso') ?>
             </div>
         </div>
     </div>
@@ -93,10 +86,10 @@
             var images = productImages.find(product => product.id_produit == productId).images;
             var currentImage = document.getElementById('image-' + productId);
             var currentImageSrc = currentImage.src;
-            
+
             // Trouver l'index de l'image actuellement affichée
             var currentIndex = images.findIndex(image => currentImageSrc.includes(image.chemin));
-            
+
             // Calculer l'index suivant
             var newIndex = (currentIndex + direction + images.length) % images.length;
 
@@ -105,4 +98,5 @@
         }
     </script>
 </body>
+
 </html>

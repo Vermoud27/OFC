@@ -47,6 +47,22 @@
                             : 'Pas d\'adresse renseignée...' ?>
                     </span>
                 </div>
+                <div class="profile-field">
+                    <span class="field-label">Code Postal :</span>
+                    <span class="field-value">
+                        <?= isset($utilisateur['code_postal']) && !empty($utilisateur['code_postal'])
+                            ? esc($utilisateur['code_postal'])
+                            : 'Pas de code postal de renseignée...' ?>
+                    </span>
+                </div>
+                <div class="profile-field">
+                    <span class="field-label">Ville :</span>
+                    <span class="field-value">
+                        <?= isset($utilisateur['ville']) && !empty($utilisateur['ville'])
+                            ? esc($utilisateur['ville'])
+                            : 'Pas de ville de renseignée...' ?>
+                    </span>
+                </div>
             </div>
 
             <div class="profile-actions">
