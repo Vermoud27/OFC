@@ -28,10 +28,10 @@
     <ul>
         <li><a href="<?= base_url('produits') ?>" class="link-white">Produits</a></li>
         <li><a href="#">Gammes</a></li>
-        <li><a href="#">Huiles</a></li>
-        <li><a href="#">Soins peau au détail</a></li>
-        <li><a href="#">Soins capillaires</a></li>
-        <li><a href="#">Autres</a></li>
+        <li><a href="<?= base_url('produits') ?>" class="link-white">Huiles</a></li>
+        <li><a href="<?= base_url('produits') ?>" class="link-white">Soins peau au détail</a></li>
+        <li><a href="<?= base_url('produits') ?>" class="link-white">Soins capillaires</a></li>
+        <li><a href="<?= base_url('produits') ?>" class="link-white">Autres</a></li>
         <li><a href="/navbar/entreprise">L’entreprise</a></li>
     </ul>
 </nav>
