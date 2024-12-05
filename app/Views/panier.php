@@ -37,48 +37,68 @@ require 'header.php';
         <div class="cart-items">
             <?php if (!empty($produits)): ?>
                 <?php foreach ($produits as $produit): ?>
-                    <div class="cart-item">
-                        <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/default.png') ?>"
-                            alt="<?= htmlspecialchars($produit['nom']) ?>">
-                        <div class="cart-item-details">
-                            <h2><?= htmlspecialchars($produit['nom']) ?></h2>
-                            <p><?= htmlspecialchars($produit['contenu']) . ' ' . htmlspecialchars($produit['unite_mesure']) ?>
-                            </p>
-                            <p class="stock-status">En stock</p>
-                            <div class="quantity">
-                                <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, -1)">-</button>
-                                <p><?= htmlspecialchars($produit['quantite']) ?></p>
-                                <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)">+</button>
-                            </div>
-                        </div>
-                        <div class="cart-item-right">  
-                            <p class="price"><?= number_format($produit['prixttc'], 2) ?> €</p>
-                            <button class="sup" onclick="retirerProduit(<?= $produit['id_produit'] ?>)"></button>
+                    <div class="cart-item" data-id="<?= htmlspecialchars($produit['id_produit']) ?>">
+                    <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/default.png') ?>"
+                        alt="<?= htmlspecialchars($produit['nom']) ?>">
+                    <div class="cart-item-details">
+                        <h2><?= htmlspecialchars($produit['nom']) ?></h2>
+                        <p><?= htmlspecialchars($produit['contenu']) . ' ' . htmlspecialchars($produit['unite_mesure']) ?></p>
+                        <p class="stock-status">En stock</p>
+                        <div class="quantity">
+                            <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, -1)">-</button>
+                            <p><?= htmlspecialchars($produit['quantite']) ?></p>
+                            <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)">+</button>
                         </div>
                     </div>
+                    <div class="cart-item-right">  
+                        <p class="price"><?= number_format($produit['prixttc'], 2) ?> €</p>
+                        <button class="sup" onclick="retirerProduit(<?= $produit['id_produit'] ?>)"></button>
+                    </div>
+                </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p class ="empty">Votre panier est vide.</p>
             <?php endif; ?>
         </div>
 
-
-
-
-
-
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-            // Sélection du bouton
-            const viderPanierBtn = document.getElementById('viderPanierBtn');
+            function updateQuantity(productId, delta) {
+    const requestBody = { id_produit: productId, delta: delta };
 
-            // Ajout d'un gestionnaire d'événements pour détecter le clic
-            viderPanierBtn.addEventListener('click', function () {
+    // Faire un appel AJAX au serveur pour mettre à jour la quantité
+    fetch('/panier/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Met à jour l'affichage de la quantité
+            const quantityElement = document.querySelector(`.cart-item[data-id="${productId}"] .quantity p`);
+            const priceElement = document.querySelector(`.cart-item[data-id="${productId}"] .price`);
+            const totalElement = document.querySelector('.price-ttc');
 
+            if (quantityElement && priceElement) {
+                quantityElement.textContent = data.newQuantity;
+                priceElement.textContent = `${data.newPrice.toFixed(2)} €`;
+            }
+
+            // Met à jour le total
+            if (totalElement) {
+                totalElement.textContent = `${data.totalTTC.toFixed(2)} €`;
+            }
+        } else {
+            alert(data.message || 'Erreur lors de la mise à jour de la quantité.');
+        }
+    })
+    .catch(error => console.error('Erreur lors de la requête:', error));
+}
+</script>
             
-                    });
-                });
-        </script>
+
 
         <!-- Bouton Vider le panier -->
         <button class="clear-cart" onclick="location.href='/panier/vider'">Vider le panier</button>

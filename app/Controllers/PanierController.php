@@ -155,5 +155,52 @@ class PanierController extends BaseController
         return view('recapitulatif', $data);
     }
 
+    public function update()
+    {
+        $request = $this->request->getJSON();
+
+        if (!isset($request->id_produit) || !isset($request->delta)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Paramètres invalides.']);
+        }
+
+        $idProduit = (int)$request->id_produit;
+        $delta = (int)$request->delta;
+
+        $produitModel = new ProduitModel();
+        $produit = $produitModel->find($idProduit);
+
+        if (!$produit) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Produit introuvable.']);
+        }
+
+        // Met à jour la quantité
+        $panier = $this->getPanier();
+        $nouvelleQuantite = max(0, ($panier[$idProduit] ?? 0) + $delta);
+
+        if ($nouvelleQuantite > 0) {
+            $panier[$idProduit] = $nouvelleQuantite;
+        } else {
+            unset($panier[$idProduit]);
+        }
+
+        $this->setPanier($panier);
+
+        // Recalculer le total TTC
+        $totalTTC = 0;
+        foreach ($panier as $id => $quantite) {
+            $p = $produitModel->find($id);
+            if ($p) {
+                $totalTTC += $p['prixttc'] * $quantite;
+            }
+        }
+
+        return $this->response->setJSON([
+            'success' => true,
+            'newQuantity' => $nouvelleQuantite,
+            'newPrice' => $produit['prixttc'] * $nouvelleQuantite,
+            'totalTTC' => $totalTTC,
+        ]);
+    }
+
 }
 ?>
