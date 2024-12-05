@@ -7,17 +7,30 @@
     <title>Profil</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('/assets/css/profile.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('/assets/css/notif.css') ?>">
 </head>
 
 <body>
+    <!-- Affichage des flashdata sous forme de notification -->
+    <div id="notifications" class="notifications">
+        <?php if (session()->getFlashdata('success')): ?>
+            <div class="notification is-success">
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (session()->getFlashdata('error')): ?>
+            <div class="notification is-danger">
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+    </div>
     <div class="container">
         <div class="header">
             <h1>Mon Profil</h1>
             <a href="/logout" class="btn-logout">Déconnexion</a>
         </div>
-
         <div class="container profile-container">
-
             <div class="profile-details">
                 <div class="profile-field">
                     <span class="field-label">Nom :</span>
@@ -70,7 +83,14 @@
                 <a href="/profile/edit" class="btn-edit">Modifier mes informations</a>
             </div>
         </div>
+        <div class="profile-password-container">
+            <div class="profile-actions">
+                <a href="/profile/edit-password" class="btn-edit">Modifier mon mot de passe</a>
+            </div>
+        </div>
     </div>
+    <!-- Script pour masquer les notifications après 4 secondes -->
+    <script src="/assets/js/notif.js"></script>
 </body>
 
 </html>

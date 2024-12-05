@@ -6,16 +6,41 @@ use App\Controllers\BaseController;
 use App\Models\CommandeModel;
 use App\Models\DetailsCommandeModel;
 use App\Models\ProduitModel;
+use App\Models\UtilisateurModel;
 
 class CommandeController extends BaseController
 {
     public function enregistrerCommande()
     {
-        
-		// Récupérer les informations du panier
-        $session = session();
+		$session = session();
         $panier = $this->getPanier();
-        $userId = $session->get('idutilisateur'); // L'ID de l'utilisateur connecté
+        $userId = $session->get('idutilisateur'); 
+		
+		$isValid = $this->validate([
+			'nom' => 'required|max_length[50]',
+			'adresse' => 'required|max_length[100]',
+			'code_postal' => 'required|max_length[100]',
+			'ville' => 'required|max_length[100]',
+		]);
+
+		if (!$isValid)
+		{
+			return view('recapitulatif', [
+				'validation' => \Config\Services::validation(),
+			]);
+		}
+
+		$data = [
+			'nom' => $this->request->getPost('nom'),
+			'adresse' => $this->request->getPost('adresse'),
+			'code_postal' => $this->request->getPost('code_postal'),
+			'ville' => $this->request->getPost('ville'),
+		];
+
+		$utilisateurModel = new UtilisateurModel();
+		$utilisateurModel->update($userId, $data);
+        
+		$utilisateur = $utilisateurModel->find($userId);
 
         // Calculer le prix total TTC de la commande
         $prixTotalHT = 0;
@@ -44,6 +69,7 @@ class CommandeController extends BaseController
             'prixht' => $prixTotalHT,
             'prixttc' => $prixTotalTTC,
             'id_utilisateur' => $userId,
+			'informations' => $utilisateur['adresse'] . ' ' . $utilisateur['code_postal'] . ' ' .$utilisateur['ville'],
         ];
 
         $commandeId = $commandeModel->insert($commandeData);
@@ -63,7 +89,9 @@ class CommandeController extends BaseController
 		}
 
 		$response = service('response');
-		$response->setCookie('panier', "", 30 * 24 * 60 * 60);
+		$response->setCookie('panier', '', time() - 3600);
+
+		$response->send();
 
         // Rediriger vers la page de confirmation
         return redirect()->to('/ControllerOFC')->with('message', 'Commande enregistrée avec succès.');

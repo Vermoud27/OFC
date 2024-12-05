@@ -117,7 +117,7 @@ require 'header.php';
                 <input type="text" placeholder="Saisir un code promo">
                 <button>Appliquer</button>
             </div>
-            <button class="checkout">Commander</button>
+            <a href="/panier/commande"><button class="checkout">Commander</button></a>
         </div>
 
     </div>
