@@ -46,6 +46,61 @@ h1 {
   box-sizing: border-box; /* Inclut les bordures et padding dans la largeur */
 }
 
+.cart-item-right {
+  margin-left: 20px;
+  display: flex;
+  align-items: center; /* Aligne verticalement au centre */
+  justify-content: flex-end; /* Positionne les éléments à droite */
+  gap: 10px; /* Espacement entre le prix et le bouton */
+}
+
+.sup {
+  background-color: red;
+  width: 50px; /* Taille du bouton */
+  height: 50px; /* Taille du bouton */
+  border: none;
+  background-image: url('/assets/img/logo/bin.png'); /* Image du bouton */
+  background-size: 60%; /* Réduit la taille de l'image à 60% du bouton */
+  background-repeat: no-repeat; /* Empêche la répétition de l'image */
+  background-position: center; /* Centre l'image dans le bouton */
+  cursor: pointer;
+  border-radius: 10px; /* Coins arrondis */
+  transition: background-color 0.3s ease;
+}
+
+.sup:hover{
+  background-color: rgb(241, 13, 13);
+}
+
+.clear-cart {
+  background-color: #D2691E;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 0px;
+  border-radius: 10px;
+}
+
+.clear-cart:hover {
+  background-color: #FF7E42;
+}
+
+.empty{
+  display: flex; /* Pour centrer avec Flexbox */
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+  background-color: #556b2f; /* Couleur de fond similaire à un article */
+  color: white; /* Couleur du texte */
+  padding: 15px; /* Espacement interne */
+  border-radius: 15px; /* Coins arrondis */
+  width: 50%; /* Même largeur que les articles */
+  margin: auto; /* Centre le cadre horizontalement et ajoute un espace en haut et en bas */
+  text-align: center; /* Centre le texte à l'intérieur */
+  font-size: 18px; /* Taille du texte */
+  box-sizing: border-box; /* Inclut les bordures et les marges dans la largeur */
+}
+
 .cart-item img {
   width: 150px;
   height: 150px;
@@ -96,6 +151,10 @@ h1 {
   font-size: 18px;
   font-weight: bold;
   margin-right:5%;
+  margin: 0;
+  display: flex; /* Active flexbox pour aligner le texte et le symbole "€" */
+  align-items: center;
+  gap: 3px; /* Ajoute un petit espace entre le montant et le symbole "€" */
 }
 
 
@@ -170,6 +229,3 @@ h1 {
 
 }
 
-.checkout:hover {
-  background-color: #FF7E42;
-}
