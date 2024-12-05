@@ -45,6 +45,9 @@
                 <div class="signup-link">
                     Pas de compte ? <a href="/signup">Inscrivez-vous</a>
                 </div>
+                <div class="signup-link">
+                    <a href="/ControllerOFC">Continuez sans se connecter</a>
+                </div>
             </form>
         </div>
         <div class="right-section"></div>

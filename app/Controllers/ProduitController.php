@@ -244,54 +244,54 @@ class ProduitController extends BaseController
 
 		// Traitement des ingrédients
 
-// 1. Obtenir les ingrédients envoyés par le formulaire
-$ingredients = $this->request->getPost('ingredients') ?? '[]';
-$ingredients = json_decode($ingredients, true); // Décoder les données JSON
-if (!is_array($ingredients)) {
-    $ingredients = []; // S'assurer que c'est un tableau
-}
-$ingredients = array_unique(array_map('trim', $ingredients)); // Supprimer doublons et espaces inutiles
+		// 1. Obtenir les ingrédients envoyés par le formulaire
+		$ingredients = $this->request->getPost('ingredients') ?? '[]';
+		$ingredients = json_decode($ingredients, true); // Décoder les données JSON
+		if (!is_array($ingredients)) {
+			$ingredients = []; // S'assurer que c'est un tableau
+		}
+		$ingredients = array_unique(array_map('trim', $ingredients)); // Supprimer doublons et espaces inutiles
 
-// 2. Récupérer les ingrédients existants associés à ce produit
-$existingIngredients = $this->produit_ingredient
-    ->where('id_produit', $id)
-    ->join('ingredient', 'ingredient.id_ingredient = produit_ingredient.id_ingredient') // Jointure pour obtenir les noms
-    ->findAll();
+		// 2. Récupérer les ingrédients existants associés à ce produit
+		$existingIngredients = $this->produit_ingredient
+			->where('id_produit', $id)
+			->join('ingredient', 'ingredient.id_ingredient = produit_ingredient.id_ingredient') // Jointure pour obtenir les noms
+			->findAll();
 
-$existingIngredientNames = array_column($existingIngredients, 'nom');
+		$existingIngredientNames = array_column($existingIngredients, 'nom');
 
-// 3. Déterminer les ingrédients à ajouter et à supprimer
-$ingredientsToAdd = array_diff($ingredients, $existingIngredientNames); // Nouveaux ingrédients
-$ingredientsToRemove = array_diff($existingIngredientNames, $ingredients); // Ingrédients à supprimer
+		// 3. Déterminer les ingrédients à ajouter et à supprimer
+		$ingredientsToAdd = array_diff($ingredients, $existingIngredientNames); // Nouveaux ingrédients
+		$ingredientsToRemove = array_diff($existingIngredientNames, $ingredients); // Ingrédients à supprimer
 
-// 4. Supprimer les relations pour les ingrédients à retirer
-if (!empty($ingredientsToRemove)) {
-    $this->produit_ingredient
-        ->where('id_produit', $id)
-        ->whereIn('id_ingredient', function ($builder) use ($ingredientsToRemove) {
-            return $builder->select('id_ingredient')->from('ingredient')->whereIn('nom', $ingredientsToRemove);
-        })
-        ->delete();
-}
+		// 4. Supprimer les relations pour les ingrédients à retirer
+		if (!empty($ingredientsToRemove)) {
+			$this->produit_ingredient
+				->where('id_produit', $id)
+				->whereIn('id_ingredient', function ($builder) use ($ingredientsToRemove) {
+					return $builder->select('id_ingredient')->from('ingredient')->whereIn('nom', $ingredientsToRemove);
+				})
+				->delete();
+		}
 
-// 5. Ajouter les nouvelles relations pour les ingrédients à ajouter
-foreach ($ingredientsToAdd as $ingredientName) {
-    // Vérifier si l'ingrédient existe déjà dans la table `ingredient`
-    $ingredient = $this->ingredientModel->where('nom', $ingredientName)->first();
+		// 5. Ajouter les nouvelles relations pour les ingrédients à ajouter
+		foreach ($ingredientsToAdd as $ingredientName) {
+			// Vérifier si l'ingrédient existe déjà dans la table `ingredient`
+			$ingredient = $this->ingredientModel->where('nom', $ingredientName)->first();
 
-    // Si l'ingrédient n'existe pas, le créer
-    if (!$ingredient) {
-        $ingredientId = $this->ingredientModel->insert(['nom' => $ingredientName], true);
-    } else {
-        $ingredientId = $ingredient['id_ingredient'];
-    }
+			// Si l'ingrédient n'existe pas, le créer
+			if (!$ingredient) {
+				$ingredientId = $this->ingredientModel->insert(['nom' => $ingredientName], true);
+			} else {
+				$ingredientId = $ingredient['id_ingredient'];
+			}
 
-    // Ajouter la relation dans la table pivot
-    $this->produit_ingredient->insert([
-        'id_produit' => $id,
-        'id_ingredient' => $ingredientId,
-    ]);
-}
+			// Ajouter la relation dans la table pivot
+			$this->produit_ingredient->insert([
+				'id_produit' => $id,
+				'id_ingredient' => $ingredientId,
+			]);
+		}
 
 
 		return redirect()->to('admin/produits')->with('success', 'Produit modifié avec succès.');

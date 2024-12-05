@@ -4,65 +4,63 @@ require 'header.php';
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon Panier</title>
-  <link rel="stylesheet" href="/assets/css/header.css">
-  <link rel="stylesheet" href="/assets/css/footer.css">
-  <link rel="stylesheet" href="/assets/css/panier.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier</title>
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/panier.css">
+    <script src="/assets/js/panier.js"></script>
 </head>
+
 <body>
-  <h1>Mon Panier</h1>
-  <div class="container">
-    <!-- Articles -->
-    <div class="cart-items">
-      <div class="cart-item">
-        <img src="/assets/img/produits/savon_rouge_4.jpeg" alt="Produit 1">
-        <div class="cart-item-details">
-          <h2>Produit1</h2>
-          <p>hk68464654</p>
-          <p>500g</p>
-          <p class="stock-status">en stock</p>
-          <div class="quantity">
-            <button>-</button>
-            <input type="text" value="1">
-            <button>+</button>
-          </div>
+    <h1>Mon Panier</h1>
+    <div class="container">
+        <!-- Articles -->
+        <div class="cart-items">
+            <?php if (!empty($produits)): ?>
+                <?php foreach ($produits as $produit): ?>
+                    <div class="cart-item">
+                        <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/default.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
+                        <div class="cart-item-details">
+                            <h2><?= htmlspecialchars($produit['nom']) ?></h2>
+                            <p><?= htmlspecialchars($produit['contenu']) . ' ' . htmlspecialchars($produit['unite_mesure']) ?></p>
+                            <p class="stock-status">En stock</p>
+                            <div class="quantity">
+                                <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, -1)">-</button>
+                                <p><?= htmlspecialchars($produit['quantite']) ?></p>
+                                <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)">+</button>
+                            </div>
+                        </div>
+                        <p class="price"><?= number_format($produit['prixttc'], 2) ?> €</p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Votre panier est vide.</p>
+            <?php endif; ?>
         </div>
-        <p class="price">44.50 €</p>
-      </div>
 
-      <div class="cart-item">
-        <img src="/assets/img/produits/huile_baobab_1.jpeg" alt="Produit 2">
-        <div class="cart-item-details">
-          <h2>Produit2</h2>
-          <p>hk68464654</p>
-          <p>500g</p>
-          <p class="stock-status">en stock</p>
-          <div class="quantity">
-            <button>-</button>
-            <input type="text" value="1">
-            <button>+</button>
-          </div>
+        <!-- Récapitulatif -->
+        <div class="cart-summary">
+            <?php 
+                $totalTTC = 0;
+                foreach ($produits as $produit) {
+                    $totalTTC += $produit['prixttc'] * $produit['quantite'];
+                }
+            ?>
+            <h2>Récapitulatif :</h2>
+            <p>Prix TTC : <span class="price-ttc"><?= number_format($totalTTC, 2) ?> €</span></p>
+            <div class="promo-code">
+                <input type="text" placeholder="Saisir un code promo">
+                <button>Appliquer</button>
+            </div>
+            <button class="checkout">Commander</button>
         </div>
-        <p class="price">44.50 €</p>
-      </div>
     </div>
-
-    <!-- Récapitulatif -->
-    <div class="cart-summary">
-      <h2>Récapitulatif :</h2>
-      <p>Prix HT : <span class="price-ht">74.17 €</span></p>
-      <p>Prix TTC : <span class="price-ttc">89 €</span></p>
-      <div class="promo-code">
-        <input type="text" placeholder="Saisir un code promo">
-        <button>Appliquer</button>
-      </div>
-      <button class="checkout">Commander</button>
-    </div>
-  </div>
 </body>
+
 </html>
 
 <?php
