@@ -29,18 +29,44 @@ class ProduitController extends BaseController
     }
 
 	public function page_produits(): string
-    {
-        $produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->paginate(8);
+	{
+		// Récupérer la catégorie passée via GET
+		$categorie = $this->request->getGet('categorie');
+
+		// Initialiser la requête des produits
+		$produitQuery = $this->produitModel->where('actif', 't'); // Filtrer les produits actifs
+
+		if ($categorie) {
+			// Rechercher l'id de la catégorie correspondante
+			$categorieData = $this->categorieModel->where('nom', $categorie)->first();
+			
+			if ($categorieData) {
+				$idCategorie = $categorieData['id_categorie']; // ID de la catégorie
+				$produitQuery->where('id_categorie', $idCategorie);
+			} else {
+				// Si la catégorie n'existe pas, retourner une liste vide
+				$produitQuery->where('id_categorie', -1); // Aucun produit
+			}
+		}
+
+		// Récupérer les produits paginés
+		$produits = $produitQuery->orderBy('id_produit')->paginate(8);
+
+		// Ajouter les images pour chaque produit
 		foreach ($produits as &$produit) {
 			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
 			$produit['images'] = $images;
 		}
 
+		// Passer les données à la vue
 		$data['produits'] = $produits;
 		$data['pager'] = \Config\Services::pager();
-        
-        return view('pageProduits', $data);
-    }
+		$data['categorie'] = $categorie ?: 'Tous les produits';
+
+		return view('pageProduits', $data);
+	}
+
+
 
 	public function produitsParCategorie($nomCategorie)
     {

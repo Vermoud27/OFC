@@ -26,8 +26,8 @@ class PanierController extends BaseController
 
         foreach ($produits as &$produit) {
 			$images = $imageModel->getImagesByProduit($produit['id_produit']);
-			$produit['images'] = $images;
-		}
+            $produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/user.png']];		
+        }
 
         $data = ['produits' => $produits];
         return view('panier', $data);
