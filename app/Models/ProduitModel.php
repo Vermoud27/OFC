@@ -57,6 +57,22 @@ class ProduitModel extends Model
 
     public function get_all()
 	{
-		return $this->findAll();
+        return $this->findAll();
 	}
+
+    public function getProduitsByCategorie($nomCategorie)
+    {
+        // Charger le modèle de catégorie
+        $categorieModel = new \App\Models\CategorieModel();
+
+        // Rechercher l'ID de la catégorie en fonction de son nom
+        $categorie = $categorieModel->where('nom', $nomCategorie)->first();
+
+        if (!$categorie) {
+            return []; // Si la catégorie n'existe pas, retourner un tableau vide
+        }
+
+        // Obtenir les produits liés à cette catégorie
+        return $this->where('id_categorie', $categorie['id_categorie'])->findAll();
+    }
 }
