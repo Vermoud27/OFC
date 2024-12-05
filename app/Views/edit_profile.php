@@ -32,6 +32,14 @@
                         <label for="adresse" class="field-label">Adresse :</label>
                         <input type="text" id="adresse" name="adresse" class="field-input" value="<?= esc($utilisateur['adresse']) ?>">
                     </div>
+                    <div class="profile-field">
+                        <label for="code_postal" class="field-label">Code Postal :</label>
+                        <input type="text" id="code_postal" name="code_postal" class="field-input" value="<?= esc($utilisateur['code_postal']) ?>">
+                    </div>
+                    <div class="profile-field">
+                        <label for="ville" class="field-label">Ville :</label>
+                        <input type="text" id="ville" name="ville" class="field-input" value="<?= esc($utilisateur['ville']) ?>">
+                    </div>
                 </div>
 
                 <div class="profile-actions">

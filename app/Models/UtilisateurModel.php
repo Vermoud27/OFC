@@ -23,6 +23,8 @@ class UtilisateurModel extends Model
         'mail',
         'telephone',
         'adresse',
+        'code_postal',
+        'ville',
         'mdp',
         'reset_token',
         'reset_token_expiration',

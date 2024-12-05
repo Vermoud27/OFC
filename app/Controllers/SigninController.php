@@ -38,6 +38,7 @@ class SigninController extends BaseController
                     'idutilisateur' => $user['id_utilisateur'],
                     'email' => $user['mail'],
                     'isLoggedIn' => true,
+                    'role' => $user['role'],
                 ]);
     
                 return redirect()->to('/ControllerOFC'); // Page d'accueil
