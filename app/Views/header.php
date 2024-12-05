@@ -12,7 +12,7 @@
 
     <div class="right-section">
         <p> 🇫🇷 </p>
-        <?php if (session()->get('isLoggedIn')): ?>
+        <?php if (session()->get('role') == 'Admin'): ?>
             <a href="<?= base_url('/admin/produits') ?>" class="admin-icon">
                 <i class="fa fa-cog" aria-hidden="true"></i>
             </a>
