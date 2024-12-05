@@ -62,7 +62,7 @@ class ProduitModel extends Model
 
     public function getTopProduits()
     {
-        return $this->select('produit.id_produit, produit.nom, SUM(details_commande.quantite) as total_quantite')
+        return $this->select('produit.*, SUM(details_commande.quantite) as total_quantite')
         ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
         ->join('commande', 'details_commande.id_commande = commande.id_commande')
         ->groupBy('produit.id_produit')

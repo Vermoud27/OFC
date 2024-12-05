@@ -28,8 +28,6 @@ class ControllerOFC extends BaseController
 
         $data['produits'] = $produits;
 
-        
-
         // Récupérez les 10 premières questions
         $data['faqs'] = $faqModel->orderBy('id_faq', 'ASC')->findAll(10);
 
