@@ -17,34 +17,99 @@
     <div class="content">
         <!-- Bloc Histoire de l'entreprise -->
         <div class="section" id="info">
-            <h1>Histoire de l’entreprise</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-            </p>
-        </div>
+        <h1>L'Histoire d'OFC Naturel : </h1>
+        <h1> Une Entreprise Inspirée par la Nature et l’Héritage </h1>
+        <p>
+            <strong>OFC Naturel</strong> est une entreprise qui incarne l’ambition, la passion et l’héritage culturel de sa fondatrice, <strong>Diahomba GASSAMA</strong>. 
+            L’aventure commence le <strong>17 mai 2013</strong>, lorsque Diahomba, alors infirmière, décide de prendre un virage audacieux dans sa vie professionnelle. 
+        </p>
+        <br/>
+        <p>
+            Bien que son métier reflète son désir d’aider les autres, elle ne s'y sentait pas pleinement épanouie. Une petite voix en elle lui rappelait des souvenirs 
+            précieux de son enfance, passés aux côtés de sa mère en Guinée.
+        </p>
+        <br/>
+        <p>
+            Depuis son plus jeune âge, sa mère l'avait initiée à l’art de prendre soin de soi en utilisant les trésors naturels de leur terre natale, tels que :
+        </p>
+        <br/>
+        <ul>
+            <li>Le beurre de karité</li>
+            <li>Les huiles végétales</li>
+            <li>Les plantes médicinales</li>
+        </ul>
+        <br/>
+        <p>
+            Ces souvenirs, empreints de tradition et de respect pour la nature, ont guidé Diahomba vers sa vocation : <em>partager ces richesses naturelles avec le monde.</em>
+        </p>
+        <br/>
+        <p>
+            En 2013, elle décide de se lancer. Avec ses économies, elle importe un kilo de beurre de karité directement de Guinée. Déterminée et passionnée, 
+            elle divise ce kilo en dix portions qu’elle propose à son entourage. Grâce au bouche-à-oreille, tout le stock est vendu en une semaine. 
+            Ce succès fulgurant lui donne la force de continuer.
+        </p>
+        <br/>
+        <br/>
+        <h2>Une Expansion Progressive</h2>
+        <p>
+            Au fil des années, OFC Naturel se développe progressivement. Diahomba diversifie son offre avec des produits naturels venant de différents pays africains, tels que :
+        </p>
+        <br/>
+        <ul>
+            <li>Huile de baobab</li>
+            <li>Savon noir</li>
+            <li>Huiles essentielles</li>
+        </ul>
+        <br/>
+        <p>
+            En <strong>2019</strong>, un tournant majeur s’opère : Diahomba collabore avec un laboratoire spécialisé pour créer la première gamme de produits signée OFC Naturel : 
+            <strong>la gamme au Nila</strong>. Inspirée de l’indigo naturel traditionnellement utilisé en Afrique de l’Ouest, cette gamme allie savoir-faire ancestral et innovation cosmétique.
+        </p>
+        <br/>
+        <p>
+            Aujourd’hui, OFC Naturel célèbre la richesse des traditions africaines tout en offrant des solutions naturelles et authentiques pour le bien-être de sa clientèle.
+        </p>
+    </div>
 
-        <!-- Bloc Description de l'entreprise -->
-        <div class="section">
-            <h1>Description de l’entreprise</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-            </p>
-        </div>
+    <div class="section" id="info">
+        <h1>Description de OFC Naturel</h1>
+        <p>
+            <strong>OFC Naturel</strong> est une marque artisanale et écoresponsable spécialisée dans les cosmétiques naturels. Basée au Havre, elle propose des produits conçus à partir :
+        </p>
+        <br/>
+        <ul>
+            <li>D’ingrédients biologiques et naturels</li>
+            <li>D’actifs comme le karité, le nila et l’huile d’argan</li>
+            <li>Issus de coopératives locales, récoltés de manière équitable</li>
+        </ul>
+        <br/>
+        <br/>
+        <h2>Engagements</h2>
+        <p>OFC Naturel repose sur trois piliers fondamentaux :</p>
+        <br/>
+        <ul>
+            <li><strong>Authenticité</strong> : Des produits fabriqués de manière artisanale</li>
+            <li><strong>Écoresponsabilité</strong> : Emballages recyclables ou biodégradables</li>
+            <li><strong>Transparence</strong> : Communication claire sur l’origine et la composition</li>
+        </ul>
+        <br/>
+        <br/>
+        <h2>Distribution</h2>
+        <p>
+            Actuellement, la marque est distribuée via :
+        </p>
+        <br/>
+        <ul>
+            <li>Une boutique au 1 rue de Bruneval, Le Havre</li>
+            <li>Des salons professionnels et marchés artisanaux</li>
+            <li>(Prochainement) Un site web pour toucher une audience plus large</li>
+        </ul>
+        <br/>
+        <p>
+            Avec son positionnement unique, OFC Naturel s’adresse à une clientèle soucieuse de consommer de manière responsable, tout en recherchant des soins efficaces et respectueux de la peau.
+        </p>
+</div>
+
 
         <!-- Bloc Carte et réseaux sociaux -->
         <div class="map-section">

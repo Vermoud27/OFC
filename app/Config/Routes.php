@@ -11,6 +11,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'ControllerOFC::index');
 $routes->get('/ControllerOFC', 'ControllerOFC::index');
 $routes->get('/produits', 'ProduitController::page_produits');
+$routes->get('/produits/(:any)', 'ProduitController::produitsParCategorie/$1');
 $routes->get('/navbar/entreprise', 'EntrepriseController::index');
 
 // Connexion

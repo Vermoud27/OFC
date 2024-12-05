@@ -42,6 +42,19 @@ class ProduitController extends BaseController
         return view('pageProduits', $data);
     }
 
+	public function produitsParCategorie($nomCategorie)
+    {
+        $produitModel = new ProduitModel();
+    
+        $produits = $produitModel->getProduitsByCategorie($nomCategorie);
+    
+        if (empty($produits)) {
+            return $this->response->setJSON(['message' => 'Aucun produit trouvé pour cette catégorie']);
+        }
+    
+        return $this->response->setJSON($produits);
+    }
+
     public function index()
 	{
 		$produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->paginate(8);

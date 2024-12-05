@@ -16,44 +16,77 @@ body {
     padding: 50px 20px;
 }
 
+/* Section principale */
 .section {
     margin-bottom: 50px;
     text-align: center;
 }
 
+/* Titres des sections */
 .section h1 {
-    font-size: 24px;
+    font-size: 2rem;
     color: #333;
     margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color:#D2691E;
 }
 
+/* Espacement entre les listes et les paragraphes */
 .section p {
     font-size: 16px;
     line-height: 1.8;
     text-align: justify;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0 auto 20px auto; /* Espacement entre les paragraphes */
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* Résolution du problème de largeur pour la zone verte */
+
+/* Espacement entre les listes et les paragraphes */
+.section ul, .section ol {
+    margin-top: 50px; /* Augmentation de l'espacement avant la liste */
+    margin-bottom: 30px; /* Espacement après la liste */
+    padding-left: 40px; /* Décalage des puces */
+}
+
+/* Espacement supplémentaire si besoin sur les éléments de la liste */
+.section ul li, .section ol li {
+    margin-bottom: 10px; /* Ajoute un peu d'espacement entre chaque élément de la liste */
+}
+
+
+
+
+
+/* Section spécifique pour l'histoire de l'entreprise */
+#info {
+    background-color: #F5F5DC; /* Fond gris clair */
+    padding: 40px 20px;
+    border-radius: 8px;
+}
+
+/* Section de la carte (Map) */
 .map-section {
     background-color: #556B2F;
     color: white;
     padding: 50px 20px;
     text-align: center;
-    width: 100vw; /* S'assure que le vert prend toute la largeur */
-    margin-left: calc(-50vw + 50%); /* Annule les marges du conteneur */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
     box-sizing: border-box;
 }
 
 .map-section h1 {
-    font-size: 24px;
+    font-size: 1.5rem;
     margin-bottom: 20px;
+    color:white;
 }
 
 .map-section p {
     margin: 15px 0;
-    font-size: 18px;
+    font-size: 1.2rem;
 }
 
 .map-section iframe {
@@ -64,7 +97,7 @@ body {
     margin: 20px 0;
 }
 
-/* Styles pour le bloc Contact */
+/* Section de contact */
 .contact-section {
     background-color: #F5F5DC;
     padding: 50px 20px;
@@ -102,6 +135,61 @@ body {
     background-color: #B2520D;
 }
 
+/* Mise en forme des titres généraux */
 h1, h2, h3 {
     font-family: 'Montserrat', sans-serif;
-  }
+    color:#D2691E;
+}
+
+/* Amélioration de la lisibilité pour les paragraphes dans les sections "Histoire" et "Description" */
+#info h1,
+.contact-section h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color:#D2691E;
+}
+
+#info p,
+.contact-section p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: justify;
+    max-width: 900px;
+    line-height: 1.7;
+    margin: 0 auto;
+}
+
+/* Liens dans le texte */
+a {
+    color: #D2691E;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* Styles pour les listes */
+ul {
+    list-style-position: inside; /* Positionne les puces à l'intérieur du conteneur */
+    padding-left: 20px; /* Ajoute un peu d'espace à gauche pour les puces */
+    text-align: left; /* Assure que le texte reste aligné à gauche */
+}
+
+ul li {
+    font-size: 1rem; /* Taille de la police */
+    line-height: 1.8; /* Espacement entre les lignes */
+    margin-bottom: 10px; /* Espacement entre les éléments de la liste */
+}
+
+/* Si tu veux que le texte des listes soit aligné à gauche dans les sections centrées */
+.section ul {
+    text-align: left; /* Aligne les éléments de la liste à gauche */
+    margin: 0 auto; /* Centrer l'élément de liste dans la section */
+    max-width: 800px; /* Limite la largeur pour une meilleure lisibilité */
+}
