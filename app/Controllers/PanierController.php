@@ -66,6 +66,32 @@ class PanierController extends BaseController
         return redirect()->back();
     } 
 
+    public function retirerProduit($idProduit)
+    {
+        $panier = $this->getPanier();
+
+        $produitModel = new ProduitModel();
+        $produit = $produitModel->find($idProduit);
+
+        // Vérifie si le produit est dans le panier
+        if (isset($panier[$idProduit])) {
+            unset($panier[$idProduit]); // Supprime le produit du panier
+
+            // Ajoute un message de confirmation
+            session()->setFlashdata('success', "Le produit '{$produit['nom']}' a été retiré du panier.");
+        } else {
+            // Message si le produit n'est pas trouvé dans le panier
+            session()->setFlashdata('error', "Le produit demandé n'est pas dans le panier.");
+        }
+
+        // Met à jour le panier
+        $this->setPanier($panier);
+
+        // Redirige vers la page précédente ou la vue panier
+        return redirect()->back();
+    }
+
+
     public function viderPanier()
     {
         $this->setPanier([]);

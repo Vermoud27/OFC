@@ -19,7 +19,7 @@
                 <p>S'inscrire à la newsletter</p>
                 <input type="email" placeholder="E-mail"
                     style="padding: 5px; width: 70%; border: none; border-radius: 10px;">
-                <button type="submit"> S'inscrire </button>
+                <button class="signup" type="submit"> S'inscrire </button>
             </form>
         </div>
 

@@ -53,6 +53,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     // Panier
     $routes->post('/panier/ajouter/(:num)', 'PanierController::ajouterPanier/$1');
+    $routes->get('/panier/retirer/(:num)', 'PanierController::retirerProduit/$1');
+    $routes->get('/panier/vider', 'PanierController::viderPanier');
     $routes->get('/panier/modifier/(:num)/(:any)', 'PanierController::modifierPanier/$1/$2');
     $routes->get('/panier/commande', 'PanierController::recapitulatif');
 
