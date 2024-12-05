@@ -51,6 +51,10 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Page d'accueil et ses fonctionnalités
     $routes->get('/PanierController', 'PanierController::index');
 
+    // Panier
+    $routes->post('/panier/ajouter/(:num)', 'PanierController::ajouterPanier/$1');
+    $routes->get('/panier/modifier/(:num)/(:any)', 'PanierController::modifierPanier/$1/$2');
+
     // Les tâches
 
     // Les Commentaires

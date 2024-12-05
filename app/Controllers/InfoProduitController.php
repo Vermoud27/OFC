@@ -43,17 +43,6 @@ class InfoProduitController extends BaseController
 
         return view('infoProduit', $data);
     }
-
-    public function ajouterPanier($idProduit)
-    {
-        $response = service('response');
-        $request = service('request');
-
-        $response->setCookie('panier', $request->getCookie('panier') . "-" . $idProduit, 0);
-        
-        //TODO : voire si mettre popup ou message du genre
-        return redirect()->to('admin/produit/' . $idProduit);
-    }
 }
 
 ?>  

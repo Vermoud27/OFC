@@ -12,6 +12,7 @@ require 'header.php';
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/pageProduits.css">
+    <script src="/assets/js/panier.js"></script>
 </head>
 
 <main>
@@ -41,7 +42,7 @@ require 'header.php';
                     <h2><?= $produit['nom'] ?></h2>
                     <p><?= $produit['description'] ?></p>
                     <p><?= $produit['prixttc'] ?> €</p>
-                    <button>Ajouter au panier</button>
+                    <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)">Ajouter au panier</button>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -49,7 +50,6 @@ require 'header.php';
         </div>
     </section>
 </main>
-
 
 <?php 
 require 'footer.php';
