@@ -11,6 +11,54 @@ use App\Models\UtilisateurModel;
 
 class CommandeController extends BaseController
 {
+    public function __construct()
+	{
+		helper(['form']);
+    }
+
+    public function index()
+    {
+        $commandeModel = new CommandeModel();
+
+        // Récupérer les commandes (exclure les statuts 'fini' et 'annulé')
+        $commandes = $commandeModel->whereNotIn('statut', ['fini', 'annulé'])->orderBy('id_commande')->paginate(8);
+        
+        // Calculer les statistiques (nombre de commandes dans chaque état)
+        $statistiques = [
+            'en_attente' => $commandeModel->where('statut', 'en attente')->countAllResults(),
+            'expedie' => $commandeModel->where('statut', 'expédié')->countAllResults(),
+            'livre' => $commandeModel->where('statut', 'livré')->countAllResults(),
+            'fini' => $commandeModel->where('statut', 'fini')->countAllResults(),
+            'annule' => $commandeModel->where('statut', 'annulé')->countAllResults(),
+            'total' => $commandeModel->countAllResults(), // Total des commandes
+        ];
+
+        // Passer les données à la vue
+        $data['commandes'] = $commandes;
+        $data['pager'] = \Config\Services::pager();
+        $data['statistiques'] = $statistiques;
+
+        return view('administrateur/commandes/liste', $data);
+    }
+
+
+    public function modifier($id)
+    {
+		$commandeModel = new CommandeModel();
+
+        $this->validate([
+			'statut' => 'required',
+		]);
+        
+        $data = [
+            'statut' => $this->request->getPost('statut'),
+        ];
+
+		$commandeModel->update($id, $data);
+		
+		return redirect()->to('admin/commandes');
+    }
+    
     public function enregistrerCommande()
     {
 		$session = session();

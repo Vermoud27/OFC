@@ -39,10 +39,17 @@ class InfoProduitController extends BaseController
             }
         }
 
+        $all = ($this->request->getGet('all_comments') === 'true');
+
+        $commentaires = $commentModel->getCommentsByProductId($produit['id_produit'], $all);
+
+        // Données à
+        $data['produit'] = $produit;
         $data['images'] = $imageModel->getImagesByProduit($produit['id_produit']);
         $data['produit'] = $produit;
         $data['ingredients'] = $ingredients;
-        $data['commentaires'] = $commentModel->getCommentsByProductId($produit['id_produit']);
+        $data['commentaires'] = $commentaires;
+        $data['all'] = $all; 
 
         return view('infoProduit', $data);
     }

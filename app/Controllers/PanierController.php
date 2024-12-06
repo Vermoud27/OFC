@@ -33,7 +33,7 @@ class PanierController extends BaseController
 
         // Calculer le total TTC
         $totalTTC = 0;
-        foreach ($produits as $produit) {
+        foreach ($produits as &$produit) {
             $totalTTC += $produit['prixttc'] * $produit['quantite'];
         }
 

@@ -47,7 +47,7 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: #008CBA;
+    background-color: #D2691E;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -57,7 +57,7 @@ body {
 }
 
 .add-product-btn:hover {
-	background-color: #005f73;
+	background-color: #ee8840;
 }
 
 .product-section h2 {
@@ -231,4 +231,97 @@ body {
 
 .alert a {
     text-decoration: none;
+}
+
+/* Section du formulaire de modification du statut */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: auto; /* Limite la largeur du formulaire */
+}
+
+/* Conteneur pour le select et le bouton */
+form .form-group {
+    display: flex;
+    justify-content: space-between; /* Espace entre le select et le bouton */
+    width: 100%;
+    margin-bottom: 10px; /* Ajoute un peu d'espace entre chaque champ */
+}
+
+/* Mise en forme du select */
+form select {
+    width: 70%; /* Le select prend 80% de la largeur */
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: border-color 0.3s;
+}
+
+/* Mise en forme du bouton */
+form button.modify-status-btn {
+    width: 28%; /* Le bouton prend 18% de la largeur */
+    padding: 5px 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #D2691E;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Changement de couleur du bouton au survol */
+form button.modify-status-btn:hover {
+    background-color: #ee8840;
+}
+
+/* Mise en valeur du select au focus */
+form select:focus {
+    border-color: #556B2F;
+    outline: none;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.pagination li {
+    list-style-type: none;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #D2691E;
+    padding: 10px 18px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #ecf0f1;
+    margin: 0 7px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #D2691E;
+    color: white;
+}
+
+.pagination li.active a {
+    background-color: #D2691E !important;
+    color: white !important;
+    border-color: #D2691E !important;
+}
+
+
+/* Style pour un lien désactivé */
+.pagination .disabled a {
+    color: #bdc3c7;
+    border-color: #ddd;
+    background-color: #ecf0f1;
 }

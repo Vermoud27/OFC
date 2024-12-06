@@ -50,7 +50,7 @@ class ProduitController extends BaseController
 		}
 
 		// Récupérer les produits paginés
-		$produits = $produitQuery->orderBy('id_produit')->paginate(8);
+		$produits = $produitQuery->orderBy('id_produit')->paginate(16);
 
 		// Ajouter les images pour chaque produit
 		foreach ($produits as &$produit) {

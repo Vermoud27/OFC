@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\CommandeController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -80,6 +81,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Les tâches
 
     // Les Commentaires
+    $routes->get('CommentaireController/supprimer/(:num)', 'CommentaireController::supprimer/$1');
 
     // Se déconnecter
 
@@ -108,6 +110,7 @@ $entites = [
     'codes-promos' => 'CodePromoController',
     'gammes' => 'GammeController',
     'bundles' => 'BundleController',
+    'commandes' => 'CommandeController',
 ];
 
 // Boucle pour générer les routes
