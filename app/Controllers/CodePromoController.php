@@ -42,7 +42,7 @@ class CodePromoController extends BaseController
             'pourcentage' => 'permit_empty|numeric',
             'date_debut' => 'required',
             'date_fin' => 'required',
-            'max_utilisations' => 'permit_empty|integer',
+            'utilisation_max' => 'permit_empty|integer',
             'conditions_utilisation' => 'permit_empty',
             'actif' => 'required|in_list[TRUE,FALSE]',
         ]);
@@ -55,13 +55,14 @@ class CodePromoController extends BaseController
     
         $data = [
             'code' => $this->request->getPost('code'),
-            'valeur' => $this->request->getPost('valeur') ?: null,
-            'pourcentage' => $this->request->getPost('pourcentage') ?: null,
+            'valeur' => $this->request->getPost('valeur') ?: 0,
+            'pourcentage' => $this->request->getPost('pourcentage') ?: 0,
             'date_debut' => $this->request->getPost('date_debut'),
             'date_fin' => $this->request->getPost('date_fin'),
-            'max_utilisations' => $this->request->getPost('max_utilisations') ?: null,
+            'utilisation_max' => $this->request->getPost('utilisation_max') ?: null,
             'conditions_utilisation' => $this->request->getPost('conditions_utilisation'),
             'actif' => $this->request->getPost('actif'),
+            'utilisation_actuelle' => 0,
         ];
     
         $this->codePromoModel->insert($data);
@@ -95,7 +96,7 @@ class CodePromoController extends BaseController
             'pourcentage' => 'permit_empty|numeric',
             'date_debut' => 'required',
             'date_fin' => 'required',
-            'max_utilisations' => 'permit_empty|integer',
+            'utilisation_max' => 'permit_empty|integer',
             'conditions_utilisation' => 'permit_empty',
             'actif' => 'required|in_list[TRUE,FALSE]',
         ]);
@@ -108,11 +109,11 @@ class CodePromoController extends BaseController
     
         $data = [
             'code' => $this->request->getPost('code'),
-            'valeur' => $this->request->getPost('valeur') ?: null,
-            'pourcentage' => $this->request->getPost('pourcentage') ?: null,
+            'valeur' => $this->request->getPost('valeur') ?: 0,
+            'pourcentage' => $this->request->getPost('pourcentage') ?: 0,
             'date_debut' => $this->request->getPost('date_debut'),
             'date_fin' => $this->request->getPost('date_fin'),
-            'max_utilisations' => $this->request->getPost('max_utilisations') ?: null,
+            'utilisation_max' => $this->request->getPost('utilisation_max') ?: null,
             'conditions_utilisation' => $this->request->getPost('conditions_utilisation'),
             'actif' => $this->request->getPost('actif'),
         ];

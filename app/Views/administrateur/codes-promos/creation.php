@@ -46,7 +46,7 @@
                     <div>
                         <?php echo form_label('Date de début', 'date_debut'); ?>
                         <?php echo form_input([
-                            'type' => 'datetime-local',
+                            'type' => 'date',
                             'name' => 'date_debut',
                             'value' => set_value('date_debut'),
                             'required' => true,
@@ -58,7 +58,7 @@
                     <div>
                         <?php echo form_label('Date de fin', 'date_fin'); ?>
                         <?php echo form_input([
-                            'type' => 'datetime-local',
+                            'type' => 'date',
                             'name' => 'date_fin',
                             'value' => set_value('date_fin'),
                             'required' => true,
@@ -69,13 +69,13 @@
                 </div>
 
                 <div>
-                    <?php echo form_label('Nombre maximal d\'utilisations', 'max_utilisations'); ?>
-                    <?php echo form_input('max_utilisations', set_value('max_utilisations'), [
+                    <?php echo form_label('Nombre maximal d\'utilisations', 'utilisation_max'); ?>
+                    <?php echo form_input('utilisation_max', set_value('utilisation_max'), [
                         'type' => 'number',
                         'min' => '0',
                         'step' => '1',
                     ]); ?>
-                    <?= validation_show_error('max_utilisations') ?>
+                    <?= validation_show_error('utilisation_max') ?>
                 </div>
 
                 <div>
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="actions">
-                    <button type="submit" class="submit-btn">Ajouter l'ingrédient</button>
+                    <button type="submit" class="submit-btn">Ajouter le code promo</button>
                     <button type="button" class="cancel-btn" onclick="window.location.href='/admin/codes-promos';">Annuler</button>
                 </div>
             <?php echo form_close(); ?>
