@@ -15,8 +15,7 @@ $routes->get('/produits', 'ProduitController::page_produits');
 $routes->get('/produits/(:num)', 'ProduitController::produitsParGamme/$1');
 $routes->get('/gammes', 'GammeController::page_gammes');
 $routes->get('/navbar/entreprise', 'EntrepriseController::index');
-$routes->post('/rechercher-produits', 'HeaderController::rechercherProduits');
-
+$routes->get('/test-recherche', 'HeaderController::rechercherProduits');
 
 // Connexion
 $routes->get('/signin', 'SigninController::index');
@@ -56,7 +55,7 @@ $routes->get('/mentionslegales', 'FooterController::mentionlegales');
 $routes->get('/polconf', 'FooterController::polconf');
 $routes->get('/polremb', 'FooterController::polremb');
 $routes->get('/polcook', 'FooterController::polcook');
-$routes->get('/rgpd'   , 'FooterController::rgpd');
+$routes->get('/rgpd', 'FooterController::rgpd');
 $routes->get('/condutil', 'FooterController::condutil');
 $routes->get('/condvente', 'FooterController::condvente');
 
@@ -86,53 +85,60 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     // Les Commentaires
     $routes->get('CommentaireController/supprimer/(:num)', 'CommentaireController::supprimer/$1');
+    $routes->post('/submitRating', 'RatingController::submitRating');
+    $routes->get('/getRatings/(:num)', 'RatingController::getRatings/$1');
 
     // Se déconnecter
 
     // Profil utilisateur
     $routes->get('/profile', 'ProfileController::index');
     $routes->get('/profile/edit', 'ProfileController::edit');
-    $routes->post('/profile/update', 'ProfileController::update');    
+    $routes->post('/profile/update', 'ProfileController::update');
     $routes->post('/profile/update-password', 'ProfileController::updatePassword');
     $routes->get('profile/edit-password', 'ProfileController::editPassword');
 
     // Changer le mot de passe
 
-    // Admin - Produits
+    // Admin 
+    if (session()->get('role') == 'Admin')
+    {
+        // Liste des entités avec leurs contrôleurs respectifs
+        $entites = [
+            'produits' => 'ProduitController',
+            'categories' => 'CategorieController',
+            'ingredients' => 'IngredientController',
+            'codes-promos' => 'CodePromoController',
+            'gammes' => 'GammeController',
+            'bundles' => 'BundleController',
+            'commandes' => 'CommandeController',
+        ];
+        
+        // Boucle pour générer les routes
+        foreach ($entites as $entite => $controller) {
+            $routes->group("admin/$entite", function ($routes) use ($controller) {
+                $routes->get('', "$controller::index");
+                $routes->get('creation', "$controller::creation");
+                $routes->post('creer', "$controller::creer");
+                $routes->get('modification/(:num)', "$controller::modification/$1");
+                $routes->post('modifier/(:num)', "$controller::modifier/$1");
+                $routes->get('supprimer/(:num)', "$controller::supprimer/$1");
+                $routes->get('desactiver/(:num)', "$controller::desactiver/$1");
+            });
+        }
+        $routes->post('/admin/ingredients/supprimer/(:num)', "IngredientController::supprimer/$1");
+        
+        $routes->post('/admin/gammes/ajouter-produit/(:num)', "GammeController::ajouter_produit/$1");
+        $routes->post('/admin/gammes/enlever-produit/(:num)', "GammeController::enlever_produit/$1");
+        
+        $routes->post('/admin/bundles/ajouter-produit/(:num)', "BundleController::ajouter_produit/$1");
+        $routes->post('/admin/bundles/enlever-produit/(:num)', "BundleController::enlever_produit/$1");
+    }
 
     // Déconnexion
     $routes->get('/logout', 'ProfileController::logout');
 });
 
-// Administrateur
 
-// Liste des entités avec leurs contrôleurs respectifs
-$entites = [
-    'produits' => 'ProduitController',
-    'categories' => 'CategorieController',
-    'ingredients' => 'IngredientController',
-    'codes-promos' => 'CodePromoController',
-    'gammes' => 'GammeController',
-    'bundles' => 'BundleController',
-    'commandes' => 'CommandeController',
-];
 
-// Boucle pour générer les routes
-foreach ($entites as $entite => $controller) {
-    $routes->group("admin/$entite", function ($routes) use ($controller) {
-        $routes->get('', "$controller::index");
-        $routes->get('creation', "$controller::creation");
-        $routes->post('creer', "$controller::creer");
-        $routes->get('modification/(:num)', "$controller::modification/$1");
-        $routes->post('modifier/(:num)', "$controller::modifier/$1");
-        $routes->get('supprimer/(:num)', "$controller::supprimer/$1");
-        $routes->get('desactiver/(:num)', "$controller::desactiver/$1");
-    });
-}
-$routes->post('/admin/ingredients/supprimer/(:num)', "IngredientController::supprimer/$1");
 
-$routes->post('/admin/gammes/ajouter-produit/(:num)', "GammeController::ajouter_produit/$1");
-$routes->post('/admin/gammes/enlever-produit/(:num)', "GammeController::enlever_produit/$1");
 
-$routes->post('/admin/bundles/ajouter-produit/(:num)', "BundleController::ajouter_produit/$1");
-$routes->post('/admin/bundles/enlever-produit/(:num)', "BundleController::enlever_produit/$1");

@@ -16,18 +16,23 @@ class HeaderController extends BaseController
 
     public function rechercherProduits()
     {
-        if ($this->request->isAJAX()) {
-            $query = $this->request->getPost('query');
+        $query = $this->request->getGet('query');
 
-            if ($query) {
-                $produitModel = new ProduitModel();
-                $produits = $produitModel->like('nom', $query, 'both')->findAll(10); // Limiter à 10 résultats
-
-                return $this->response->setJSON($produits); // Retourner les produits en format JSON
-            }
+        // Si "query" n'est pas défini ou vide, retournez une réponse vide
+        if (!$query || trim($query) === '') {
+            return $this->response->setJSON([]);
         }
 
-        return $this->response->setJSON([]); // Retourner un tableau vide si la requête est invalide
+        // Instanciez le modèle Produit
+        $produitModel = new ProduitModel();
+
+        // Recherchez les produits correspondant à la requête
+        $produits = $produitModel
+            ->like('nom', $query) // Recherche par nom
+            ->findAll();
+
+        // Retournez les produits trouvés en JSON
+        return $this->response->setJSON($produits);
     }
 }
 
