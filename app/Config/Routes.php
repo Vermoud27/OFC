@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\CommandeController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -99,6 +100,7 @@ $entites = [
     'codes-promos' => 'CodePromoController',
     'gammes' => 'GammeController',
     'bundles' => 'BundleController',
+    'commandes' => 'CommandeController',
 ];
 
 // Boucle pour générer les routes

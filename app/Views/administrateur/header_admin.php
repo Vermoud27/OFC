@@ -2,6 +2,7 @@
         <nav>
             <ul class="navigation">
                 <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/admin/commandes" class="nav-link">Commandes</a></li>
                 <li><a href="/admin/produits" class="nav-link">Produits</a></li>
                 <li><a href="/admin/categories" class="nav-link">Catégories</a></li>
                 <li><a href="/admin/ingredients" class="nav-link">Ingrédients</a></li>
