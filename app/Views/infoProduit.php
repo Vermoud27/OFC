@@ -17,20 +17,31 @@ require 'header.php';
 ?>
 
 <body>
-  <!-- Affichage des flashdata sous forme de notification -->
-  <div id="notifications" class="notifications">
-    <?php if (session()->getFlashdata('success')): ?>
-      <div class="notification is-success">
-        <?= session()->getFlashdata('success') ?>
-      </div>
-    <?php endif; ?>
+<!-- Affichage des messages flash -->
+<section class="section">
+    <div class="container">
+        <div id="notifications" class="notifications">
+            <?php if (session()->getFlashdata('success_rating')): ?>
+                <div class="notification is-success">
+                    <?= session()->getFlashdata('success_rating') ?>
+                </div>
+            <?php endif; ?>
 
-    <?php if (session()->getFlashdata('error')): ?>
-      <div class="notification is-danger">
-        <?= session()->getFlashdata('error') ?>
-      </div>
-    <?php endif; ?>
-  </div>
+            <?php if (session()->getFlashdata('success_comment')): ?>
+                <div class="notification is-success">
+                    <?= session()->getFlashdata('success_comment') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session()->getFlashdata('error_rating')): ?>
+                <div class="notification is-danger">
+                    <?= session()->getFlashdata('error_rating') ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
   <div class="container">
     <h1>Accueil - <?= $produit['nom'] ?></h1>
     <main>
@@ -59,6 +70,48 @@ require 'header.php';
           </div>
         <?php endif; ?>
 
+        <div class="rating-section">
+          <h2>Notes Produit</h2>
+          <div class="rating-overview">
+            <h3><?= number_format($averageRating, 1) ?> / 5</h3>
+            <div class="stars">
+              <?php for ($i = 1; $i <= 5; $i++): ?>
+                <i class="fas fa-star <?= $i <= round($averageRating) ? 'filled' : '' ?>"></i>
+              <?php endfor; ?>
+            </div>
+            <p><?= $totalRatings ?> Notes</p>
+          </div>
+          <button class="rate-review-btn">Noter / Commenter le Produit</button>
+        </div>
+
+        <div class="popup-overlay hidden">
+          <div class="popup">
+            <button class="close-popup">&times;</button>
+            <h3>Soumettre votre avis</h3>
+
+            <?php echo form_open('/submitRating', ['enctype' => 'multipart/form-data']); ?>
+
+            <div class="stars-input">
+              <?php for ($i = 1; $i <= 5; $i++): ?>
+                <i class="fas fa-star rate-star" data-value="<?= $i ?>" <?php echo (isset($existingRating) && $existingRating['valeur'] >= $i) ? 'class="selected"' : ''; ?>></i>
+              <?php endfor; ?>
+            </div>
+            <input type="hidden" name="rating" id="rating-value"
+              value="<?= isset($existingRating) ? $existingRating['valeur'] : 0 ?>">
+            <input type="hidden" name="id_utilisateur" value="<?= session()->get('idutilisateur') ?>">
+            <input type="hidden" name="idProduit" value="<?= $produit['id_produit'] ?>">
+
+            <div class="comment-input">
+              <?php echo form_label('Commentaire', 'comment'); ?>
+              <?php echo form_textarea('comment', set_value('comment')); ?>
+              <?= validation_show_error('comment') ?>
+            </div>
+            <div>
+              <button type="submit" class="submit-review"><?= isset($existingRating) ? 'Mettre à jour ma note / Mettre un commentaire' : 'Ajouter une note / un commentaire' ?></button>
+            </div>
+            <?php echo form_close(); ?>
+          </div>
+        </div>
 
         <div class="product-details">
           <h2><?= $produit['nom'] ?></h2>
@@ -107,7 +160,7 @@ require 'header.php';
         <?php else: ?>
           <p>Aucun commentaire pour ce produit.</p>
         <?php endif; ?>
-        <?php if (!$all && count($commentaires) >= 5): ?>
+        <?php if (!$all && count($commentaires) > 5): ?>
           <a href="?all_comments=true" class="see-more">Voir plus</a>
         <?php endif; ?>
       </div>
@@ -119,8 +172,11 @@ require 'header.php';
       </div>
     </main>
   </div>
+
   <!-- Script pour masquer les notifications après 4 secondes -->
   <script src="/assets/js/notif.js"></script>
+
+  <!-- Script pour afficher les images -->
   <script>
     // Tableau des chemins d'images
     var images = <?= json_encode(array_column($images, 'chemin')) ?>;
@@ -134,6 +190,7 @@ require 'header.php';
       document.getElementById('product-image').src = images[currentIndex];
     }
   </script>
+
   <!-- Script pour supprimer un commentaire -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -162,6 +219,60 @@ require 'header.php';
         });
       });
     });
+  </script>
+
+  <!-- Script pour le rating -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const rateReviewBtn = document.querySelector('.rate-review-btn');
+      const popupOverlay = document.querySelector('.popup-overlay');
+      const closePopupBtn = document.querySelector('.close-popup');
+      const stars = document.querySelectorAll('.rate-star');
+      const ratingValueInput = document.getElementById('rating-value');
+      const reviewForm = document.getElementById('review-form');
+
+      // Assurez-vous que ces éléments existent vraiment dans le HTML
+      if (!popupOverlay || !closePopupBtn) {
+        console.error("Impossible de trouver la pop-up ou le bouton pour la fermer.");
+        return;
+      }
+
+      // Ouvrir la pop-up
+      rateReviewBtn.addEventListener('click', () => {
+        popupOverlay.classList.remove('hidden');
+      });
+
+      // Fermer la pop-up en cliquant sur la croix
+      closePopupBtn.addEventListener('click', () => {
+        popupOverlay.classList.add('hidden');
+      });
+
+      // Fermer la pop-up en cliquant sur l'overlay sombre
+      popupOverlay.addEventListener('click', (e) => {
+        if (e.target === popupOverlay) {
+          popupOverlay.classList.add('hidden');
+        }
+      });
+
+      // Sélection de la note
+      stars.forEach(star => {
+        star.addEventListener('click', () => {
+          const value = star.getAttribute('data-value');
+          ratingValueInput.value = value;
+
+          stars.forEach(s => s.classList.remove('selected'));
+          for (let i = 0; i < value; i++) {
+            stars[i].classList.add('selected');
+          }
+        });
+      });
+    });
+  </script>
+
+  <script>
+    function sendReview() {
+      window.location.href = `/submitRating`;
+    }
   </script>
 
   <?php

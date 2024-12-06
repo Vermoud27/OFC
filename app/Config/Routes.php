@@ -54,7 +54,7 @@ $routes->get('/mentionslegales', 'FooterController::mentionlegales');
 $routes->get('/polconf', 'FooterController::polconf');
 $routes->get('/polremb', 'FooterController::polremb');
 $routes->get('/polcook', 'FooterController::polcook');
-$routes->get('/rgpd'   , 'FooterController::rgpd');
+$routes->get('/rgpd', 'FooterController::rgpd');
 $routes->get('/condutil', 'FooterController::condutil');
 $routes->get('/condvente', 'FooterController::condvente');
 
@@ -83,13 +83,15 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     // Les Commentaires
     $routes->get('CommentaireController/supprimer/(:num)', 'CommentaireController::supprimer/$1');
+    $routes->post('/submitRating', 'RatingController::submitRating');
+    $routes->get('/getRatings/(:num)', 'RatingController::getRatings/$1');
 
     // Se déconnecter
 
     // Profil utilisateur
     $routes->get('/profile', 'ProfileController::index');
     $routes->get('/profile/edit', 'ProfileController::edit');
-    $routes->post('/profile/update', 'ProfileController::update');    
+    $routes->post('/profile/update', 'ProfileController::update');
     $routes->post('/profile/update-password', 'ProfileController::updatePassword');
     $routes->get('profile/edit-password', 'ProfileController::editPassword');
 
