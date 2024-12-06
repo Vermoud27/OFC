@@ -15,7 +15,6 @@ $routes->get('/produits', 'ProduitController::page_produits');
 $routes->get('/produits/(:num)', 'ProduitController::produitsParGamme/$1');
 $routes->get('/gammes', 'GammeController::page_gammes');
 $routes->get('/navbar/entreprise', 'EntrepriseController::index');
-$routes->get('/rechercher-produits', 'HeaderController::rechercherProduits');
 $routes->get('/test-recherche', 'HeaderController::rechercherProduits');
 
 // Connexion

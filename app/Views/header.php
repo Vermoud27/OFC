@@ -101,7 +101,5 @@
         window.location.href = `/produits?search=${encodeURIComponent(query)}`;
     }
 
-    
-
 </script>
 
