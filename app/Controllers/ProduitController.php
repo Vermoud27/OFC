@@ -116,6 +116,9 @@ class ProduitController extends BaseController
 			$produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/user.png']];
 		}
 
+		$fav = $this->produitModel->getTopProduits();
+
+		$data['fav'] = $fav;
 		$data['produits'] = $produits;
 		$data['pager'] = \Config\Services::pager();
 		

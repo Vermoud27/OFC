@@ -65,6 +65,7 @@ class ProduitModel extends Model
         return $this->select('produit.*, SUM(details_commande.quantite) as total_quantite')
         ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
         ->join('commande', 'details_commande.id_commande = commande.id_commande')
+        ->whereNotIn('statut', ['fini', 'annulé'])
         ->groupBy('produit.id_produit')
         ->orderBy('total_quantite', 'DESC')
         ->limit(8)

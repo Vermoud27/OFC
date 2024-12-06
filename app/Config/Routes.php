@@ -96,41 +96,46 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     // Changer le mot de passe
 
-    // Admin - Produits
+    // Admin 
+    if (session()->get('role') == 'Admin')
+    {
+        // Liste des entités avec leurs contrôleurs respectifs
+        $entites = [
+            'produits' => 'ProduitController',
+            'categories' => 'CategorieController',
+            'ingredients' => 'IngredientController',
+            'codes-promos' => 'CodePromoController',
+            'gammes' => 'GammeController',
+            'bundles' => 'BundleController',
+            'commandes' => 'CommandeController',
+        ];
+        
+        // Boucle pour générer les routes
+        foreach ($entites as $entite => $controller) {
+            $routes->group("admin/$entite", function ($routes) use ($controller) {
+                $routes->get('', "$controller::index");
+                $routes->get('creation', "$controller::creation");
+                $routes->post('creer', "$controller::creer");
+                $routes->get('modification/(:num)', "$controller::modification/$1");
+                $routes->post('modifier/(:num)', "$controller::modifier/$1");
+                $routes->get('supprimer/(:num)', "$controller::supprimer/$1");
+                $routes->get('desactiver/(:num)', "$controller::desactiver/$1");
+            });
+        }
+        $routes->post('/admin/ingredients/supprimer/(:num)', "IngredientController::supprimer/$1");
+        
+        $routes->post('/admin/gammes/ajouter-produit/(:num)', "GammeController::ajouter_produit/$1");
+        $routes->post('/admin/gammes/enlever-produit/(:num)', "GammeController::enlever_produit/$1");
+        
+        $routes->post('/admin/bundles/ajouter-produit/(:num)', "BundleController::ajouter_produit/$1");
+        $routes->post('/admin/bundles/enlever-produit/(:num)', "BundleController::enlever_produit/$1");
+    }
 
     // Déconnexion
     $routes->get('/logout', 'ProfileController::logout');
 });
 
-// Administrateur
 
-// Liste des entités avec leurs contrôleurs respectifs
-$entites = [
-    'produits' => 'ProduitController',
-    'categories' => 'CategorieController',
-    'ingredients' => 'IngredientController',
-    'codes-promos' => 'CodePromoController',
-    'gammes' => 'GammeController',
-    'bundles' => 'BundleController',
-    'commandes' => 'CommandeController',
-];
 
-// Boucle pour générer les routes
-foreach ($entites as $entite => $controller) {
-    $routes->group("admin/$entite", function ($routes) use ($controller) {
-        $routes->get('', "$controller::index");
-        $routes->get('creation', "$controller::creation");
-        $routes->post('creer', "$controller::creer");
-        $routes->get('modification/(:num)', "$controller::modification/$1");
-        $routes->post('modifier/(:num)', "$controller::modifier/$1");
-        $routes->get('supprimer/(:num)', "$controller::supprimer/$1");
-        $routes->get('desactiver/(:num)', "$controller::desactiver/$1");
-    });
-}
-$routes->post('/admin/ingredients/supprimer/(:num)', "IngredientController::supprimer/$1");
 
-$routes->post('/admin/gammes/ajouter-produit/(:num)', "GammeController::ajouter_produit/$1");
-$routes->post('/admin/gammes/enlever-produit/(:num)', "GammeController::enlever_produit/$1");
 
-$routes->post('/admin/bundles/ajouter-produit/(:num)', "BundleController::ajouter_produit/$1");
-$routes->post('/admin/bundles/enlever-produit/(:num)', "BundleController::enlever_produit/$1");

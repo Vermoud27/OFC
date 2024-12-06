@@ -15,7 +15,7 @@
     <div class="right-section">
         <p> 🇫🇷 </p>
         <?php if (session()->get('role') == 'Admin'): ?>
-            <a href="<?= base_url('/admin/produits') ?>" class="admin-icon"></a>
+            <a href="<?= base_url('/admin/commandes') ?>" class="admin-icon"></a>
         
         <?php endif; ?>
 
