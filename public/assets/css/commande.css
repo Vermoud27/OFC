@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    color: #556B2F;
+}
+
+.container {
+    display: flex;
+    flex-direction: row; /* Organiser les éléments en ligne (gauche pour le panneau et droite pour la section produit) */
+    height: 100vh; /* Assurez-vous que le conteneur prend toute la hauteur de la fenêtre */
+    width: 100%;
+}
+
+.panel {
+    width: 30%;
+    background-color: #F5F5DC;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Empêche le panneau de se réduire */
+}
+
+.panel h2 {
+	color: #D2691E;
+}
+
+.stats {
+	margin-bottom: 20px;
+}
+
+.stats p {
+	margin: 5px 0;
+}
+
+.product-section {
+    flex-grow: 1; /* La section des produits prend tout l'espace restant */
+    background-color: #F5F5DC;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+    height: 100%; 
+}
+
+.add-product-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-product-btn:hover {
+	background-color: #ee8840;
+}
+
+.product-section h2 {
+	margin-bottom: 20px;
+}
+
+.product-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr); /* Deux colonnes */
+	gap: 20px; /* Espace entre les produits */
+}
+
+.product-card {
+	position: relative;
+	background-color: #FFFFFF;
+	border: 1px solid #888888;
+	border-radius: 8px;
+	padding: 20px;
+	display: flex;
+	flex-direction: row-reverse; /* Place l'image à droite */
+	align-items: center;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word; 
+    word-break: break-word; 
+}
+
+.product-info {
+	flex-grow: 1;
+}
+
+.product-info p {
+	margin: 5px 0;
+}
+
+.product-info p span {
+	font-weight: bold;
+}
+
+.product-buttons {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	display: flex;
+	gap: 5px;
+}
+
+.product-buttons button {
+	border: none;
+	padding: 5px 10px;
+	border-radius: 5px; /* Coins arrondis */
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+}
+
+.product-buttons button:hover {
+	opacity: 0.8;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.pagination li {
+    list-style-type: none;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #D2691E;
+    padding: 10px 18px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #ecf0f1;
+    margin: 0 7px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #D2691E;
+    color: white;
+}
+
+.pagination li.active a {
+    background-color: #D2691E !important;
+    color: white !important;
+    border-color: #D2691E !important;
+}
+
+
+/* Style pour un lien désactivé */
+.pagination .disabled a {
+    color: #bdc3c7;
+    border-color: #ddd;
+    background-color: #ecf0f1;
+}

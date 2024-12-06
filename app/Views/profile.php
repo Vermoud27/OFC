@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('/assets/css/profile.css') ?>">
     <link rel="stylesheet" href="<?= base_url('/assets/css/notif.css') ?>">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -27,8 +28,10 @@
     </div>
     <div class="container">
         <div class="header">
+            <a href="/"><i class="fa-solid fa-house"></i></a>
+            <a href="/commande"><i class="fa-solid fa-box"></i></a>
             <h1>Mon Profil</h1>
-            <a href="/logout" class="btn-logout">Déconnexion</a>
+            <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
         </div>
         <div class="container profile-container">
             <div class="profile-details">
@@ -78,13 +81,10 @@
                 </div>
             </div>
 
-            <div class="profile-actions">
-                <a href="/" class="btn-return">Retour à l'accueil</a>
-                <a href="/profile/edit" class="btn-edit">Modifier mes informations</a>
-            </div>
         </div>
         <div class="profile-password-container">
             <div class="profile-actions">
+                <a href="/profile/edit" class="btn-return">Modifier mes informations</a>
                 <a href="/profile/edit-password" class="btn-edit">Modifier mon mot de passe</a>
             </div>
         </div>

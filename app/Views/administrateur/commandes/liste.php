@@ -43,7 +43,8 @@
 
                         <div class="product-info">
                             <p><span>ID : </span><?= $commande['id_commande'] ?></p>
-                            <p><span>Date création : </span><?= date('d/m/Y H:i', strtotime($commande['date_creation'])); ?>
+                            <p><span>Email utilisateur : </span><?= $commande['mail'] ?></p>
+                            <p><span>Date de création : </span><?= date('d/m/Y H:i', strtotime($commande['date_creation'])); ?>
                             <p><span>Status : </span><?= $commande['statut'] ?> </p>
                             <p><span>Adresse : </span><?= $commande['informations'] ?> </p>
                             <p><span>Prix : </span><?= $commande['prixpromo'] ?: $commande['prixttc'] ?> €</p>

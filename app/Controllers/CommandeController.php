@@ -21,7 +21,10 @@ class CommandeController extends BaseController
         $commandeModel = new CommandeModel();
 
         // Récupérer les commandes (exclure les statuts 'fini' et 'annulé')
-        $commandes = $commandeModel->whereNotIn('statut', ['fini', 'annulé'])->orderBy('id_commande')->paginate(8);
+        $commandes = $commandeModel->select('commande.*, utilisateur.mail')
+        ->join('utilisateur', 'utilisateur.id_utilisateur = commande.id_utilisateur')
+        ->whereNotIn('statut', ['fini', 'annulé'])
+        ->orderBy('id_commande')->paginate(8);
         
         // Calculer les statistiques (nombre de commandes dans chaque état)
         $statistiques = [
@@ -169,5 +172,19 @@ class CommandeController extends BaseController
 
         $panier = json_decode($cookie, true);
         return is_array($panier) ? $panier : [];
+    }
+
+    public function mescommandes()
+    {
+        $commandeModel = new CommandeModel();
+
+        // Récupérer les commandes (exclure les statuts 'fini' et 'annulé')
+        $commandes = $commandeModel->where('id_utilisateur', session()->get('idutilisateur'))->whereNotIn('statut', ['fini', 'annulé'])->orderBy('id_commande')->paginate(9);
+
+        // Passer les données à la vue
+        $data['commandes'] = $commandes;
+        $data['pager'] = \Config\Services::pager();
+
+        return view('/commande', $data);
     }
 }

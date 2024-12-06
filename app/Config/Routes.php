@@ -74,9 +74,10 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('/panier/appliquerPromo', 'PanierController::appliquerPromo');
 
     // Commande
+    $routes->get('/commande', 'CommandeController::mescommandes');
+    $routes->post('/commande/enregistrer', 'CommandeController::enregistrerCommande');
     $routes->post('/commande/traiterPaiement', 'PaymentController::traiterPaiement');
     $routes->get('/commande/retourPayPal', 'PaymentController::retourPayPal');
-    $routes->post('/commande/enregistrer', 'CommandeController::enregistrerCommande');
 
     // Les tâches
 
