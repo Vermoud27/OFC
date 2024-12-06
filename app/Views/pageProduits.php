@@ -47,7 +47,7 @@ require 'header.php';
                             </div>
                         <?php else: ?>
                             <div class="product-images">
-                                <img src="/assets/img/user.png" alt="Aucune image disponible">
+                                <img src="/assets/img/produits/placeholder.png" alt="Aucune image disponible">
                             </div>
                         <?php endif; ?>
 
