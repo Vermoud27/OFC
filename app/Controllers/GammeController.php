@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\GammeModel;
 use App\Models\IngredientModel;
 use App\Models\ProduitModel;
+use App\Models\ImageModel;
 
 class GammeController extends BaseController
 {
@@ -16,6 +17,7 @@ class GammeController extends BaseController
     {
         $this->gammeModel = new GammeModel();
 		$this->produitModel = new ProduitModel();
+		$this->imageModel = new ImageModel();
 		helper(['form']);
     }
 
@@ -133,6 +135,26 @@ class GammeController extends BaseController
 		$this->produitModel->update($produit_id,['id_gamme' => NULL]);
 
 		return redirect()->to('/admin/gammes/modification/' . $gamme_id);
+	}
+
+	public function page_gammes(): string
+	{
+		$gammeModel = new GammeModel();
+		
+		// Récupérer les produits paginés
+		$gammes = $gammeModel->orderBy('id_gamme')->paginate(16);
+
+		// Ajouter les images pour chaque produit
+		foreach ($gammes as &$gamme) {
+			$images = $this->imageModel->getImagesByProduit($gamme['id_gamme']);
+			$gamme['images'] = $images;
+		}
+
+		// Passer les données à la vue
+		$data['gammes'] = $gammes;
+		$data['pager'] = \Config\Services::pager();
+
+		return view('pageGammes', $data);
 	}
 
 }

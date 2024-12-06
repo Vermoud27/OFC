@@ -88,6 +88,22 @@ class ProduitModel extends Model
         return $this->where('id_categorie', $categorie['id_categorie'])->findAll();
     }
 
+    public function getProduitsByGamme($idGamme)
+    {
+        // Charger le modèle de gamme
+        $gammeModel = new \App\Models\GammeModel();
+
+        // Rechercher l'ID de la gamme en fonction de son nom
+        $gamme = $gammeModel->where('id_gamme', $idGamme)->first();
+
+        if (!$gamme) {
+            return []; // Si la gamme n'existe pas, retourner un tableau vide
+        }
+
+        // Obtenir les produits liés à cette gamme
+        return $this->where('id_gamme', $gamme['id_gamme'])->findAll();
+    }
+
     public function rechercherProduitsParNom($nom, $limite = 10)
     {
         return $this->like('nom', $nom, 'both')->findAll($limite);
