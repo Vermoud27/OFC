@@ -9,7 +9,7 @@ class SigninController extends BaseController
     public function index()
     {
         if (session()->get('isLoggedIn')) {
-            return redirect()->to('/ControllerOFC');
+            return redirect()->to('/');
         }
     
         return view('login/signin');
@@ -41,7 +41,7 @@ class SigninController extends BaseController
                     'role' => $user['role'],
                 ]);
     
-                return redirect()->to('/ControllerOFC'); // Page d'accueil
+                return redirect()->to('/'); // Page d'accueil
             } else {
                 $session->setFlashdata('error', 'Mot de passe incorrect.');
                 return redirect()->to('/signin');
