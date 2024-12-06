@@ -8,29 +8,13 @@ class HeaderController extends BaseController
 {
     public function index(): string
     {
-        //return view('pageAccueil');
 
         $produitModel = new ProduitModel();
 
         $produits = $produitModel->getTopProduits();
 
-        if (empty($produits)) {
-            $produits = $produitModel->limit(8)->findAll();
-        }
-
-        foreach ($produits as &$produit) {
-			$images = $imageModel->getImagesByProduit($produit['id_produit']);
-            $produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];		}
-
-        $data['produits'] = $produits;
-
-        $data['recherche'] = $produit['nom'];
-
-        // Récupérez les 10 premières questions
-        $data['faqs'] = $faqModel->orderBy('id_faq', 'ASC')->findAll(10);
-
         // Chargez la vue avec les questions
-        return view('pageAccueil', $data);
+        return view('header', $produits);
     }
 
     public function rechercherProduits()

@@ -55,7 +55,7 @@
                         <?php else: ?>
                             <div class="image-gallery">
                                 <div class="image-wrapper">
-                                    <img src="/assets/img/user.png" alt="Aucune image disponible" class="product-image">
+                                    <img src="/assets/img/produits/placeholder.png" alt="Aucune image disponible" class="product-image">
                                 </div>
                             </div>
                         <?php endif; ?>

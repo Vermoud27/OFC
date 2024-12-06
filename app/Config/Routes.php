@@ -12,7 +12,7 @@ $routes->get('/', 'ControllerOFC::index');
 $routes->get('/ControllerOFC', 'ControllerOFC::index');
 $routes->get('/produits', 'ProduitController::page_produits');
 $routes->get('/navbar/entreprise', 'EntrepriseController::index');
-$routes->post('/rechercher-produits', 'ControllerOFC::rechercherProduits');
+$routes->post('/rechercher-produits', 'HeaderController::rechercherProduits');
 
 
 // Connexion
