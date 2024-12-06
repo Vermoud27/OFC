@@ -93,4 +93,9 @@ class ProduitModel extends Model
         return $this->like('nom', $nom, 'both')->findAll($limite);
     }
 
+    public function getProduits()
+    {
+        return $this->findAll(); // Retourne tous les produits
+    }
+
 }

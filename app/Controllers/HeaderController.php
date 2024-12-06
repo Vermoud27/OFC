@@ -8,13 +8,10 @@ class HeaderController extends BaseController
 {
     public function index(): string
     {
-
         $produitModel = new ProduitModel();
+        $produits = $produitModel->getProduits(); // Remplir avec les meilleurs produits
 
-        $produits = $produitModel->getTopProduits();
-
-        // Chargez la vue avec les questions
-        return view('header', ['produits' =>$produits['nom']]);
+        return view('header', $produits); // Passez les produits à la vue
     }
 
     public function rechercherProduits()
@@ -24,13 +21,13 @@ class HeaderController extends BaseController
 
             if ($query) {
                 $produitModel = new ProduitModel();
-                $produits = $produitModel->like('nom', $query, 'both')->findAll(10); // Limitez les résultats à 10
+                $produits = $produitModel->like('nom', $query, 'both')->findAll(10); // Limiter à 10 résultats
 
-                return $this->response->setJSON($produits);
+                return $this->response->setJSON($produits); // Retourner les produits en format JSON
             }
         }
 
-        return $this->response->setJSON([]);
+        return $this->response->setJSON([]); // Retourner un tableau vide si la requête est invalide
     }
 }
 

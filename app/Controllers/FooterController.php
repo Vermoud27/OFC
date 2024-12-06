@@ -43,7 +43,7 @@ class FooterController extends Controller
      */
     public function RGPD()
     {
-        return view('pageFooter/RGPD');
+        return view('pageFooter/rgpd');
     }
 
     /**

@@ -38,7 +38,7 @@
                 <li><a href="<?= base_url('/polconf') ?>">Politique de confidentialité</a></li>
                 <li><a href="<?= base_url('/polremb') ?>">Politique de retour et remboursement</a></li>
                 <li><a href="<?= base_url('/polcook') ?>">Politique de cookies</a></li>
-                <li><a href="<?= base_url('/RGPD') ?>">Protection des données et RGPD</a></li>
+                <li><a href="<?= base_url('/rgpd') ?>">Protection des données et RGPD</a></li>
                 <li><a href="<?= base_url('/condutil') ?>">Conditions générales d'utilisation</a></li>
                 <li><a href="<?= base_url('/condvente') ?>">Conditions générales de vente</a></li>
             </ul>
