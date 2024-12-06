@@ -40,6 +40,7 @@ require 'header.php';
             <?php if (!empty($produits) && is_array($produits)): ?>
                 <?php foreach ($produits as $produit): ?>
                     <div class="product-card">
+                    <a href="/produit/<?= $produit['id_produit'] ?>">
                         <?php if (!empty($produit['images'])): ?>
                             <div class="product-images">
                                 <img src="<?= $produit['images'][0]['chemin'] ?>" alt="Image Produit"
@@ -50,10 +51,11 @@ require 'header.php';
                                 <img src="/assets/img/produits/placeholder.png" alt="Aucune image disponible">
                             </div>
                         <?php endif; ?>
-
+                        
                         <h2><?= $produit['nom'] ?></h2>
                         <p><?= $produit['description'] ?></p>
                         <p><?= $produit['prixttc'] ?> €</p>
+                        </a>
                         <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)">Ajouter au panier</button>
                     </div>
                 <?php endforeach; ?>
