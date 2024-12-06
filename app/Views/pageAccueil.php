@@ -42,7 +42,7 @@ require 'header.php';
       <?php foreach ($produits as $produit): ?>
         <div class="product">
           <a href="/produit/<?= $produit['id_produit'] ?>">
-            <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/default.png') ?>"
+            <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>"
               alt="<?= htmlspecialchars($produit['nom']) ?>">
             <p><?= $produit['nom'] ?></p>
             <p><?= $produit['prixttc'] ?> €</p>

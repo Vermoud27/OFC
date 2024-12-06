@@ -65,6 +65,7 @@ class ProduitModel extends Model
         return $this->select('produit.*, SUM(details_commande.quantite) as total_quantite')
         ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
         ->join('commande', 'details_commande.id_commande = commande.id_commande')
+        ->whereNotIn('statut', ['fini', 'annulé'])
         ->groupBy('produit.id_produit')
         ->orderBy('total_quantite', 'DESC')
         ->limit(8)
@@ -86,6 +87,22 @@ class ProduitModel extends Model
 
         // Obtenir les produits liés à cette catégorie
         return $this->where('id_categorie', $categorie['id_categorie'])->findAll();
+    }
+
+    public function getProduitsByGamme($idGamme)
+    {
+        // Charger le modèle de gamme
+        $gammeModel = new \App\Models\GammeModel();
+
+        // Rechercher l'ID de la gamme en fonction de son nom
+        $gamme = $gammeModel->where('id_gamme', $idGamme)->first();
+
+        if (!$gamme) {
+            return []; // Si la gamme n'existe pas, retourner un tableau vide
+        }
+
+        // Obtenir les produits liés à cette gamme
+        return $this->where('id_gamme', $gamme['id_gamme'])->findAll();
     }
 
     public function rechercherProduitsParNom($nom, $limite = 10)

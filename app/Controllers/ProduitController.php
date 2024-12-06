@@ -32,6 +32,7 @@ class ProduitController extends BaseController
 	{
 		// Récupérer la catégorie passée via GET
 		$categorie = $this->request->getGet('categorie');
+		$recherche = $this->request->getGet('search');
 
 		// Initialiser la requête des produits
 		$produitQuery = $this->produitModel->where('actif', 't'); // Filtrer les produits actifs
@@ -47,6 +48,10 @@ class ProduitController extends BaseController
 				// Si la catégorie n'existe pas, retourner une liste vide
 				$produitQuery->where('id_categorie', -1); // Aucun produit
 			}
+		}
+
+		if ($recherche) {
+			$produitQuery->like('nom', $recherche);
 		}
 
 		// Récupérer les produits paginés
@@ -81,6 +86,28 @@ class ProduitController extends BaseController
         return $this->response->setJSON($produits);
     }
 
+	public function produitsParGamme($idGamme)
+    {
+        $produitModel = new ProduitModel();
+    
+        $produits = $produitModel->getProduitsByGamme($idGamme);
+    
+        if (empty($produits)) {
+            return $this->response->setJSON(['message' => 'Aucun produit trouvé pour cette gamme']);
+        }
+
+		// Ajouter les images pour chaque produit
+		foreach ($produits as &$produit) {
+			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
+			$produit['images'] = $images;
+		}
+
+		$data['produits'] = $produits;
+		$data['pager'] = \Config\Services::pager();
+    
+        return view('pageProduits', $data);
+    }
+
     public function index()
 	{
 		$produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->paginate(8);
@@ -89,6 +116,9 @@ class ProduitController extends BaseController
 			$produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/user.png']];
 		}
 
+		$fav = $this->produitModel->getTopProduits();
+
+		$data['fav'] = $fav;
 		$data['produits'] = $produits;
 		$data['pager'] = \Config\Services::pager();
 		
