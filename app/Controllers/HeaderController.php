@@ -14,7 +14,7 @@ class HeaderController extends BaseController
         $produits = $produitModel->getTopProduits();
 
         // Chargez la vue avec les questions
-        return view('header', $produits);
+        return view('header', ['produits' =>$produits['nom']]);
     }
 
     public function rechercherProduits()

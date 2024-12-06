@@ -48,6 +48,15 @@ $routes->get('/faq/edit/(:num)', 'FaqController::edit/$1');
 $routes->post('/faq/update/(:num)', 'FaqController::update/$1');
 $routes->get('/faq/delete/(:num)', 'FaqController::delete/$1');
 
+// Section droite footer
+$routes->get('/mentionslegales', 'FooterController::mentionlegales');
+$routes->get('/polconf', 'FooterController::polconf');
+$routes->get('/polremb', 'FooterController::polremb');
+$routes->get('/polcook', 'FooterController::polcook');
+$routes->get('/RGPD'   , 'FooterController::RGPD');
+$routes->get('/condutil', 'FooterController::condutil');
+$routes->get('/condvente', 'FooterController::condvente');
+
 // Routes protégées (requièrent une session active)
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Page d'accueil et ses fonctionnalités
