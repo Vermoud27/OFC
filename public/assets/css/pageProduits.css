@@ -1,6 +1,6 @@
 /* Global Styles */
 body {
-    background-color: #f4f4f4;
+    background-color: #F5F5DC;
     margin: 0;
     font-size: 18px; 
     font-family: 'Montserrat', sans-serif;
@@ -37,6 +37,7 @@ main {
     word-wrap: break-word; 
     word-break: break-word;
     max-width: calc(25ch + 20px); /* 10 caractères max (+ un padding éventuel) */
+    text-decoration: none;
 }
 
 .product-card img {
@@ -44,7 +45,8 @@ main {
     width: 200px; /* Conserve les proportions */
     object-fit: contain; /* Remplit l'espace tout en coupant l'excédent */
     border-radius: 10px; /* Maintient les coins arrondis */
-    align-items: center;
+    border: 2px solid #ddd; /* Ajoute une bordure légère de 2px de couleur gris clair */
+    align-items: center; 
 }
 
 .product-images {
@@ -82,3 +84,18 @@ main {
 .product-card button:hover {
     background-color: #e68a00;
 }
+
+.product-card a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.product-card a:hover {
+    text-decoration: none;
+    color: #555;
+}
+
+.product-card a p.more {
+    text-decoration: none;
+    cursor: pointer;
+  }
