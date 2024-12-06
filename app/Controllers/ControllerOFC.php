@@ -26,7 +26,7 @@ class ControllerOFC extends BaseController
 			$images = $imageModel->getImagesByProduit($produit['id_produit']);
             $produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];		}
 
-        $data['produits'] = $produits;
+        $data['produits'] = $produitModel->getProduits();
 
         $data['recherche'] = $produit['nom'];
 

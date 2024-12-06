@@ -2,12 +2,14 @@
 <header class="navbar">
     <div class="left-section">
         <a href="<?= base_url('/navbar/entreprise#contact') ?>" class="phone-icon"></a>
-        <input type="text" id="search-bar" placeholder="Rechercher..." class="search-bar" autocomplete="off">
-        <?php if (!empty($produits) && is_array($produits)): ?>
-            <?php foreach ($produits as $produit): ?>
-                <option value="<?= esc($produit['nom']); ?>"></option>
-            <?php endforeach; ?>
-        <?php endif; ?>
+        <input type="text" id="product-names" name="product-name" placeholder="Nom du produit" class="search-bar" autocomplete="off">
+        <datalist id="product-names">
+            <?php if (!empty($produits) && is_array($produits)): ?>
+                <?php foreach ($produits as $produit): ?>
+                    <option value="<?= esc($produit['nom']); ?>"></option>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </datalist> <!-- Liste dynamique des produits -->
         <p> 🔍 </p>
     </div>
     <div class="center-section">
@@ -63,43 +65,36 @@
 </nav>
 
 <script>
-document.getElementById('search-bar').addEventListener('input', function () {
+document.getElementById('product-name').addEventListener('input', function () {
     const query = this.value;
-    const suggestionsList = document.getElementById('suggestions');
+    const datalist = document.getElementById('product-names');
 
+    // Vérifie si la requête est suffisamment longue pour lancer la recherche
     if (query.length >= 2) {
         fetch('/rechercher-produits', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ query }),
+            body: JSON.stringify({ query })
         })
         .then(response => response.json())
         .then(produits => {
-            suggestionsList.innerHTML = ''; // Vider les suggestions précédentes
+            datalist.innerHTML = ''; // Vider les options précédentes
 
             if (produits.length > 0) {
                 produits.forEach(produit => {
-                    const li = document.createElement('li');
-                    li.textContent = produit.nom; // Ajoutez le nom du produit
-                    li.addEventListener('click', function () {
-                        // Remplir la barre de recherche avec le produit sélectionné
-                        document.getElementById('search-bar').value = produit.nom;
-                        suggestionsList.innerHTML = ''; // Vider les suggestions
-                        suggestionsList.classList.remove('visible'); // Masquer la liste
-                    });
-                    suggestionsList.appendChild(li);
+                    const option = document.createElement('option');
+                    option.value = produit.nom; // Utilisez le nom du produit comme valeur
+                    datalist.appendChild(option);
                 });
-
-                suggestionsList.classList.add('visible'); // Afficher la liste
-            } else {
-                suggestionsList.classList.remove('visible'); // Masquer si aucune suggestion
             }
         })
-        .catch(error => console.error('Erreur lors de la récupération des produits:', error));
+        .catch(error => {
+            console.error('Erreur lors de la récupération des produits:', error);
+        });
     } else {
-        suggestionsList.classList.remove('visible'); // Masquer la liste si la saisie est trop courte
+        datalist.innerHTML = ''; // Vider le datalist si la saisie est trop courte
     }
 });
 </script>

@@ -53,7 +53,7 @@ $routes->get('/mentionslegales', 'FooterController::mentionlegales');
 $routes->get('/polconf', 'FooterController::polconf');
 $routes->get('/polremb', 'FooterController::polremb');
 $routes->get('/polcook', 'FooterController::polcook');
-$routes->get('/RGPD'   , 'FooterController::RGPD');
+$routes->get('/rgpd'   , 'FooterController::rgpd');
 $routes->get('/condutil', 'FooterController::condutil');
 $routes->get('/condvente', 'FooterController::condvente');
 
