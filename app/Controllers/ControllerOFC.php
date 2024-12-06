@@ -24,9 +24,10 @@ class ControllerOFC extends BaseController
 
         foreach ($produits as &$produit) {
 			$images = $imageModel->getImagesByProduit($produit['id_produit']);
-            $produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];		}
+            $produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];		
+        }
 
-        $data['produits'] = $produitModel->getProduits();
+        $data['produits'] = $produits;
 
         $data['recherche'] = $produit['nom'];
 
