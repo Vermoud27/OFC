@@ -32,6 +32,7 @@ class ProduitController extends BaseController
 	{
 		// Récupérer la catégorie passée via GET
 		$categorie = $this->request->getGet('categorie');
+		$recherche = $this->request->getGet('search');
 
 		// Initialiser la requête des produits
 		$produitQuery = $this->produitModel->where('actif', 't'); // Filtrer les produits actifs
@@ -47,6 +48,10 @@ class ProduitController extends BaseController
 				// Si la catégorie n'existe pas, retourner une liste vide
 				$produitQuery->where('id_categorie', -1); // Aucun produit
 			}
+		}
+
+		if ($recherche) {
+			$produitQuery->like('nom', $recherche);
 		}
 
 		// Récupérer les produits paginés

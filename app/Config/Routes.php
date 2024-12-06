@@ -13,8 +13,8 @@ $routes->get('/', 'ControllerOFC::index');
 $routes->get('/ControllerOFC', 'ControllerOFC::index');
 $routes->get('/produits', 'ProduitController::page_produits');
 $routes->get('/navbar/entreprise', 'EntrepriseController::index');
-$routes->post('/rechercher-produits', 'HeaderController::rechercherProduits');
-
+$routes->get('/rechercher-produits', 'HeaderController::rechercherProduits');
+$routes->get('/test-recherche', 'HeaderController::rechercherProduits');
 
 // Connexion
 $routes->get('/signin', 'SigninController::index');

@@ -2,15 +2,10 @@
 <header class="navbar">
     <div class="left-section">
         <a href="<?= base_url('/navbar/entreprise#contact') ?>" class="phone-icon"></a>
-        <input type="text" id="product-names" name="product-name" placeholder="Nom du produit" class="search-bar" autocomplete="off">
-        <datalist id="product-names">
-            <?php if (!empty($produits) && is_array($produits)): ?>
-                <?php foreach ($produits as $produit): ?>
-                    <option value="<?= esc($produit['nom']); ?>"></option>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </datalist> <!-- Liste dynamique des produits -->
-        <p> 🔍 </p>
+        <input list="liste-produit" type="text" id="product-names" name="product-name" placeholder="Nom du produit" class="search-bar" autocomplete="off">
+        <datalist id="liste-produit">
+        </datalist> 
+        <i id="search-button" onclick="searchProduct()" class="fa-solid fa-magnifying-glass"></i>
     </div>
     <div class="center-section">
         <a href="/"><img src="/assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo"></a>
@@ -65,37 +60,48 @@
 </nav>
 
 <script>
-document.getElementById('product-name').addEventListener('input', function () {
-    const query = this.value;
-    const datalist = document.getElementById('product-names');
+    document.getElementById('product-names').addEventListener('input', function () {
+    
+        const query = this.value; // Récupère la valeur du champ de recherche
+        const datalist = document.getElementById('liste-produit'); // Référence au datalist
 
-    // Vérifie si la requête est suffisamment longue pour lancer la recherche
-    if (query.length >= 2) {
-        fetch('/rechercher-produits', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query })
-        })
-        .then(response => response.json())
-        .then(produits => {
-            datalist.innerHTML = ''; // Vider les options précédentes
+        // Si la requête contient au moins 2 caractères
+        fetch(`/test-recherche?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(
+                produits => {
+                // Vider le datalist avant de le remplir à nouveau
+                datalist.innerHTML = '';
 
-            if (produits.length > 0) {
-                produits.forEach(produit => {
-                    const option = document.createElement('option');
-                    option.value = produit.nom; // Utilisez le nom du produit comme valeur
-                    datalist.appendChild(option);
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Erreur lors de la récupération des produits:', error);
-        });
-    } else {
-        datalist.innerHTML = ''; // Vider le datalist si la saisie est trop courte
+                if (produits.length > 0) {
+                    produits.forEach(produit => {
+                        const option = document.createElement('option');
+                        option.value = produit.nom; // Associer le nom du produit comme valeur
+                        datalist.appendChild(option); // Ajouter chaque option au datalist
+                    });
+                }
+                console.log(produits);
+            })
+            .catch(error => console.error('Erreur:', error));
+    });
+
+    // Détecte la touche "Entrée" et simule un clic sur le bouton de recherche
+    document.getElementById('product-names').addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Empêche le comportement par défaut
+            document.getElementById('search-button').click(); // Simule un clic sur le bouton de recherche
+        }
+    });
+
+    // Fonction de recherche déclenchée par le bouton
+    function searchProduct() {
+        const query = document.getElementById('product-names').value;
+        console.log(`Recherche lancée pour : ${query}`);
+        // Ajoutez ici la logique pour gérer la recherche, redirection ou autre action
+        window.location.href = `/produits?search=${encodeURIComponent(query)}`;
     }
-});
+
+    
+
 </script>
 
