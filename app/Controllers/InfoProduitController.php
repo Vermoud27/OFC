@@ -6,6 +6,7 @@ use App\Models\ImageModel;
 use App\Models\ProduitIngredientModel;
 use App\Models\ProduitModel;
 use App\Models\IngredientModel;
+use App\Models\CommentModel;
 
 class InfoProduitController extends BaseController
 {
@@ -15,6 +16,7 @@ class InfoProduitController extends BaseController
         $produitIngredientModel = new ProduitIngredientModel();
         $ingredientModel = new IngredientModel();
         $imageModel = new ImageModel();
+        $commentModel = new CommentModel();
 
         // Recherche du produit
         $produit = $produitModel->find($idProduit);
@@ -37,12 +39,13 @@ class InfoProduitController extends BaseController
             }
         }
 
-		$data['images']         = $imageModel->getImagesByProduit($produit['id_produit']);		
-        $data['produit']        = $produit;
-        $data['ingredients']    = $ingredients;
+        $data['images'] = $imageModel->getImagesByProduit($produit['id_produit']);
+        $data['produit'] = $produit;
+        $data['ingredients'] = $ingredients;
+        $data['commentaires'] = $commentModel->getCommentsByProductId($produit['id_produit']);
 
         return view('infoProduit', $data);
     }
 }
 
-?>  
+?>
