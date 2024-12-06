@@ -134,3 +134,41 @@ header h1 {
   border: 1px solid #ccc;
   border-radius: 8px;
 }
+
+.review {
+  position: relative; /* Nécessaire pour positionner le bouton */
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.delete-comment-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #721c24;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.delete-comment-button:hover {
+  color: #ff0000;
+}
+
+.comment-date {
+  font-size: 0.9em;
+  color: #D2691E;
+}
+
+.see-more {
+  display: inline-block;
+  margin-top: 10px;
+  color: #0056b3;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.see-more:hover {
+  color: #003d80;
+}

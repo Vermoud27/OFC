@@ -71,6 +71,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Les tâches
 
     // Les Commentaires
+    $routes->get('CommentaireController/supprimer/(:num)', 'CommentaireController::supprimer/$1');
 
     // Se déconnecter
 
