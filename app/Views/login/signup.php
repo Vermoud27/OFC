@@ -21,13 +21,16 @@
                     </div>
                 <?php endif; ?>
 
-                <?php foreach (['email', 'password', 'password_confirmation', 'first_name', 'last_name', 'phone'] as $field): ?>
-                    <?php if (session()->getFlashdata('error_' . $field)): ?>
+                <?php
+                $fields = ['email', 'password', 'password_confirmation', 'first_name', 'last_name', 'phone'];
+                foreach ($fields as $field):
+                    $errorMsg = session()->getFlashdata('error_' . $field);
+                    if ($errorMsg): ?>
                         <div class="notification is-danger">
-                            <?= session()->getFlashdata('error_' . $field) ?>
+                            <?= $errorMsg ?>
                         </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                    <?php endif;
+                endforeach; ?>
             </div>
         </div>
     </section>

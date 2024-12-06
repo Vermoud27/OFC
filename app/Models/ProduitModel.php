@@ -87,4 +87,10 @@ class ProduitModel extends Model
         // Obtenir les produits liés à cette catégorie
         return $this->where('id_categorie', $categorie['id_categorie'])->findAll();
     }
+
+    public function rechercherProduitsParNom($nom, $limite = 10)
+    {
+        return $this->like('nom', $nom, 'both')->findAll($limite);
+    }
+
 }

@@ -17,19 +17,16 @@
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
   opacity: 0;
   transform: translateY(-20px);
-  /* Départ au-dessus */
 }
 
 .notification.show {
   opacity: 1;
   transform: translateY(0);
-  /* Position finale */
 }
 
 .notification.fade-out {
   opacity: 0;
   transform: translateY(-20px);
-  /* Disparition vers le haut */
 }
 
 .notification.is-success {

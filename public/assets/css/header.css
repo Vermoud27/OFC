@@ -142,6 +142,22 @@ a {
     background-image: url('/assets/img/logo/phone_orange.png'); /* Image au survol */
 }
 
+
+.admin-icon {
+    width:  60px;
+    height: 60px;
+    background-image:  url('/assets/img/logo/gear.png');
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease; /* Transition fluide */
+}
+
+.admin-icon:hover {
+    background-image:  url('/assets/img/logo/gear_orange.png');
+}
+
+
+
 .cart-container {
     position: relative;
     display: inline-block;
@@ -188,13 +204,36 @@ a {
     color: black; /* Couleur noire par défaut pour toutes les icônes */
 }
 
-.admin-icon {
-    color: black !important; /* Force la couleur noire dès le chargement */
-    font-size: 40px;
-    text-decoration: none;
-    transition: color 0.3s ease;
+.search-container {
+    position: relative;
 }
 
-.admin-icon:hover {
-    color: #D2691E !important; /* Couleur orange au survol */
+.suggestions-list {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%; /* S'ajuste à la largeur du champ de recherche */
+    z-index: 1000; /* Place les suggestions au-dessus des autres éléments */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none; /* Masqué par défaut */
 }
+
+.suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestions-list.visible {
+    display: block; /* Afficher lorsque des suggestions sont disponibles */
+}
+
