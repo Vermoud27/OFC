@@ -34,8 +34,9 @@ require 'header.php';
     <h1>Mon Panier</h1>
     <div class="container">
         <!-- Articles -->
+        <?php var_dump($produitsParGamme) ?>
         <div class="cart-items">
-            <?php if (!empty($produits)): ?>
+            <?php if (!empty($produits) && !empty($gammes)): ?>
                 <?php foreach ($produits as $produit): ?>
                     <div class="cart-item" data-id="<?= htmlspecialchars($produit['id_produit']) ?>" data-stock="<?= htmlspecialchars($produit['qte_stock']) ?>">
                     <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
@@ -57,7 +58,29 @@ require 'header.php';
                         <button class="sup" onclick="retirerProduit(<?= $produit['id_produit'] ?>)"></button>
                     </div>
                 </div>
+                <?php endforeach; ?>
+                
+                <?php foreach ($gammes as $gamme): ?>
+                    <div class="cart-item" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>">
+                    <img src="<?= htmlspecialchars($gamme['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($gamme['nom']) ?>">
+                    <div class="cart-item-details">
+                        <h2><?= htmlspecialchars($gamme['nom']) ?></h2>
+                        <p><?= htmlspecialchars($gamme['contenu']) . ' ' . htmlspecialchars($gamme['unite_mesure']) ?></p>
+                        <p class="stock-status" data-stock="<?= htmlspecialchars($gamme['qte_stock']) ?>">
+                            En stock ()
+                        </p>
 
+                        <div class="quantity">
+                            <button onclick="updateQuantity(<?= $gamme['id_gamme'] ?>, -1)">-</button>
+                            <p><?= htmlspecialchars($gamme['quantite']) ?></p>
+                            <button onclick="updateQuantity(<?= $gamme['id_gamme'] ?>, 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="cart-item-right">  
+                        <p class="price"><?= number_format($gamme['prixttc'], 2) ?> €</p>
+                        <button class="sup" onclick="retirerProduit(<?= $gamme['id_gamme'] ?>)"></button>
+                    </div>
+                </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p class ="empty">Votre panier est vide.</p>

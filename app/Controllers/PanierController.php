@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\CodePromoModel;
 use App\Models\ImageModel;
 use App\Models\ProduitModel;
+use App\Models\GammeModel;
 use App\Models\UtilisateurModel;
 
 class PanierController extends BaseController
@@ -28,13 +29,32 @@ class PanierController extends BaseController
 
         foreach ($produits as &$produit) {
 			$images = $imageModel->getImagesByProduit($produit['id_produit']);
-            $produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/user.png']];		
+            $produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];		
         }
 
         // Calculer le total TTC
         $totalTTC = 0;
         foreach ($produits as &$produit) {
             $totalTTC += $produit['prixttc'] * $produit['quantite'];
+        }
+
+        // Gamme
+        $gammeModel = new GammeModel();
+        $gammes = [];
+
+        foreach ($panier as $idGamme => $quantite) {
+            $gamme = $gammeModel->find($idGamme);
+            if ($gamme) {
+                $gamme['quantite'] = $quantite;
+                $gammes[] = $gamme;
+            }
+        }
+
+        $imageModel = new ImageModel();
+
+        foreach ($gammes as &$gamme) {
+			$gamme['images'] = $imageModel->getImagesByProduit($gamme['id_gamme']);
+            $gamme['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];		
         }
 
         // Code promo
@@ -61,10 +81,14 @@ class PanierController extends BaseController
             }
         }
 
+        $produitsParGamme = $produitModel->where('id_gamme',$idGamme)->find($idProduit);
+
         $data['messagePromo'] = $messagePromo;
         $data['code_promo'] = $promo;
         $data['totalPromo'] = $totalTTC ;
         $data['produits'] = $produits;
+        $data['gammes'] = $gammes;
+        $data['produitsParGamme'] = $produitsParGamme;
 
         return view('panier', $data);
     }
@@ -100,6 +124,38 @@ class PanierController extends BaseController
         // Redirige vers la page précédente sans écraser les flashdata définies plus haut
         return redirect()->back();
     } 
+
+    public function modifierPanierGamme($idGamme, $delta){
+
+        $panier = $this->getPanier();
+
+        $gammeModel = new GammeModel();
+        $gamme = $gammeModel->find($idGamme);
+    
+        // Vérifie si le produit est dans le panier
+        if (isset($panier[$idGamme])) {
+            // Modifie la quantité en fonction du delta
+            $panier[$idGamme] += $delta;
+    
+            // Si la quantité devient 0 ou moins, retirer le produit
+            if ($panier[$idGamme] <= 0) {
+                unset($panier[$idGamme]);
+                session()->setFlashdata('success', "La gamme '{$gamme['nom']}' a été retiré du panier.");
+            } else {
+                session()->setFlashdata('success', "Quantité de '{$gamme['nom']}' mise à jour.");
+            }
+        } elseif ($delta > 0) {
+            // Si le produit n'est pas dans le panier mais le delta est positif, on l'ajoute
+            $panier[$idGamme] = $delta;
+            session()->setFlashdata('success', "La gamme '{$gamme['nom']}' a été ajouté au panier.");
+        }
+
+        // Met à jour le panier
+        $this->setPanier($panier);
+    
+        // Redirige vers la page précédente sans écraser les flashdata définies plus haut
+        return redirect()->back();
+    }
 
     public function retirerProduit($idProduit)
     {
