@@ -78,20 +78,21 @@ require 'header.php';
               <p>Prix : <?= $produit['prixttc'] ?> €</p>
             </div>
           </div>
-          <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)" class="add-to-cart">Ajouter au panier</button>
+          <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1)" class="add-to-cart">Ajouter au
+            panier</button>
         </div>
       </div>
       <div class="user-reviews">
-        <div class="review">
-          <h4>Utilisateur 1</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.</p>
-        </div>
-        <div class="review">
-          <h4>Utilisateur 1</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.</p>
-        </div>
+        <?php if (!empty($commentaires)): ?>
+          <?php foreach ($commentaires as $commentaire): ?>
+            <div class="review">
+              <h4>Utilisateur n°<?= htmlspecialchars($commentaire['id_utilisateur']) ?></h4>
+              <p><?= htmlspecialchars($commentaire['contenu']) ?></p>
+            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <p>Aucun commentaire pour ce produit.</p>
+        <?php endif; ?>
         <button class="see-more">Voir plus</button>
       </div>
       <div class="related-products">

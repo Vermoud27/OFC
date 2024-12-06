@@ -40,11 +40,35 @@ require 'header.php';
                             <td><?= number_format($produit['total'], 2) ?> €</td>
                         </tr>
                     <?php endforeach; ?>
+
+                    <?php
+                      $totalTTC = 0;
+                      foreach ($produits as $produit) {
+                          $totalTTC += $produit['prixttc'] * $produit['quantite'];
+                      }
+                    ?>
+
+                    <?php if (isset($symbole)): ?>
+                      <tr>
+                        <td colspan="3"><strong>Total TTC :</strong></td>
+                        <td><strong><?= number_format($totalTTC, 2) ?> €</strong></td>
+                      </tr>
+                      <tr>
+                          <td><?= htmlspecialchars($code_promo['code']) ?></td>
+                          <td> </td>
+                          <td>-<?= number_format($code_promo['valeur'] + $code_promo['pourcentage'], 2) . $symbole?></td>
+                          <td><?= number_format($totalPromo, 2) ?> €</td>
+                      </tr>
+
+                      <input type="hidden" id="prix_total" name="prix_total" value="<?= htmlspecialchars(number_format($totalPromo, 2, '.', '')) ?>">
+                      <input type="hidden" id="idpromo" name="idpromo" value="<?= htmlspecialchars($code_promo['id_codepromo']) ?>">
+
+                    <?php endif; ?>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3"><strong>Total TTC :</strong></td>
-                        <td><strong><?= number_format($totalTTC, 2) ?> €</strong></td>
+                        <td><strong><?= number_format($totalPromo, 2) ?> €</strong></td>
                     </tr>
                 </tfoot>
             </table>
@@ -53,24 +77,22 @@ require 'header.php';
         <!-- Adresse de livraison -->
         <div class="info-container">
             <h2>Adresse de livraison</h2>
-            <form method="post" action="/commande/mettreAJourAdresse">
-                <div>
-                    <label for="nom">Nom :</label>
-                    <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($utilisateur['nom']) ?>" required>
-                </div>
-                <div>
-                    <label for="adresse">Adresse :</label>
-                    <input type="text" id="adresse" name="adresse" value="<?= htmlspecialchars($utilisateur['adresse']) ?>" required>
-                </div>
-                <div>
-                    <label for="code_postal">Code postal :</label>
-                    <input type="text" id="code_postal" name="code_postal" value="<?= htmlspecialchars($utilisateur['code_postal']) ?>" required>
-                </div>
-                <div>
-                    <label for="ville">Ville :</label>
-                    <input type="text" id="ville" name="ville" value="<?= htmlspecialchars($utilisateur['ville']) ?>" required>
-                </div>
-            </form>
+              <div>
+                  <label for="nom">Nom :</label>
+                  <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($utilisateur['nom']) ?>" required>
+              </div>
+              <div>
+                  <label for="adresse">Adresse :</label>
+                  <input type="text" id="adresse" name="adresse" value="<?= htmlspecialchars($utilisateur['adresse']) ?>" required>
+              </div>
+              <div>
+                  <label for="code_postal">Code postal :</label>
+                  <input type="text" id="code_postal" name="code_postal" value="<?= htmlspecialchars($utilisateur['code_postal']) ?>" required>
+              </div>
+              <div>
+                  <label for="ville">Ville :</label>
+                  <input type="text" id="ville" name="ville" value="<?= htmlspecialchars($utilisateur['ville']) ?>" required>
+              </div>
         </div>
     </div>
 

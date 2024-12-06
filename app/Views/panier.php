@@ -111,12 +111,33 @@ require 'header.php';
                 $totalTTC += $produit['prixttc'] * $produit['quantite'];
             }
             ?>
+
             <h2>Récapitulatif :</h2>
-            <p>Prix TTC : <span class="price-ttc"><?= number_format($totalTTC, 2) ?> €</span></p>
-            <div class="promo-code">
-                <input type="text" placeholder="Saisir un code promo">
-                <button>Appliquer</button>
-            </div>
+
+            <?php if (isset($messagePromo)): ?>
+
+                <?php if (isset($code_promo)): ?>
+                    <h3><?= $code_promo['code']?></h3>
+                    <p class="promo-message"><?= htmlspecialchars($messagePromo) ?></p>
+                    <s>Prix TTC : <span class="price-ttc"><?= number_format($totalTTC, 2) ?> €</span></s>
+                    <p>Nouveau Prix : <span class="price-ttc"><?= number_format($totalPromo, 2) ?> €</span></p>
+                <?php else: ?>
+                    <p class="promo-message"><?= htmlspecialchars($messagePromo) ?></p>
+                    <p>Prix TTC : <span class="price-ttc"><?= number_format($totalTTC, 2) ?> €</span></p>
+                <?php endif; ?>
+            
+            <?php else: ?>
+                <p>Prix TTC : <span class="price-ttc"><?= number_format($totalTTC, 2) ?> €</span></p>
+            <?php endif; ?>
+
+            <form action="/panier/appliquerPromo" method="post">
+                <div class="promo-code">
+                    <input type="text" name="code_promo" placeholder="Saisir un code promo" required>
+                    <button type="submit">Appliquer</button>
+                </div>
+            </form>
+
+
             <a href="/panier/commande"><button class="checkout">Commander</button></a>
         </div>
 

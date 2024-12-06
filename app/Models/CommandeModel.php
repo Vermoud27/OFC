@@ -21,6 +21,7 @@ class CommandeModel extends Model
         'statut',
         'prixht',
         'prixttc',
+        'prixpromo',
         'id_utilisateur',
         'informations'
     ];
