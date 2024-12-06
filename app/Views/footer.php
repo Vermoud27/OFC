@@ -34,13 +34,13 @@
         <!-- Section Droite -->
         <div style="flex: 1; min-width: 200px; text-align: right;">
             <ul style="list-style-type: none; padding: 0; margin: 0;">
-                <li><a href="#">Mentions légales</a></li>
-                <li><a href="#">Politique de confidentialité</a></li>
-                <li><a href="#">Politique de retour et remboursement</a></li>
-                <li><a href="#">Politique de cookies</a></li>
-                <li><a href="#">Protection des données et RGPD</a></li>
-                <li><a href="#">Conditions générales d'utilisation</a></li>
-                <li><a href="#">Conditions générales de vente</a></li>
+                <li><a href="<?= base_url('/mentionslegales') ?>" >Mentions légales</a></li>
+                <li><a href="<?= base_url('/polconf') ?>">Politique de confidentialité</a></li>
+                <li><a href="<?= base_url('/polremb') ?>">Politique de retour et remboursement</a></li>
+                <li><a href="<?= base_url('/polcook') ?>">Politique de cookies</a></li>
+                <li><a href="<?= base_url('/RGPD') ?>">Protection des données et RGPD</a></li>
+                <li><a href="<?= base_url('/condutil') ?>">Conditions générales d'utilisation</a></li>
+                <li><a href="<?= base_url('/condvente') ?>">Conditions générales de vente</a></li>
             </ul>
         </div>
     </div>

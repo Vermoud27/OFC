@@ -2,17 +2,12 @@
 <header class="navbar">
     <div class="left-section">
         <a href="<?= base_url('/navbar/entreprise#contact') ?>" class="phone-icon"></a>
-        <div class="search-container">
-            <input type="text" id="search-bar" placeholder="Rechercher..." class="search-bar" autocomplete="off">
-            <ul id="suggestions" class="suggestions-list"></ul>
-        </div>
-        <datalist id="produits-names">
-          <?php if (!empty($produits) && is_array($produits)): ?>
+        <input type="text" id="search-bar" placeholder="Rechercher..." class="search-bar" autocomplete="off">
+        <?php if (!empty($produits) && is_array($produits)): ?>
             <?php foreach ($produits as $produit): ?>
-              <option value="<?= esc($produit['nom']); ?>"></option>
+                <option value="<?= esc($produit['nom']); ?>"></option>
             <?php endforeach; ?>
-          <?php endif; ?>
-        </datalist>
+        <?php endif; ?>
         <p> 🔍 </p>
     </div>
     <div class="center-section">
