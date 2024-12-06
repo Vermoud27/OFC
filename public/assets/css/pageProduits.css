@@ -38,7 +38,7 @@ main {
     word-break: break-word;
     max-width: calc(25ch + 20px); /* 10 caractères max (+ un padding éventuel) */
     text-decoration: none;
-    
+    cursor: pointer;
     display: flex;
     flex-direction: column; /* Aligne le contenu de la carte en colonne */
     justify-content: space-between; /* Espace entre les éléments, le bouton sera en bas */
@@ -128,4 +128,14 @@ main {
         grid-template-columns: 1fr; /* 1 colonne sur petits écrans mobiles */
         gap: 20px; /* Espacement plus petit */
     }
+}
+
+a.prd {
+    color: black; /* Couleur du lien non visité (ajustez selon vos besoins) */
+    text-decoration: none; /* Enlever le soulignement par défaut des liens */
+}
+
+a.prd:visited{
+    color: black; /* Couleur du lien non visité (ajustez selon vos besoins) */
+    text-decoration: none; /* Enlever le soulignement par défaut des liens */
 }

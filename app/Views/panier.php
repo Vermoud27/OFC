@@ -37,13 +37,15 @@ require 'header.php';
         <div class="cart-items">
             <?php if (!empty($produits)): ?>
                 <?php foreach ($produits as $produit): ?>
-                    <div class="cart-item" data-id="<?= htmlspecialchars($produit['id_produit']) ?>">
-                    <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/default.png') ?>"
-                        alt="<?= htmlspecialchars($produit['nom']) ?>">
+                    <div class="cart-item" data-id="<?= htmlspecialchars($produit['id_produit']) ?>" data-stock="<?= htmlspecialchars($produit['qte_stock']) ?>">
+                    <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
                     <div class="cart-item-details">
                         <h2><?= htmlspecialchars($produit['nom']) ?></h2>
                         <p><?= htmlspecialchars($produit['contenu']) . ' ' . htmlspecialchars($produit['unite_mesure']) ?></p>
-                        <p class="stock-status">En stock</p>
+                        <p class="stock-status" data-stock="<?= htmlspecialchars($produit['qte_stock']) ?>">
+                            En stock (<?= htmlspecialchars($produit['qte_stock']) ?>)
+                        </p>
+
                         <div class="quantity">
                             <button onclick="updateQuantity(<?= $produit['id_produit'] ?>, -1)">-</button>
                             <p><?= htmlspecialchars($produit['quantite']) ?></p>
@@ -55,14 +57,34 @@ require 'header.php';
                         <button class="sup" onclick="retirerProduit(<?= $produit['id_produit'] ?>)"></button>
                     </div>
                 </div>
+
                 <?php endforeach; ?>
             <?php else: ?>
                 <p class ="empty">Votre panier est vide.</p>
             <?php endif; ?>
         </div>
 
+
+
+
+        
         <script>
-            function updateQuantity(productId, delta) {
+function updateQuantity(productId, delta) {
+    const quantityElement = document.querySelector(`.cart-item[data-id="${productId}"] .quantity p`);
+    let currentQuantity = parseInt(quantityElement.textContent);
+
+    // Calcul de la nouvelle quantité
+    let newQuantity = currentQuantity + delta;
+
+    // Récupérer la quantité en stock (à adapter selon votre logique de backend)
+    const stockQuantity = parseInt(document.querySelector(`.cart-item[data-id="${productId}"] .stock-status`).dataset.stock);
+
+    // Si la nouvelle quantité dépasse le stock disponible, afficher un message d'erreur
+    if (newQuantity > stockQuantity) {
+        alert(`Vous ne pouvez pas dépasser la quantité en stock de ${stockQuantity} article(s).`);
+        return;
+    }
+
     const requestBody = { id_produit: productId, delta: delta };
 
     // Faire un appel AJAX au serveur pour mettre à jour la quantité

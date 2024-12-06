@@ -81,6 +81,28 @@ class ProduitController extends BaseController
         return $this->response->setJSON($produits);
     }
 
+	public function produitsParGamme($idGamme)
+    {
+        $produitModel = new ProduitModel();
+    
+        $produits = $produitModel->getProduitsByGamme($idGamme);
+    
+        if (empty($produits)) {
+            return $this->response->setJSON(['message' => 'Aucun produit trouvé pour cette gamme']);
+        }
+
+		// Ajouter les images pour chaque produit
+		foreach ($produits as &$produit) {
+			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
+			$produit['images'] = $images;
+		}
+
+		$data['produits'] = $produits;
+		$data['pager'] = \Config\Services::pager();
+    
+        return view('pageProduits', $data);
+    }
+
     public function index()
 	{
 		$produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->paginate(8);
