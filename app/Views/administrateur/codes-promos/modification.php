@@ -69,13 +69,13 @@
                 </div>
 
                 <div>
-                    <?php echo form_label('Nombre maximal d\'utilisations', 'max_utilisations'); ?>
-                    <?php echo form_input('max_utilisations', set_value('max_utilisations', $codepromo['max_utilisations'] ?? ''), [
+                    <?php echo form_label('Nombre maximal d\'utilisations', 'utilisation_max'); ?>
+                    <?php echo form_input('utilisation_max', set_value('utilisation_max', $codepromo['utilisation_max'] ?? ''), [
                         'type' => 'number',
                         'min' => '0',
                         'step' => '1',
                     ]); ?>
-                    <?= validation_show_error('max_utilisations') ?>
+                    <?= validation_show_error('utilisation_max') ?>
                 </div>
 
                 <div>
