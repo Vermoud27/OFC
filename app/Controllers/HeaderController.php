@@ -2,19 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\FAQModel;
-use App\Models\ImageModel;
 use App\Models\ProduitModel;
 
-class ControllerOFC extends BaseController
+class HeaderController extends BaseController
 {
     public function index(): string
     {
         //return view('pageAccueil');
 
-        $faqModel = new FaqModel(); // Instanciez le modèle
         $produitModel = new ProduitModel();
-        $imageModel = new ImageModel();
 
         $produits = $produitModel->getTopProduits();
 
