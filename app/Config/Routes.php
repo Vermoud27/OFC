@@ -52,12 +52,14 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/PanierController', 'PanierController::index');
 
     // Panier
+    $routes->get('/panier', 'PanierController::index');
     $routes->post('/panier/ajouter/(:num)', 'PanierController::ajouterPanier/$1');
     $routes->post('/panier/update', 'PanierController::update');
     $routes->get('/panier/retirer/(:num)', 'PanierController::retirerProduit/$1');
     $routes->get('/panier/vider', 'PanierController::viderPanier');
     $routes->get('/panier/modifier/(:num)/(:any)', 'PanierController::modifierPanier/$1/$2');
     $routes->get('/panier/commande', 'PanierController::recapitulatif');
+    $routes->post('/panier/appliquerPromo', 'PanierController::appliquerPromo');
 
     // Commande
     $routes->post('/commande/traiterPaiement', 'PaymentController::traiterPaiement');

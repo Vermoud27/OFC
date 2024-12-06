@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\CodePromoModel;
 use App\Models\CommandeModel;
 use App\Models\DetailsCommandeModel;
 use App\Models\ProduitModel;
@@ -37,6 +38,17 @@ class CommandeController extends BaseController
 			'ville' => $this->request->getPost('ville'),
 		];
 
+        $prixpromo = $this->request->getPost('prix_total') ?: null;
+        $idpromo = $this->request->getPost('idpromo') ?: null;
+
+        if(!empty($idpromo))
+        {
+            $codepromoModel = new CodePromoModel();
+            $code = $codepromoModel->find($idpromo);
+            $util = $code['utilisation_actuelle'] + 1;
+            $codepromoModel->update($idpromo, ['utilisation_actuelle' => $util]);
+        }
+
 		$utilisateurModel = new UtilisateurModel();
 		$utilisateurModel->update($userId, $data);
         
@@ -68,6 +80,7 @@ class CommandeController extends BaseController
             'statut' => 'en attente', // Statut initial
             'prixht' => $prixTotalHT,
             'prixttc' => $prixTotalTTC,
+            'prixpromo' => $prixpromo,
             'id_utilisateur' => $userId,
 			'informations' => $utilisateur['adresse'] . ' ' . $utilisateur['code_postal'] . ' ' .$utilisateur['ville'],
         ];
