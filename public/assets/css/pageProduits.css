@@ -38,6 +38,12 @@ main {
     word-break: break-word;
     max-width: calc(25ch + 20px); /* 10 caractères max (+ un padding éventuel) */
     text-decoration: none;
+    
+    display: flex;
+    flex-direction: column; /* Aligne le contenu de la carte en colonne */
+    justify-content: space-between; /* Espace entre les éléments, le bouton sera en bas */
+    height: 100%; /* Permet à la carte de prendre toute la hauteur possible */
+
 }
 
 .product-card img {
@@ -79,6 +85,7 @@ main {
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: auto; /* Le bouton sera poussé en bas de la carte */
 }
 
 .product-card button:hover {
@@ -99,3 +106,26 @@ main {
     text-decoration: none;
     cursor: pointer;
   }
+
+
+
+/* Media Queries pour la réactivité */
+@media (max-width: 1200px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 colonnes sur écrans moyens */
+    }
+}
+
+@media (max-width: 900px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur petits écrans */
+        gap: 30px; /* Réduire l'écart entre les cartes */
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: 1fr; /* 1 colonne sur petits écrans mobiles */
+        gap: 20px; /* Espacement plus petit */
+    }
+}
