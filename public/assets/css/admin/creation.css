@@ -4,8 +4,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #556B2F;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #F5F5DC;
 }
 
 .container {
