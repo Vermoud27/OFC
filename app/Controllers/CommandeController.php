@@ -12,8 +12,8 @@ use App\Models\UtilisateurModel;
 class CommandeController extends BaseController
 {
     public function __construct()
-	{
-		helper(['form']);
+    {
+        helper(['form']);
     }
 
     public function index()
@@ -22,10 +22,10 @@ class CommandeController extends BaseController
 
         // Récupérer les commandes (exclure les statuts 'fini' et 'annulé')
         $commandes = $commandeModel->select('commande.*, utilisateur.mail')
-        ->join('utilisateur', 'utilisateur.id_utilisateur = commande.id_utilisateur')
-        ->whereNotIn('statut', ['fini', 'annulé'])
-        ->orderBy('id_commande')->paginate(8);
-        
+            ->join('utilisateur', 'utilisateur.id_utilisateur = commande.id_utilisateur')
+            ->whereNotIn('statut', ['fini', 'annulé'])
+            ->orderBy('id_commande')->paginate(8);
+
         // Calculer les statistiques (nombre de commandes dans chaque état)
         $statistiques = [
             'en_attente' => $commandeModel->where('statut', 'en attente')->countAllResults(),
@@ -47,94 +47,92 @@ class CommandeController extends BaseController
 
     public function modifier($id)
     {
-		$commandeModel = new CommandeModel();
+        $commandeModel = new CommandeModel();
 
         $this->validate([
-			'statut' => 'required',
-		]);
-        
+            'statut' => 'required',
+        ]);
+
         $data = [
             'statut' => $this->request->getPost('statut'),
         ];
 
-		$commandeModel->update($id, $data);
-		
-		return redirect()->to('admin/commandes');
+        $commandeModel->update($id, $data);
+
+        return redirect()->to('admin/commandes');
     }
 
     public function annuler($id)
     {
-		$commandeModel = new CommandeModel();
+        $commandeModel = new CommandeModel();
 
         $commande = $commandeModel->find($id);
 
         if (!$commande) {
             return redirect()->to('commande')->with('error', 'Commande introuvable.');
         }
-    
+
         // Vérifier si la commande appartient à l'utilisateur connecté
-        $userId = session()->get('idutilisateur'); 
+        $userId = session()->get('idutilisateur');
         if ($commande['id_utilisateur'] !== $userId) {
             return redirect()->to('commande')->with('error', 'Vous ne pouvez pas annuler cette commande.');
         }
-        
+
         $data = [
             'statut' => 'annulé',
         ];
 
-		$commandeModel->update($id, $data);
-		
-		return redirect()->to('commande')->with('success', 'Commande annulée avec succès.');
+        $commandeModel->update($id, $data);
+
+        return redirect()->to('commande')->with('success', 'Commande annulée avec succès.');
     }
-    
+
     public function enregistrerCommande()
     {
-		$session = session();
+        $session = session();
         $panier = $this->getPanier();
-        $userId = $session->get('idutilisateur'); 
-		
-		$isValid = $this->validate([
-			'nom' => 'required|max_length[50]',
-			'adresse' => 'required|max_length[100]',
-			'code_postal' => 'required|max_length[100]',
-			'ville' => 'required|max_length[100]',
-		]);
+        $userId = $session->get('idutilisateur');
 
-		if (!$isValid)
-		{
-			return view('recapitulatif', [
-				'validation' => \Config\Services::validation(),
-			]);
-		}
+        $isValid = $this->validate([
+            'nom' => 'required|max_length[50]',
+            'adresse' => 'required|max_length[100]',
+            'code_postal' => 'required|max_length[100]',
+            'ville' => 'required|max_length[100]',
+        ]);
 
-		$data = [
-			'nom' => $this->request->getPost('nom'),
-			'adresse' => $this->request->getPost('adresse'),
-			'code_postal' => $this->request->getPost('code_postal'),
-			'ville' => $this->request->getPost('ville'),
-		];
+        if (!$isValid) {
+            return view('recapitulatif', [
+                'validation' => \Config\Services::validation(),
+            ]);
+        }
+
+        $data = [
+            'nom' => $this->request->getPost('nom'),
+            'adresse' => $this->request->getPost('adresse'),
+            'code_postal' => $this->request->getPost('code_postal'),
+            'ville' => $this->request->getPost('ville'),
+        ];
 
         $prixpromo = $this->request->getPost('prix_total') ?: null;
         $idpromo = $this->request->getPost('idpromo') ?: null;
 
-        if(!empty($idpromo))
-        {
+        if (!empty($idpromo)) {
             $codepromoModel = new CodePromoModel();
             $code = $codepromoModel->find($idpromo);
             $util = $code['utilisation_actuelle'] + 1;
             $codepromoModel->update($idpromo, ['utilisation_actuelle' => $util]);
         }
 
-		$utilisateurModel = new UtilisateurModel();
-		$utilisateurModel->update($userId, $data);
-        
-		$utilisateur = $utilisateurModel->find($userId);
+        $utilisateurModel = new UtilisateurModel();
+        $utilisateurModel->update($userId, $data);
+
+        $utilisateur = $utilisateurModel->find($userId);
 
         // Calculer le prix total TTC de la commande
         $prixTotalHT = 0;
         $prixTotalTTC = 0;
 
-		$produitModel = new ProduitModel();
+        $produitModel = new ProduitModel();
         $produits = [];
         foreach ($panier as $idProduit => $quantite) {
             $produit = $produitModel->find($idProduit);
@@ -144,10 +142,10 @@ class CommandeController extends BaseController
             }
         }
 
-		foreach ($produits as $produit) {
-			$prixTotalHT += $produit['prixht'] * $produit['quantite'];
-        	$prixTotalTTC += $produit['prixttc'] * $produit['quantite'];
-		}
+        foreach ($produits as $produit) {
+            $prixTotalHT += $produit['prixht'] * $produit['quantite'];
+            $prixTotalTTC += $produit['prixttc'] * $produit['quantite'];
+        }
 
         // Enregistrer la commande
         $commandeModel = new CommandeModel();
@@ -158,7 +156,7 @@ class CommandeController extends BaseController
             'prixttc' => $prixTotalTTC,
             'prixpromo' => $prixpromo,
             'id_utilisateur' => $userId,
-			'informations' => $utilisateur['adresse'] . ' ' . $utilisateur['code_postal'] . ' ' .$utilisateur['ville'],
+            'informations' => $utilisateur['adresse'] . ' ' . $utilisateur['code_postal'] . ' ' . $utilisateur['ville'],
         ];
 
         $commandeId = $commandeModel->insert($commandeData);
@@ -166,8 +164,8 @@ class CommandeController extends BaseController
         // Enregistrer les détails de la commande
         $detailsCommandeModel = new DetailsCommandeModel();
 
-		foreach ($produits as $produit) {
-			$detailsCommandeData = [
+        foreach ($produits as $produit) {
+            $detailsCommandeData = [
                 'id_commande' => $commandeId,
                 'id_produit' => $produit['id_produit'],
                 'quantite' => $produit['quantite'],
@@ -175,18 +173,19 @@ class CommandeController extends BaseController
 
             // Ajouter les détails de commande
             $detailsCommandeModel->insert($detailsCommandeData);
-		}
+        }
 
-		$response = service('response');
-		$response->setCookie('panier', '', time() - 3600);
+        $response = service('response');
+        $response->setCookie('panier', '', time() - 3600);
 
-		$response->send();
+        $response->send();
 
         // Rediriger vers la page de confirmation
-        return redirect()->to('/ControllerOFC')->with('message', 'Commande enregistrée avec succès.');
+        session()->setFlashdata('success', 'Votre commande a été validée avec succès après paiement.');
+        return redirect()->to('/');
     }
 
-	private function getPanier(): array
+    private function getPanier(): array
     {
         $request = service('request');
         $cookie = $request->getCookie('panier');
