@@ -75,9 +75,9 @@ require 'header.php';
           <div class="rating-overview">
             <h3><?= number_format($averageRating, 1) ?> / 5</h3>
             <div class="stars">
-              <?php for ($i = 1; $i <= 5; $i++): ?>
-                <i class="fas fa-star <?= $i <= round($averageRating) ? 'filled' : '' ?>"></i>
-              <?php endfor; ?>
+                <?php for ($i = 1; $i <= 5; $i++): ?>
+                <i class="fa-star<?= $i <= round($averageRating) ? ' fa-solid' : ' fa-regular' ?>" style="<?= $i <= round($averageRating) ? 'color: #FFD43B;' : '' ?>"></i>
+                <?php endfor; ?>
             </div>
             <p><?= $totalRatings ?> Notes</p>
           </div>
@@ -92,9 +92,9 @@ require 'header.php';
             <?php echo form_open('/submitRating', ['enctype' => 'multipart/form-data']); ?>
 
             <div class="stars-input">
-              <?php for ($i = 1; $i <= 5; $i++): ?>
-                <i class="fas fa-star rate-star" data-value="<?= $i ?>" <?php echo (isset($existingRating) && $existingRating['valeur'] >= $i) ? 'class="selected"' : ''; ?>></i>
-              <?php endfor; ?>
+                <?php for ($i = 1; $i <= 5; $i++): ?>
+                <i class="fa-star rate-star<?= (isset($existingRating) && $existingRating['valeur'] >= $i) ? ' fa-solid' : ' fa-regular' ?>" data-value="<?= $i ?>" style="<?= (isset($existingRating) && $existingRating['valeur'] >= $i) ? 'color: #FFD43B;' : '' ?>"></i>
+                <?php endfor; ?>
             </div>
             <input type="hidden" name="rating" id="rating-value"
               value="<?= isset($existingRating) ? $existingRating['valeur'] : 0 ?>">
@@ -160,7 +160,7 @@ require 'header.php';
         <?php else: ?>
           <p>Aucun commentaire pour ce produit.</p>
         <?php endif; ?>
-        <?php if (!$all && count($commentaires) > 5): ?>
+        <?php if (!$all && count($commentaires) >= 5): ?>
           <a href="?all_comments=true" class="see-more">Voir plus</a>
         <?php endif; ?>
       </div>
