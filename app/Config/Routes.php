@@ -42,14 +42,6 @@ $routes->post('/faq/send', 'FaqController::sendMail');
 // Produits
 $routes->get('/produit/(:any)', 'InfoProduitController::index/$1');
 
-// Admin - FAQ
-$routes->get('/faq/admin', 'FaqController::admin');
-$routes->get('/faq/create', 'FaqController::viewCreate');
-$routes->post('/faq/create', 'FaqController::create');
-$routes->get('/faq/edit/(:num)', 'FaqController::edit/$1');
-$routes->post('/faq/update/(:num)', 'FaqController::update/$1');
-$routes->get('/faq/delete/(:num)', 'FaqController::delete/$1');
-
 // Section droite footer
 $routes->get('/mentionslegales', 'FooterController::mentionlegales');
 $routes->get('/polconf', 'FooterController::polconf');
@@ -134,6 +126,13 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         
         $routes->post('/admin/bundles/ajouter-produit/(:num)', "BundleController::ajouter_produit/$1");
         $routes->post('/admin/bundles/enlever-produit/(:num)', "BundleController::enlever_produit/$1");
+
+        $routes->get('/faq/admin', 'FaqController::admin');
+        $routes->get('/faq/create', 'FaqController::viewCreate');
+        $routes->post('/faq/create', 'FaqController::create');
+        $routes->get('/faq/edit/(:num)', 'FaqController::edit/$1');
+        $routes->post('/faq/update/(:num)', "FaqController::update/$1");
+        $routes->post('/faq/delete/(:num)', "FaqController::delete/$1");
     }
 
     // Déconnexion
