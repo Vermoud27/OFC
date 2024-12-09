@@ -31,12 +31,16 @@ require 'header.php';
             </div>
         <?php endif; ?>
     </div>
+
+    
     <h1>Mon Panier</h1>
+
+
+
     <div class="container">
         <!-- Articles -->
-        <?php var_dump($produitsParGamme) ?>
         <div class="cart-items">
-            <?php if (!empty($produits) && !empty($gammes)): ?>
+            <?php if (!empty($produits)): ?>
                 <?php foreach ($produits as $produit): ?>
                     <div class="cart-item" data-id="<?= htmlspecialchars($produit['id_produit']) ?>" data-stock="<?= htmlspecialchars($produit['qte_stock']) ?>">
                     <img src="<?= htmlspecialchars($produit['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
@@ -59,33 +63,57 @@ require 'header.php';
                     </div>
                 </div>
                 <?php endforeach; ?>
-                
-                <?php foreach ($gammes as $gamme): ?>
-                    <div class="cart-item" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>">
-                    <img src="<?= htmlspecialchars($gamme['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($gamme['nom']) ?>">
-                    <div class="cart-item-details">
-                        <h2><?= htmlspecialchars($gamme['nom']) ?></h2>
-                        <p><?= htmlspecialchars($gamme['contenu']) . ' ' . htmlspecialchars($gamme['unite_mesure']) ?></p>
-                        <p class="stock-status" data-stock="<?= htmlspecialchars($gamme['qte_stock']) ?>">
-                            En stock ()
-                        </p>
+            <?php endif; ?>
 
-                        <div class="quantity">
-                            <button onclick="updateQuantity(<?= $gamme['id_gamme'] ?>, -1)">-</button>
-                            <p><?= htmlspecialchars($gamme['quantite']) ?></p>
-                            <button onclick="updateQuantity(<?= $gamme['id_gamme'] ?>, 1)">+</button>
+
+            
+            
+            <!-- GAMMES -->
+            <?php if (!empty($gammes)): ?>
+            <?php foreach($gammes as $gamme) : ?>
+                <?php if (!empty($produitsParGamme)): ?>
+                    <?php foreach ($produitsParGamme as $produitGamme): ?>
+                    <div class="cart-item" 
+                        data-id="<?= htmlspecialchars($produitGamme['id_produit'] ?? '0') ?>" 
+                        data-stock="<?= htmlspecialchars($produitGamme['qte_stock'] ?? '0') ?>">
+                        <!-- Image -->
+                        <img src="<?= htmlspecialchars($produitGamme['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" 
+                            alt="<?= htmlspecialchars($produitGamme['nom'] ?? 'Produit sans nom') ?>">
+
+                        <!-- Détails du produit -->
+                        <div class="cart-item-details">
+                            <h2><?= htmlspecialchars($gamme['nom'] ?? 'Nom inconnu') ?></h2>
+                            <p><?= htmlspecialchars($produitGamme['contenu'] ?? '-') . ' ' . htmlspecialchars($produitGamme['unite_mesure'] ?? '') ?></p>
+                            <p class="stock-status" data-stock="<?= htmlspecialchars($produitGamme['qte_stock'] ?? '0') ?>">
+                                En stock (<?= htmlspecialchars($produitGamme['qte_stock'] ?? '0') ?>)
+                            </p>
+
+                            <!-- Gestion de la quantité -->
+                            <div class="quantity">
+                                <button onclick="updateQuantity(<?= htmlspecialchars($produitGamme['id_produit'] ?? '0') ?>, -1)">-</button>
+                                <p><?= htmlspecialchars($produitGamme['quantite'] ?? '1') ?></p>
+                                <button onclick="updateQuantity(<?= htmlspecialchars($produitGamme['id_produit'] ?? '0') ?>, 1)">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Section de droite -->
+                        <div class="cart-item-right">
+                            <p class="price">
+                                <?= number_format($gamme['prixttc'] ?? 0, 2) ?> €
+                            </p>
+                            <button class="sup" onclick="retirerProduit(<?= htmlspecialchars($produitGamme['id_produit'] ?? '0') ?>)">
+                                Supprimer
+                            </button>
                         </div>
                     </div>
-                    <div class="cart-item-right">  
-                        <p class="price"><?= number_format($gamme['prixttc'], 2) ?> €</p>
-                        <button class="sup" onclick="retirerProduit(<?= $gamme['id_gamme'] ?>)"></button>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p class ="empty">Votre panier est vide.</p>
-            <?php endif; ?>
-        </div>
+                    <?php endforeach; ?>
+                <?php endif ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <?php if (empty($produits) && empty($gammes)): ?>
+            <p class ="empty">Votre panier est vide.</p>
+        <?php endif; ?>
+    </div>
 
 
 
@@ -154,6 +182,9 @@ function updateQuantity(productId, delta) {
             $totalTTC = 0;
             foreach ($produits as $produit) {
                 $totalTTC += $produit['prixttc'] * $produit['quantite'];
+            }
+            foreach ($gammes as $gamme) {
+                $totalTTC += $gamme['prixttc'] * $gamme['quantite'];
             }
             ?>
 

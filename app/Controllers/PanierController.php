@@ -28,7 +28,7 @@ class PanierController extends BaseController
         $imageModel = new ImageModel();
 
         foreach ($produits as &$produit) {
-			$images = $imageModel->getImagesByProduit($produit['id_produit']);
+            $images = $imageModel->getImagesByProduit($produit['id_produit']);
             $produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];		
         }
 
@@ -37,27 +37,42 @@ class PanierController extends BaseController
         foreach ($produits as &$produit) {
             $totalTTC += $produit['prixttc'] * $produit['quantite'];
         }
+        
 
-        // Gamme
+        // Charger les gammes du panier
         $gammeModel = new GammeModel();
         $gammes = [];
+        $produitsParGamme = [];
 
         foreach ($panier as $idGamme => $quantite) {
             $gamme = $gammeModel->find($idGamme);
+
             if ($gamme) {
                 $gamme['quantite'] = $quantite;
                 $gammes[] = $gamme;
+
+                // Charger les produits de la gamme
+                $produitsDeGamme = $produitModel->where('id_gamme', $idGamme)->findAll();
+                foreach ($produitsDeGamme as &$produit) {
+                    $produit['quantite'] = $quantite; // Quantité basée sur la gamme
+                    $produit['images'] = $imageModel->getImagesByProduit($produit['id_produit']);
+                    $produit['images'] = !empty($produit['images']) ? $produit['images'] : [['chemin' => '/assets/img/produits/placeholder.png']];
+                }
+                $produitsParGamme[$idGamme] = $produitsDeGamme;
             }
         }
 
-        $imageModel = new ImageModel();
-
+        // Ajouter les images pour chaque gamme
         foreach ($gammes as &$gamme) {
-			$gamme['images'] = $imageModel->getImagesByProduit($gamme['id_gamme']);
-            $gamme['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];		
+            $images = $imageModel->getImagesByProduit($gamme['id_gamme']);
+            $gamme['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/produits/placeholder.png']];
         }
 
-        // Code promo
+        foreach ($gammes as &$gamme) {
+            $totalTTC += $gamme['prixttc'] * $gamme['quantite'];
+        }
+
+        // Gestion du code promo
         $request = service('request');
         $codePromo = $request->getCookie('code_promo');
         $messagePromo = null;
@@ -68,24 +83,21 @@ class PanierController extends BaseController
 
             if ($result['valid']) {
                 $promo = $result['promo'];
-                if($promo['valeur'] != 0) {
+                if ($promo['valeur'] != 0) {
                     $totalTTC -= $promo['valeur'];
                     $messagePromo = "Code promo appliqué : -" . $promo['valeur'] . "€";
-                }
-                else {
+                } else {
                     $totalTTC -= $totalTTC * ($promo['pourcentage'] / 100);
                     $messagePromo = "Code promo appliqué : -" . $promo['pourcentage'] . "%";
                 }
             } else {
-                $messagePromo =  $result['message'];
+                $messagePromo = $result['message'];
             }
         }
 
-        $produitsParGamme = $produitModel->where('id_gamme',$idGamme)->find($idProduit);
-
         $data['messagePromo'] = $messagePromo;
         $data['code_promo'] = $promo;
-        $data['totalPromo'] = $totalTTC ;
+        $data['totalPromo'] = $totalTTC;
         $data['produits'] = $produits;
         $data['gammes'] = $gammes;
         $data['produitsParGamme'] = $produitsParGamme;
