@@ -97,7 +97,7 @@ class PanierController extends BaseController
 
         $data['messagePromo'] = $messagePromo;
         $data['code_promo'] = $promo;
-        $data['totalPromo'] = $totalTTC;
+        $data['totalPromo'] = $totalTTC < 0 ? 0 : $totalTTC;
         $data['produits'] = $produits;
         $data['gammes'] = $gammes;
         $data['produitsParGamme'] = $produitsParGamme;

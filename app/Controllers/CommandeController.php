@@ -159,7 +159,7 @@ class CommandeController extends BaseController
             'statut' => 'en attente', // Statut initial
             'prixht' => $prixTotalHT,
             'prixttc' => $prixTotalTTC,
-            'prixpromo' => $prixpromo,
+            'prixpromo' => $prixpromo < 0 ? 0 : $prixpromo,
             'id_utilisateur' => $userId,
             'informations' => $utilisateur['adresse'] . ' ' . $utilisateur['code_postal'] . ' ' . $utilisateur['ville'],
         ];
