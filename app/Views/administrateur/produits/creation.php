@@ -27,7 +27,7 @@
 
                 <div class="grid-2-columns">
                     <div>
-                        <?php echo form_label('Nom', 'nom'); ?>
+                        <?php echo form_label('Nom *', 'nom'); ?>
                         <?php echo form_input('nom', set_value('nom'), 'required'); ?>
                         <?= validation_show_error('nom') ?>
                     </div>
@@ -46,7 +46,7 @@
           
 
                 <div class="grid-full">
-                    <?php echo form_label('Description', 'description'); ?>
+                    <?php echo form_label('Description *', 'description'); ?>
                     <?php echo form_textarea('description', set_value('description'), 'required'); ?>
                     <?= validation_show_error('description') ?>
                 </div>
@@ -75,7 +75,7 @@
 
                 <div class="grid-3-columns">
                     <div>
-                        <?php echo form_label('Contenu', 'contenu'); ?>
+                        <?php echo form_label('Contenu *', 'contenu'); ?>
                         <?php echo form_input('contenu', set_value('contenu'), [
                             'type' => 'number',
                             'min' => '0',
@@ -85,7 +85,7 @@
                         <?= validation_show_error('contenu') ?>
                     </div>
                     <div>
-                        <?php echo form_label('Unité de mesure', 'unite_mesure'); ?>
+                        <?php echo form_label('Unité de mesure *', 'unite_mesure'); ?>
                         <?php 
                         $options = [
                             'g' => 'g',
@@ -96,7 +96,7 @@
                     </div>
                    
                     <div>
-                        <?php echo form_label('Quantité en stock', 'qte_stock'); ?>
+                        <?php echo form_label('Quantité en stock *', 'qte_stock'); ?>
                         <?php echo form_input('qte_stock', set_value('qte_stock'), [
                             'type' => 'number',
                             'min' => '0',
@@ -110,7 +110,7 @@
 
                 <div class="grid-2-columns">
                     <div>
-                        <?php echo form_label('Prix HT', 'prixht'); ?>
+                        <?php echo form_label('Prix HT (€) *', 'prixht'); ?>
                         <?php echo form_input('prixht', set_value('prixht'), [
                             'type' => 'number',
                             'min' => '0',
@@ -120,7 +120,7 @@
                         <?= validation_show_error('prixht') ?>
                     </div>
                     <div>
-                        <?php echo form_label('Prix TTC', 'prixttc'); ?>
+                        <?php echo form_label('Prix TTC (€) *', 'prixttc'); ?>
                         <?php echo form_input('prixttc', set_value('prixttc'), [
                             'type' => 'number',
                             'min' => '0',

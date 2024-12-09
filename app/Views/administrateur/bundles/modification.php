@@ -6,46 +6,6 @@
     <title>Modification de Bundle</title>
     <link rel="stylesheet" href="/assets/css/admin/creation.css">
 
-    <style>
-        .container {
-            display: flex;
-            gap: 30px;
-        }
-        .product-list {
-            flex: 1;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-        .product-list table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .product-list th, .product-list td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        .product-list button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .product-list button:hover {
-            background-color: #0056b3;
-        }
-        .form-container {
-            flex: 2;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -117,14 +77,14 @@
             <?php echo form_open('/admin/bundles/modifier/' . $bundle['id_bundle'], ['enctype' => 'multipart/form-data']); ?>
 
                 <div class="grid-full">
-                    <?php echo form_label('Description', 'description'); ?>
+                    <?php echo form_label('Description *', 'description'); ?>
                     <?php echo form_textarea('description', set_value('description', $bundle['description']), 'required'); ?>
                     <?= validation_show_error('description') ?>
                 </div>
 
                 
                 <div>
-                    <?php echo form_label('Prix ', 'prix'); ?>
+                    <?php echo form_label('Prix (€) *', 'prix'); ?>
                     <?php echo form_input('prix', set_value('prix', $bundle['prix']), [
                         'type' => 'number',
                         'min' => '0',

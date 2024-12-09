@@ -238,3 +238,112 @@ textarea {
         grid-template-columns: 1fr; /* Une seule colonne sur petit écran */
     }
 }
+
+/* Style général des tableaux */
+.product-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.product-list th, 
+.product-list td {
+    padding: 8px 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 14px; /* Réduit la taille de la police */
+}
+
+.product-list th {
+    background-color: #556B2F; /* Couleur d'en-tête */
+    color: #fff;
+}
+
+.product-list tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Lignes alternées */
+}
+
+.product-list tbody tr:hover {
+    background-color: #f1f1f1; /* Effet au survol */
+}
+
+/* Réduire la hauteur des lignes */
+.product-list td, 
+.product-list th {
+    line-height: 1.2; /* Réduit l'espacement vertical */
+    height: 36px; /* Ajuste la hauteur maximale */
+}
+
+/* Sections avec scrollbars */
+.product-list tbody {
+    display: block;
+    max-height: 200px; /* Limite la hauteur de la liste */
+    overflow-y: auto; /* Ajoute une barre de défilement verticale */
+}
+
+.product-list thead, 
+.product-list tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Assure une largeur fixe des colonnes */
+}
+
+.product-list thead {
+    width: calc(100% - 8px); /* Évite une légère surcharge par le scroll */
+}
+
+/* Input dans les formulaires */
+.product-list input[type="number"] {
+    width: 50px;
+    padding: 3px;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+tbody form {
+    display: flex;
+    align-items: center; /* Aligne les éléments verticalement */
+    gap: 5px; /* Espacement entre les éléments */
+}
+
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+.product-list {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+.product-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.product-list th, .product-list td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.product-list button {
+    background-color: #D2691E;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.product-list button:hover {
+    background-color: #A0522D;
+}
+.form-container {
+    flex: 2;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}

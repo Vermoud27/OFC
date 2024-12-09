@@ -14,14 +14,14 @@
             <?php echo form_open('/admin/categories/creer', ['enctype' => 'multipart/form-data']); ?>
 
                 <div>
-                    <?php echo form_label('Nom', 'nom'); ?>
+                    <?php echo form_label('Nom *', 'nom'); ?>
                     <?php echo form_input('nom', set_value('nom'), 'required'); ?>
                     <?= validation_show_error('nom') ?>
                 </div>
           
 
                 <div class="grid-full">
-                    <?php echo form_label('Description', 'description'); ?>
+                    <?php echo form_label('Description *', 'description'); ?>
                     <?php echo form_textarea('description', set_value('description'), 'required'); ?>
                     <?= validation_show_error('description') ?>
                 </div>
