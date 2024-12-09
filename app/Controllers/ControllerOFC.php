@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\FAQModel;
+use App\Models\GammeModel;
 use App\Models\ImageModel;
 use App\Models\ProduitModel;
 
@@ -15,8 +16,15 @@ class ControllerOFC extends BaseController
         $faqModel = new FaqModel(); // Instanciez le modèle
         $produitModel = new ProduitModel();
         $imageModel = new ImageModel();
+        $gammeModel = new GammeModel();
 
-        $produits = $produitModel->getTopProduits();
+        $gammes = $gammeModel->getTopGammes(2);
+
+        if (empty($gammes)) {
+            $gammes = $gammeModel->limit(2)->findAll();
+        }
+
+        $produits = $produitModel->getTopProduits(8);
 
         if (empty($produits)) {
             $produits = $produitModel->limit(8)->findAll();
@@ -28,7 +36,7 @@ class ControllerOFC extends BaseController
         }
 
         $data['produits'] = $produits;
-
+        $data['gammes'] = $gammes;
         $data['recherche'] = $produit['nom'];
 
         // Récupérez les 10 premières questions

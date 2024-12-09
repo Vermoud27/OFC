@@ -17,7 +17,7 @@
             <h2>Les favoris</h2>
             <?php foreach ($fav as $produit): ?>
 
-                <p><span>Nom : </span><?= $produit['nom'] ?></p>
+                <b><span>Nom : </span><?= $produit['nom'] ?></b>
                 <p><span>Quantité vendu : </span><?= $produit['total_quantite'] ?></p>
                 
                 <br>

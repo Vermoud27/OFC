@@ -28,14 +28,14 @@
     <div class="container">
         <!-- Panel de statistiques -->
         <div class="panel">
-            <h2>Statistiques</h2>
-            <div class="stats">
-                <p>Total des produits : 150</p>
-                <p>Produits en rupture : 20</p>
-                <p>Chiffre d'affaires : 12 500€</p>
-            </div>
-            <h2>Informations</h2>
-            <p>Ce tableau affiche les produits disponibles en stock et leurs détails respectifs.</p>
+            <h2>Les favoris</h2>
+            <?php foreach ($fav as $ingredient): ?>
+
+                <b><span>Nom : </span><?= $ingredient['nom'] ?></b>
+                <p><span>Quantité de produits vendu avec cet ingrédient : </span><?= $ingredient['total_quantite'] ?></p>
+                
+                <br>
+            <?php endforeach; ?>    
         </div>
 
         <!-- Liste des produits -->

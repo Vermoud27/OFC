@@ -28,6 +28,10 @@ class BundleController extends BaseController
 		foreach ($bundles as &$bundle) {
 			$bundle['produit_count'] = $bundleproduitModel->where('id_bundle', $bundle['id_bundle'])->countAllResults();
 		}
+
+		$fav = $this->bundleModel->getTopBundles(5);
+
+		$data['fav'] = $fav;
 		
 		$data['produits'] = $this->produitModel->findAll();
 		$data['bundles'] = $bundles;

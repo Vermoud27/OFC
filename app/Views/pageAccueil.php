@@ -57,7 +57,9 @@ require 'header.php';
       <div class="gamme-image">
         <img src="/assets/img/produits/bundle_soin_1.jpeg" alt="Produits de la gamme 1">
         <div class="overlay">
-          <button class="button">Découvrez la gamme 1</button>
+          <button class="button" onclick="window.location.href='<?= isset($gammes[0]['id_gamme']) && $gammes[0]['id_gamme'] ? 'produits/' . $gammes[0]['id_gamme'] : '/' ?>'">
+            Découvrez la gamme <?= isset($gammes[0]['id_gamme']) ? $gammes[0]['nom'] : '1' ?>
+          </button>      
         </div>
       </div>
     </div>
@@ -65,7 +67,9 @@ require 'header.php';
       <div class="gamme-image">
         <img src="/assets/img/produits/bundle_huile.jpeg" alt="Produits de la gamme 2">
         <div class="overlay">
-          <button class="button">Découvrez la gamme 2</button>
+          <button class="button" onclick="window.location.href='<?= isset($gammes[1]['id_gamme']) && $gammes[1]['id_gamme'] ? 'produits/' . $gammes[1]['id_gamme'] : '/' ?>'">
+            Découvrez la gamme <?= isset($gammes[1]['id_gamme']) ? $gammes[1]['nom'] : '2' ?>
+          </button>
         </div>
       </div>
     </div>
