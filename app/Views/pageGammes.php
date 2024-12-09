@@ -56,7 +56,7 @@ require 'header.php';
                             <p><?= $gamme['description'] ?></p>
                             <p><?= $gamme['prixttc'] ?> €</p>
                         </a>
-                        <button onclick="updateQuantity(<?= $gamme['id_gamme'] ?>, 1)">Ajouter au panier</button>
+                        <button onclick="updateQuantityGamme(<?= $gamme['id_gamme'] ?>, 1);">Ajouter au panier</button>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>

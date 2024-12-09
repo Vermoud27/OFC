@@ -36,8 +36,12 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/categories/modification/<?= $categorie['id_categorie'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/categories/supprimer/<?= $categorie['id_categorie'] ?>" ><button class="delete-btn">🗑️</button></a>
+                            <a href="/admin/categories/modification/<?= $categorie['id_categorie'] ?>" >
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="/admin/categories/supprimer/<?= $categorie['id_categorie'] ?>" >
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         </div>
 
                         <div class="product-info">

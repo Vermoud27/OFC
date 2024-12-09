@@ -36,10 +36,12 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                            <a href="/admin/produits/modification/<?= $produit['id_produit'] ?>"><button
-                                    class="edit-btn">✏️</button></a>
-                            <a href="/admin/produits/desactiver/<?= $produit['id_produit'] ?>"><button
-                                    class="delete-btn">🗑️</button></a>
+                            <a href="/admin/produits/modification/<?= $produit['id_produit'] ?>">
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="/admin/produits/desactiver/<?= $produit['id_produit'] ?>">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         </div>
 
                         <?php if (!empty($produit['images'])): ?>

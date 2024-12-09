@@ -7,16 +7,20 @@ use App\Models\ProduitIngredientModel;
 use App\Models\ProduitModel;
 use App\Models\IngredientModel;
 use App\Models\CommentModel;
+use App\Models\RatingModel;
 
 class InfoProduitController extends BaseController
 {
     public function index($idProduit)
     {
+        helper(['form']);
+
         $produitModel = new ProduitModel();
         $produitIngredientModel = new ProduitIngredientModel();
         $ingredientModel = new IngredientModel();
         $imageModel = new ImageModel();
         $commentModel = new CommentModel();
+        $ratingModel = new RatingModel();
 
         // Recherche du produit
         $produit = $produitModel->find($idProduit);
@@ -49,7 +53,14 @@ class InfoProduitController extends BaseController
         $data['produit'] = $produit;
         $data['ingredients'] = $ingredients;
         $data['commentaires'] = $commentaires;
-        $data['all'] = $all; 
+        $data['all'] = $all;
+        $data['averageRating'] = $ratingModel->getAverageRating($produit['id_produit']);
+        $data['totalRatings'] = $ratingModel->getTotalRatings($produit['id_produit']);
+        $data['existingRating'] = $ratingModel->where('id_produit', $idProduit)
+                                              ->where('id_utilisateur', session()->get('idutilisateur'))
+                                              ->first();
+
+        //dd($data);
 
         return view('infoProduit', $data);
     }

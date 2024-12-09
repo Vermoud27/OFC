@@ -11,7 +11,8 @@ nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 60px;
+    flex-wrap: wrap; 
+    padding: 10px;
 }
 
 .navigation {
@@ -21,10 +22,11 @@ nav {
     display: flex;
     width: 100%;
     justify-content: center;
+    flex-wrap: wrap; 
 }
 
 .navigation li {
-    margin: 0 15px;
+    margin: 10px 15px;
 }
 
 .nav-link {

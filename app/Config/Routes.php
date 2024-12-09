@@ -55,7 +55,7 @@ $routes->get('/mentionslegales', 'FooterController::mentionlegales');
 $routes->get('/polconf', 'FooterController::polconf');
 $routes->get('/polremb', 'FooterController::polremb');
 $routes->get('/polcook', 'FooterController::polcook');
-$routes->get('/rgpd'   , 'FooterController::rgpd');
+$routes->get('/rgpd', 'FooterController::rgpd');
 $routes->get('/condutil', 'FooterController::condutil');
 $routes->get('/condvente', 'FooterController::condvente');
 
@@ -71,26 +71,28 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/panier/retirer/(:num)', 'PanierController::retirerProduit/$1');
     $routes->get('/panier/vider', 'PanierController::viderPanier');
     $routes->get('/panier/modifier/(:num)/(:any)', 'PanierController::modifierPanier/$1/$2');
+    $routes->get('/panier/modifierGamme/(:num)/(:any)', 'PanierController::modifierPanierGamme/$1/$2');
     $routes->get('/panier/commande', 'PanierController::recapitulatif');
     $routes->post('/panier/appliquerPromo', 'PanierController::appliquerPromo');
 
     // Commande
     $routes->get('/commande', 'CommandeController::mescommandes');
     $routes->post('/commande/enregistrer', 'CommandeController::enregistrerCommande');
-    $routes->post('/commande/traiterPaiement', 'PaymentController::traiterPaiement');
-    $routes->get('/commande/retourPayPal', 'PaymentController::retourPayPal');
+    $routes->get('/commande/annuler/(:num)', 'CommandeController::annuler/$1');
 
     // Les tâches
 
     // Les Commentaires
     $routes->get('CommentaireController/supprimer/(:num)', 'CommentaireController::supprimer/$1');
+    $routes->post('/submitRating', 'RatingController::submitRating');
+    $routes->get('/getRatings/(:num)', 'RatingController::getRatings/$1');
 
     // Se déconnecter
 
     // Profil utilisateur
     $routes->get('/profile', 'ProfileController::index');
     $routes->get('/profile/edit', 'ProfileController::edit');
-    $routes->post('/profile/update', 'ProfileController::update');    
+    $routes->post('/profile/update', 'ProfileController::update');
     $routes->post('/profile/update-password', 'ProfileController::updatePassword');
     $routes->get('profile/edit-password', 'ProfileController::editPassword');
 

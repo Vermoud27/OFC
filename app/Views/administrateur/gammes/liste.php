@@ -36,8 +36,12 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/gammes/modification/<?= $gamme['id_gamme'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/gammes/supprimer/<?= $gamme['id_gamme'] ?>" ><button class="delete-btn">🗑️</button></a>
+                            <a href="/admin/gammes/modification/<?= $gamme['id_gamme'] ?>" >
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="/admin/gammes/supprimer/<?= $gamme['id_gamme'] ?>" >
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         </div>
 
                         <div class="product-info">

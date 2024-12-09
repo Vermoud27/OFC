@@ -325,3 +325,13 @@ form select:focus {
     border-color: #ddd;
     background-color: #ecf0f1;
 }
+
+.product-card i {
+    font-size: 1.4em; /* Taille de l'icône, ajuste selon tes besoins */
+    margin-left: 10px; /* Espace à gauche de l'icône */
+    color: #555; /* Couleur de l'icône, modifiable */
+}
+
+.product-card i:hover {
+    color: #D2691E;
+}
