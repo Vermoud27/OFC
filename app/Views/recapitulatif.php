@@ -104,11 +104,6 @@ require 'header.php';
         </div>
       </div>
     </div>
-
-    <!-- <div class="button-container">
-      <button type="submit" form="finalForm">Confirmer la commande</button>
-    </div> -->
-
   </form>
 
   <div id="paypal-payment-button"></div>

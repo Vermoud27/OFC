@@ -228,10 +228,15 @@ class PanierController extends BaseController
     {
         $session = session();
 
-        if (array_sum(json_decode($_COOKIE['panier'])) == 0) {
+        if (!isset($_COOKIE['panier']) || empty(json_decode($_COOKIE['panier'], true))) {
             $session->setFlashdata('error', 'Votre panier est vide.');
             return '<script>window.location.href="/panier";</script>';
         }
+        
+        if (array_sum(json_decode($_COOKIE['panier'], true)) == 0) {
+            $session->setFlashdata('error', 'Votre panier est vide.');
+            return '<script>window.location.href="/panier";</script>';
+        }        
 
         $produitModel = new ProduitModel();
         $utilisateurModel = new UtilisateurModel(); // Modèle pour les utilisateurs
