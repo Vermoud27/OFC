@@ -22,7 +22,7 @@ h1, h2 {
 
 .table-container {
     width: 48%;
-    background-color: #F5F5DC;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -53,7 +53,7 @@ h1, h2 {
 
 .info-container {
     width: 48%;
-    background-color: #F5F5DC;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -75,32 +75,8 @@ h1, h2 {
     padding: 8px;
     border: 1px solid #888888;
     border-radius: 4px;
-}
-
-.options-container {
-	width: 90%;
-    margin: 20px auto;
-    background-color: #F5F5DC;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.options-container .section {
-    width: 48%;
-}
-
-.radio-group div {
-    display: flex;
-    align-items: center;
+    background-color: #FAF9F6;
     margin-bottom: 10px;
-}
-
-.radio-group input {
-    margin-right: 10px;
 }
 
 .button-container {
@@ -122,4 +98,15 @@ h1, h2 {
 
 button:hover {
     background-color: #D2691E;
+}
+
+.paypal-container {
+    display: flex;
+    justify-content: center; /* Centre l'élément horizontalement */
+    align-items: center; /* Centre l'élément verticalement si vous le souhaitez */
+    width: 100%;
+}
+
+#paypal-payment-button {
+    width: 500px;
 }

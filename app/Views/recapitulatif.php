@@ -106,7 +106,9 @@ require 'header.php';
     </div>
   </form>
 
-  <div id="paypal-payment-button"></div>
+  <div class="paypal-container">
+    <div id="paypal-payment-button"></div>
+</div>
 
   <script>
     // Script Paypal
