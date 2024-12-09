@@ -30,6 +30,9 @@ require 'header.php';
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                     <div class="product-buttons">
+                        <a href="commande/produits/<?= $commande['id_commande'] ?>" >
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
                         <a href="javascript:void(0)" onclick="confirmerAnnulation(<?= $commande['id_commande'] ?>)">
                             <i class="fa-solid fa-trash-can"></i>
                         </a>

@@ -41,6 +41,12 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
 
+                        <div class="product-buttons">
+                            <a href="commande/produits/<?= $commande['id_commande'] ?>" >
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        </div>
+
                         <div class="product-info">
                             <p><span>ID : </span><?= $commande['id_commande'] ?></p>
                             <p><span>Email utilisateur : </span><?= $commande['mail'] ?></p>
@@ -49,22 +55,7 @@
                             <p><span>Adresse : </span><?= $commande['informations'] ?> </p>
                             <p><span>Prix : </span><?= $commande['prixpromo'] ?: $commande['prixttc'] ?> €</p>
 
-                            <!-- Modification du statut -->
-                            <form method="post" action="/admin/commandes/modifier/<?= $commande['id_commande'] ?>">
-                                
-                                <label for="statut-<?= $commande['id_commande'] ?>">Modifier le statut :</label>
-                                <div class="form-group">
-                                <select id="statut-<?= $commande['id_commande'] ?>" name="statut">
-                                    <option value="en attente" <?= $commande['statut'] === 'en attente' ? 'selected' : '' ?>>En attente</option>
-                                    <option value="expédié" <?= $commande['statut'] === 'expédié' ? 'selected' : '' ?>>Expédié</option>
-                                    <option value="livré" <?= $commande['statut'] === 'livré' ? 'selected' : '' ?>>Livré</option>
-                                    <option value="fini" <?= $commande['statut'] === 'fini' ? 'selected' : '' ?>>Fini</option>
-                                    <option value="annulé" <?= $commande['statut'] === 'annulé' ? 'selected' : '' ?>>Annulé</option>
-                                </select>
-                                
-                                <button type="submit" class="modify-status-btn">Modifier</button>
-                                </div>
-                            </form>
+                            
                         </div>
 
 

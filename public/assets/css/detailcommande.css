@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+	background-color: #F5F5DC;
+}
+
+.container {
+    display: flex;
+    flex-direction: row; /* Organiser les éléments en ligne (gauche pour le récap et droite pour le tableau des produits) */
+    height: 100%; /* Assurez-vous que le conteneur prend toute la hauteur de la fenêtre */
+    padding: 20px;
+    background-color: #F5F5DC;
+}
+
+.commande-section {
+    margin-top: 30px;
+    width: 60%; /* Largeur pour la section de récapitulatif */
+}
+
+.commande-info {
+    margin-bottom: 20px;
+}
+
+.product-grid {
+    margin-top: 20px;
+    width: 40%; /* Largeur pour le tableau des produits */
+    overflow-x: auto; /* Permet un défilement horizontal si le tableau est trop large */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+td {
+    background-color: #FAF9F6;
+}
+
+th {
+    background-color: #556B2F;
+    color: #FAF9F6;
+}
+
+button, .button {
+    background-color: #D2691E;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover, .button:hover {
+    background-color: #A0522D;
+}
+
+.retour {
+    text-align: center;
+    margin: 20px;
+	
+}

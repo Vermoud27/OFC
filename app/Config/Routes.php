@@ -79,6 +79,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/commande', 'CommandeController::mescommandes');
     $routes->post('/commande/enregistrer', 'CommandeController::enregistrerCommande');
     $routes->get('/commande/annuler/(:num)', 'CommandeController::annuler/$1');
+    $routes->get('/commande/produits/(:num)', 'CommandeController::afficherProduitsCommande/$1');
 
     // Les tâches
 
@@ -124,6 +125,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
                 $routes->get('desactiver/(:num)', "$controller::desactiver/$1");
             });
         }
+        $routes->get('/admin/commande/produits/(:num)', "CommandeController::afficherProduitsCommande/$1/true");
+
         $routes->post('/admin/ingredients/supprimer/(:num)', "IngredientController::supprimer/$1");
         
         $routes->post('/admin/gammes/ajouter-produit/(:num)', "GammeController::ajouter_produit/$1");

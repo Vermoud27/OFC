@@ -212,4 +212,30 @@ class CommandeController extends BaseController
 
         return view('/commande', $data);
     }
+
+    public function afficherProduitsCommande($idCommande, $admin = false)
+    {
+        $commandeModel = new CommandeModel();
+        $produitModel = new ProduitModel();
+        
+        // Récupère la commande et les produits associés
+        $commande = $commandeModel->find($idCommande);
+        $produits = $produitModel
+                        ->select('produit.*, details_commande.*')
+                        ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
+                        ->where('details_commande.id_commande', $idCommande)
+                        ->findAll();
+
+        // Passer les données à la vue
+        $data['commande'] = $commande;
+        $data['produits'] = $produits;
+
+        if($admin)
+        {
+            return view('administrateur/commandes/detail', $data);
+        }
+
+        return view('detailcommande', $data);
+    }
+
 }

@@ -347,3 +347,50 @@ tbody form {
     padding: 10px;
     background-color: #f9f9f9;
 }
+
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+td {
+    background-color: #FAF9F6;
+}
+
+th {
+    background-color: #556B2F;
+    color: #FAF9F6;
+}
+
+button, .button {
+    background-color: #D2691E;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover, .button:hover {
+    background-color: #A0522D;
+}
+
+.retour {
+    text-align: center;
+    margin: 20px;
+}
