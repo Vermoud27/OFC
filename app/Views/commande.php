@@ -87,6 +87,7 @@ require 'header.php';
     }
 </script>
 
+<script src="/assets/js/notif.js"></script>
 
 </html>
 
