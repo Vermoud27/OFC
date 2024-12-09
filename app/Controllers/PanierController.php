@@ -97,13 +97,102 @@ class PanierController extends BaseController
 
         $data['messagePromo'] = $messagePromo;
         $data['code_promo'] = $promo;
-        $data['totalPromo'] = $totalTTC < 0 ? 0 : $totalTTC;
+        $data['totalPromo'] = $totalTTC;
         $data['produits'] = $produits;
         $data['gammes'] = $gammes;
         $data['produitsParGamme'] = $produitsParGamme;
 
         return view('panier', $data);
     }
+
+
+
+
+
+
+    public function updateGamme()
+    {
+        $input = $this->request->getJSON(true); // Récupère les données JSON envoyées
+        $idGamme = $input['id_gamme'] ?? null;
+        $delta = $input['delta'] ?? 0;
+    
+        if (!$idGamme || !is_numeric($delta)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Données invalides.',
+            ]);
+        }
+    
+        $panier = $this->getPanier();
+    
+        $gammeModel = new GammeModel();
+        $gamme = $gammeModel->find($idGamme);
+    
+        if (!$gamme) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Gamme introuvable.',
+            ]);
+        }
+    
+        if (isset($panier['gammes'][$idGamme])) {
+            $panier['gammes'][$idGamme] += $delta;
+    
+            if ($panier['gammes'][$idGamme] <= 0) {
+                unset($panier['gammes'][$idGamme]);
+                $message = "La gamme '{$gamme['nom']}' a été retirée du panier.";
+            } else {
+                $message = "Quantité de '{$gamme['nom']}' mise à jour.";
+            }
+        } elseif ($delta > 0) {
+            $panier['gammes'][$idGamme] = $delta;
+            $message = "La gamme '{$gamme['nom']}' a été ajoutée au panier.";
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Quantité invalide.',
+            ]);
+        }
+    
+        $this->setPanier($panier);
+    
+        // Calcule le total TTC
+        $totalTTC = 0;
+        foreach ($panier['gammes'] as $id => $quantite) {
+            $gamme = $gammeModel->find($id);
+            $totalTTC += $gamme['prixttc'] * $quantite;
+        }
+    
+        return $this->response->setJSON([
+            'success' => true,
+            'newQuantity' => $panier['gammes'][$idGamme] ?? 0,
+            'newPrice' => $gamme['prixttc'] * ($panier['gammes'][$idGamme] ?? 0),
+            'totalTTC' => $totalTTC,
+            'message' => $message,
+        ]);
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function modifierPanier($idProduit, $delta)
     {
@@ -226,18 +315,6 @@ class PanierController extends BaseController
 
     public function recapitulatif(): string
     {
-        $session = session();
-
-        if (!isset($_COOKIE['panier']) || empty(json_decode($_COOKIE['panier'], true))) {
-            $session->setFlashdata('error', 'Votre panier est vide.');
-            return '<script>window.location.href="/panier";</script>';
-        }
-        
-        if (array_sum(json_decode($_COOKIE['panier'], true)) == 0) {
-            $session->setFlashdata('error', 'Votre panier est vide.');
-            return '<script>window.location.href="/panier";</script>';
-        }        
-
         $produitModel = new ProduitModel();
         $utilisateurModel = new UtilisateurModel(); // Modèle pour les utilisateurs
 

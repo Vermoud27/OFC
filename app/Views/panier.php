@@ -72,49 +72,77 @@ require 'header.php';
 
 
 
-            <!-- GAMMES -->
-            <?php if (!empty($gammes)): ?>
-                <?php foreach ($gammes as $gamme): ?>
-                    <?php if (!empty($produitsParGamme)): ?>
-                        <?php foreach ($produitsParGamme as $produitGamme): ?>
-                            <div class="cart-item" data-id="<?= htmlspecialchars($produitGamme['id_produit'] ?? '0') ?>"
-                                data-stock="<?= htmlspecialchars($produitGamme['qte_stock'] ?? '0') ?>">
-                                <!-- Image -->
-                                <img src="<?= htmlspecialchars($produitGamme['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>"
-                                    alt="<?= htmlspecialchars($produitGamme['nom'] ?? 'Produit sans nom') ?>">
+           <!-- GAMMES -->
+        <?php if (!empty($gammes)): ?>
+            <?php foreach ($gammes as $gamme): ?>
+<!-- Pour chaque gamme -->
+<div class="cart-gamme" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>">
+    <img src="<?= htmlspecialchars($gamme['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($gamme['nom']) ?>">
+    <div class="cart-gamme-details">
+        <h2><?= htmlspecialchars($gamme['nom']) ?></h2>
+        <p><strong>Composition de la gamme :</strong></p>
+        
+        <!-- Liste des produits dans la gamme -->
+        <ul>
+            <div class="gamme-produits">
+                <?php foreach ($produitsParGamme[$gamme['id_gamme']] as $produitGamme): ?>
+                    <li>
+                        <?= htmlspecialchars($produitGamme['nom']) ?> / 
+                        Stock : <?= htmlspecialchars($produitGamme['qte_stock']) ?> / 
+                        Quantité achetée : <?= htmlspecialchars($produitGamme['quantite'] ?? '0') ?>
+                    </li>
+                <?php endforeach; ?>
+            </div>
+        </ul>
 
-                                <!-- Détails du produit -->
-                                <div class="cart-item-details">
-                                    <h2><?= htmlspecialchars($gamme['nom'] ?? 'Nom inconnu') ?></h2>
-                                    <p><?= htmlspecialchars($produitGamme['contenu'] ?? '-') . ' ' . htmlspecialchars($produitGamme['unite_mesure'] ?? '') ?>
-                                    </p>
-                                    <p class="stock-status" data-stock="<?= htmlspecialchars($produitGamme['qte_stock'] ?? '0') ?>">
-                                        En stock (<?= htmlspecialchars($produitGamme['qte_stock'] ?? '0') ?>)
-                                    </p>
+        <!-- Gestion de la quantité -->
+        <div class="quantity">
+            <button onclick="updateQuantity(<?= htmlspecialchars($gamme['id_gamme']) ?>, -1, true)">-</button>
+            <p><?= htmlspecialchars($panier['gammes'][$gamme['id_gamme']] ?? 1) ?></p>
+            <button onclick="updateQuantity(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1, true)">+</button>
+        </div>
+    </div>
+    <div class="cart-item-right">
+        <p class="price"><?= number_format($gamme['prixttc'] ?? 0, 2) ?> €</p>
+        <button class="sup" onclick="retirerProduit(<?= htmlspecialchars($gamme['id_gamme']) ?>)">Supprimer</button>
+    </div>
+</div>
 
-                                    <!-- Gestion de la quantité -->
-                                    <div class="quantity">
-                                        <button
-                                            onclick="updateQuantity(<?= htmlspecialchars($produitGamme['id_produit'] ?? '0') ?>, -1)">-</button>
-                                        <p><?= htmlspecialchars($produitGamme['quantite'] ?? '1') ?></p>
-                                        <button
-                                            onclick="updateQuantity(<?= htmlspecialchars($produitGamme['id_produit'] ?? '0') ?>, 1)">+</button>
-                                    </div>
-                                </div>
+            <!-- Pour chaque gamme -->
+<div class="cart-gamme" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>">
+    <img src="<?= htmlspecialchars($gamme['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($gamme['nom']) ?>">
+    <div class="cart-gamme-details">
+        <h2><?= htmlspecialchars($gamme['nom']) ?></h2>
+        <p><strong>Composition de la gamme :</strong></p>
+        
+        <!-- Liste des produits dans la gamme -->
+        <ul>
+            <div class="gamme-produits">
+                <?php foreach ($produitsParGamme[$gamme['id_gamme']] as $produitGamme): ?>
+                    <li>
+                        <?= htmlspecialchars($produitGamme['nom']) ?> / 
+                        Stock : <?= htmlspecialchars($produitGamme['qte_stock']) ?> / 
+                        Quantité achetée : <?= htmlspecialchars($produitGamme['quantite'] ?? '0') ?>
+                    </li>
+                <?php endforeach; ?>
+            </div>
+        </ul>
 
-                                <!-- Section de droite -->
-                                <div class="cart-item-right">
-                                    <p class="price">
-                                        <?= number_format($gamme['prixttc'] ?? 0, 2) ?> €
-                                    </p>
-                                    <button class="sup"
-                                        onclick="retirerProduit(<?= htmlspecialchars($produitGamme['id_produit'] ?? '0') ?>)">
-                                        Supprimer
-                                    </button>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif ?>
+        <!-- Gestion de la quantité -->
+        <div class="quantity">
+            <button onclick="updateQuantity(<?= htmlspecialchars($gamme['id_gamme']) ?>, -1, true)">-</button>
+            <p><?= htmlspecialchars($panier['gammes'][$gamme['id_gamme']] ?? 1) ?></p>
+            <button onclick="updateQuantity(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1, true)">+</button>
+        </div>
+    </div>
+    <div class="cart-item-right">
+        <p class="price"><?= number_format($gamme['prixttc'] ?? 0, 2) ?> €</p>
+        <button class="sup" onclick="retirerProduit(<?= htmlspecialchars($gamme['id_gamme']) ?>)">Supprimer</button>
+    </div>
+</div>
+
+
+
                 <?php endforeach; ?>
             <?php endif; ?>
             <?php if (empty($produits) && empty($gammes)): ?>
@@ -127,55 +155,66 @@ require 'header.php';
 
 
         <script>
-            function updateQuantity(productId, delta) {
-                const quantityElement = document.querySelector(`.cart-item[data-id="${productId}"] .quantity p`);
-                let currentQuantity = parseInt(quantityElement.textContent);
+        function updateQuantity(id, delta, isGamme = false) {
+    let quantityElement;
 
-                // Calcul de la nouvelle quantité
-                let newQuantity = currentQuantity + delta;
+    // Cibler l'élément de la quantité en fonction du type (produit ou gamme)
+    if (isGamme) {
+        quantityElement = document.querySelector(`.cart-gamme[data-id="${id}"] .quantity p`);
+    } else {
+        quantityElement = document.querySelector(`.cart-item[data-id="${id}"] .quantity p`);
+    }
 
-                // Récupérer la quantité en stock (à adapter selon votre logique de backend)
-                const stockQuantity = parseInt(document.querySelector(`.cart-item[data-id="${productId}"] .stock-status`).dataset.stock);
+    // Si l'élément de quantité n'existe pas, arrêter la fonction
+    if (!quantityElement) return;
 
-                // Si la nouvelle quantité dépasse le stock disponible, afficher un message d'erreur
-                if (newQuantity > stockQuantity) {
-                    alert(`Vous ne pouvez pas dépasser la quantité en stock de ${stockQuantity} article(s).`);
-                    return;
-                }
+    let currentQuantity = parseInt(quantityElement.textContent);
+    let newQuantity = currentQuantity + delta;
 
-                const requestBody = { id_produit: productId, delta: delta };
+    // Empêcher la quantité de descendre en dessous de zéro
+    if (newQuantity < 0) {
+        alert("La quantité ne peut pas être inférieure à 0.");
+        return;
+    }
 
-                // Faire un appel AJAX au serveur pour mettre à jour la quantité
-                fetch('/panier/update', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestBody),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Met à jour l'affichage de la quantité
-                            const quantityElement = document.querySelector(`.cart-item[data-id="${productId}"] .quantity p`);
-                            const priceElement = document.querySelector(`.cart-item[data-id="${productId}"] .price`);
-                            const totalElement = document.querySelector('.price-ttc');
+    // Récupérer la quantité en stock (la quantité maximale autorisée)
+    const stockQuantity = parseInt(quantityElement.closest('.cart-item, .cart-gamme').dataset.stock || 0);
 
-                            if (quantityElement && priceElement) {
-                                quantityElement.textContent = data.newQuantity;
-                                priceElement.textContent = `${data.newPrice.toFixed(2)} €`;
-                            }
+    // Vérifier que la quantité ne dépasse pas le stock disponible
+    if (newQuantity > stockQuantity) {
+        alert(`Vous ne pouvez pas dépasser la quantité en stock de ${stockQuantity} article(s).`);
+        return;
+    }
 
-                            // Met à jour le total
-                            if (totalElement) {
-                                totalElement.textContent = `${data.totalTTC.toFixed(2)} €`;
-                            }
-                        } else {
-                            alert(data.message || 'Erreur lors de la mise à jour de la quantité.');
-                        }
-                    })
-                    .catch(error => console.error('Erreur lors de la requête:', error));
+    // Mettre à jour l'affichage de la quantité
+    quantityElement.textContent = newQuantity;
+
+    // Préparer les données pour la mise à jour côté serveur
+    const requestBody = { id_produit: id, delta: delta, is_gamme: isGamme };
+
+    // Faire l'appel AJAX pour mettre à jour la quantité côté serveur
+    fetch('/panier/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mettre à jour le prix si nécessaire
+            const priceElement = document.querySelector(`.cart-item[data-id="${id}"] .price, .cart-gamme[data-id="${id}"] .price`);
+            if (priceElement) {
+                priceElement.textContent = `${data.newPrice.toFixed(2)} €`;
             }
+        } else {
+            alert(data.message || 'Erreur lors de la mise à jour de la quantité.');
+        }
+    })
+    .catch(error => console.error('Erreur lors de la requête:', error));
+}
+
         </script>
 
 
