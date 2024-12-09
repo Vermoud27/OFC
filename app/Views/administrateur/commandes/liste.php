@@ -31,7 +31,6 @@
 
         <!-- Liste des commandes -->
         <div class="product-section">
-            <a href="/admin/codes-promos/creation/"><button class="add-product-btn">➕ Ajouter un code promo</button></a>
             <h2>Liste des commandes</h2>
 
             <div class="product-grid">
