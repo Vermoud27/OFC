@@ -47,8 +47,16 @@ class InfoProduitController extends BaseController
 
         $commentaires = $commentModel->getCommentsByProductId($produit['id_produit'], $all);
 
+        $produitsAleatoires = $produitModel->whereNotIn('id_produit', [$idProduit])->orderBy('RANDOM()')->limit(4)->findAll();
+
+        foreach ($produitsAleatoires as &$rand) {
+			$images = $imageModel->getImagesByProduit($rand['id_produit']);
+			$rand['images'] = $images;
+		}
+
         // Données à
         $data['produit'] = $produit;
+        $data['produitsAleatoires'] = $produitsAleatoires;
         $data['images'] = $imageModel->getImagesByProduit($produit['id_produit']);
         $data['produit'] = $produit;
         $data['ingredients'] = $ingredients;
@@ -59,8 +67,6 @@ class InfoProduitController extends BaseController
         $data['existingRating'] = $ratingModel->where('id_produit', $idProduit)
                                               ->where('id_utilisateur', session()->get('idutilisateur'))
                                               ->first();
-
-        //dd($data);
 
         return view('infoProduit', $data);
     }

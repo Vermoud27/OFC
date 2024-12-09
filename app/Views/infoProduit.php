@@ -164,11 +164,21 @@ require 'header.php';
           <a href="?all_comments=true" class="see-more">Voir plus</a>
         <?php endif; ?>
       </div>
+      <h2>Découvrez de nouveaux produits</h2>
       <div class="related-products">
-        <img src="/assets/img/produits/gommage_eclat_1.jpeg" alt="Produit lié 1">
-        <img src="/assets/img/produits/huile_baobab_3.jpeg" alt="Produit lié 2">
-        <img src="/assets/img/produits/masque_safran_1.jpeg" alt="Produit lié 3">
-        <img src="/assets/img/produits/savon_bleu.jpeg" alt="Produit lié 4">
+
+        <div class="random-products-grid">
+          <?php foreach ($produitsAleatoires as $produitAleatoire): ?>
+              <div class="random-product">
+                  <a href="/produits/<?= $produitAleatoire['id_produit'] ?>">
+                      <img src="<?= $produitAleatoire['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png'?>" alt="<?= htmlspecialchars($produitAleatoire['nom']) ?>">
+                      <p><?= htmlspecialchars($produitAleatoire['nom']) ?></p>
+                      <p><?= $produitAleatoire['prixttc'] ?> €</p>
+                  </a>
+              </div>
+          <?php endforeach; ?>
+        </div>
+        
       </div>
     </main>
   </div>

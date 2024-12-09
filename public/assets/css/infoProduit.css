@@ -299,3 +299,45 @@ header h1 {
       opacity: 1;
   }
 }
+
+
+.random-products-grid {
+  display: grid;
+  width: 100%; 
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Colonnes dynamiques avec largeur minimale */  gap: 20px; /* Espacement entre les cartes */
+  margin-bottom: 50px;
+}
+
+.random-product {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  transition: transform 0.3s ease; /* Animation au survol */
+}
+
+
+.random-product:hover {
+  transform: scale(1.05); /* Exemple d'effet au survol */
+  transition: transform 0.3s ease; /* Douce transition */
+  z-index: 10; /* Mettre le produit au-dessus des autres pour un meilleur effet */
+  position: relative; /* Permet de le placer au-dessus des autres éléments */
+}
+
+.random-product img {
+  width: 100%; /* Largeur maximale du conteneur */
+  height: auto; /* Ajuste automatiquement la hauteur */
+  aspect-ratio: 4 / 3; /* Maintient un ratio largeur/hauteur uniforme */
+  object-fit: contain; /* Affiche toute l'image sans découpe */
+  border-radius: 5px; /* Coins arrondis */
+  background-color: #fff; /* Fond blanc pour les images plus petites */
+}
+
+
+
+.random-product p {
+  font-size: 1rem;
+  color: #333;
+}
