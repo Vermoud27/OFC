@@ -17,7 +17,9 @@
             <form action="/admin/ingredients/supprimer/<?= htmlspecialchars($_GET['id']) ?>" method="post">
                 <?= csrf_field() ?>
                 <button type="submit" name="confirm" value="yes">Oui, Supprimer</button>
-                <a href="/admin/ingredients"><button type="button">Annuler</button></a>
+                <a href="/admin/ingredients">
+                    <button type="button">Annuler</button>
+                </a>
             </form>
         </div>
     <?php endif; ?>
@@ -48,8 +50,12 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                            <a href="/admin/ingredients/modification/<?= $ingredient['id_ingredient'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/ingredients/supprimer/<?= $ingredient['id_ingredient'] ?>" ><button class="delete-btn">🗑️</button></a>
+                            <a href="/admin/ingredients/modification/<?= $ingredient['id_ingredient'] ?>" >
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="/admin/ingredients/supprimer/<?= $ingredient['id_ingredient'] ?>" >
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         </div>
 
                         <div class="product-info">

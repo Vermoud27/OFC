@@ -24,6 +24,10 @@ class GammeController extends BaseController
     public function index()
 	{
 		$gammes = $this->gammeModel->orderBy('id_gamme')->paginate(8);
+
+		foreach ($gammes as &$gamme) {
+			$gamme['produit_count'] = $this->produitModel->where('id_gamme', $gamme['id_gamme'])->countAllResults();
+		}
 		
 		$data['produits'] = $this->produitModel->findAll();
 		$data['gammes'] = $gammes;

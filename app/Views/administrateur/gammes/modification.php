@@ -6,46 +6,6 @@
     <title>Modification de Gamme</title>
     <link rel="stylesheet" href="/assets/css/admin/creation.css">
 
-    <style>
-        .container {
-            display: flex;
-            gap: 30px;
-        }
-        .product-list {
-            flex: 1;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-        .product-list table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .product-list th, .product-list td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        .product-list button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .product-list button:hover {
-            background-color: #0056b3;
-        }
-        .form-container {
-            flex: 2;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -117,20 +77,20 @@
             <?php echo form_open('/admin/gammes/modifier/' . $gamme['id_gamme'], ['enctype' => 'multipart/form-data']); ?>
 
                 <div>
-                    <?php echo form_label('Nom', 'nom'); ?>
+                    <?php echo form_label('Nom *', 'nom'); ?>
                     <?php echo form_input('nom', set_value('nom', $gamme['nom']), 'required'); ?>
                     <?= validation_show_error('nom') ?>
                 </div>
                 
                 <div class="grid-full">
-                    <?php echo form_label('Description', 'description'); ?>
+                    <?php echo form_label('Description *', 'description'); ?>
                     <?php echo form_textarea('description', set_value('description', $gamme['description']), 'required'); ?>
                     <?= validation_show_error('description') ?>
                 </div>
 
                 <div class="grid-2-columns">
                     <div>
-                        <?php echo form_label('Prix HT', 'prixht'); ?>
+                        <?php echo form_label('Prix HT (€) *', 'prixht'); ?>
                         <?php echo form_input('prixht', set_value('prixht', $gamme['prixht']), [
                             'type' => 'number',
                             'min' => '0',
@@ -140,7 +100,7 @@
                         <?= validation_show_error('prixht') ?>
                     </div>
                     <div>
-                        <?php echo form_label('Prix TTC', 'prixttc'); ?>
+                        <?php echo form_label('Prix TTC (€) *', 'prixttc'); ?>
                         <?php echo form_input('prixttc', set_value('prixttc', $gamme['prixttc']), [
                             'type' => 'number',
                             'min' => '0',

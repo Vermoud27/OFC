@@ -14,21 +14,21 @@
             <?php echo form_open('/admin/gammes/creer', ['enctype' => 'multipart/form-data']); ?>
 
                 <div>
-                    <?php echo form_label('Nom', 'nom'); ?>
+                    <?php echo form_label('Nom *', 'nom'); ?>
                     <?php echo form_input('nom', set_value('nom'), 'required'); ?>
                     <?= validation_show_error('nom') ?>
                 </div>
           
 
                 <div class="grid-full">
-                    <?php echo form_label('Description', 'description'); ?>
+                    <?php echo form_label('Description *', 'description'); ?>
                     <?php echo form_textarea('description', set_value('description'), 'required'); ?>
                     <?= validation_show_error('description') ?>
                 </div>
 
                 <div class="grid-2-columns">
                     <div>
-                        <?php echo form_label('Prix HT', 'prixht'); ?>
+                        <?php echo form_label('Prix HT (€) *', 'prixht'); ?>
                         <?php echo form_input('prixht', set_value('prixht'), [
                             'type' => 'number',
                             'min' => '0',
@@ -38,7 +38,7 @@
                         <?= validation_show_error('prixht') ?>
                     </div>
                     <div>
-                        <?php echo form_label('Prix TTC', 'prixttc'); ?>
+                        <?php echo form_label('Prix TTC (€) *', 'prixttc'); ?>
                         <?php echo form_input('prixttc', set_value('prixttc'), [
                             'type' => 'number',
                             'min' => '0',

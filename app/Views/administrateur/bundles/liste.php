@@ -36,13 +36,18 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/bundles/modification/<?= $bundle['id_bundle'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/bundles/supprimer/<?= $bundle['id_bundle'] ?>" ><button class="delete-btn">🗑️</button></a>
+                            <a href="/admin/bundles/modification/<?= $bundle['id_bundle'] ?>" >
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="/admin/bundles/supprimer/<?= $bundle['id_bundle'] ?>" >
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         </div>
 
                         <div class="product-info">
                             <p><span>Description : </span><?= $bundle['description'] ?></p>
-                            <p><span>Prix : </span><?= $bundle['prix'] ?></p>
+                            <p><span>Prix : </span><?= $bundle['prix'] ?> €</p>
+                            <p><span>Nombre de produits différents : </span><?= $bundle['produit_count'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>

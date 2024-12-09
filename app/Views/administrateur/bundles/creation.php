@@ -14,13 +14,13 @@
             <?php echo form_open('/admin/bundles/creer', ['enctype' => 'multipart/form-data']); ?>
 
                 <div class="grid-full">
-                    <?php echo form_label('Description', 'description'); ?>
+                    <?php echo form_label('Description *', 'description'); ?>
                     <?php echo form_textarea('description', set_value('description'), 'required'); ?>
                     <?= validation_show_error('description') ?>
                 </div>
                 
                 <div>
-                    <?php echo form_label('Prix ', 'prix'); ?>
+                    <?php echo form_label('Prix (€) *', 'prix'); ?>
                     <?php echo form_input('prix', set_value('prix'), [
                         'type' => 'number',
                         'min' => '0',

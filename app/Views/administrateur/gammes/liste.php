@@ -36,15 +36,20 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                        <a href="/admin/gammes/modification/<?= $gamme['id_gamme'] ?>" ><button class="edit-btn">✏️</button></a>
-                            <a href="/admin/gammes/supprimer/<?= $gamme['id_gamme'] ?>" ><button class="delete-btn">🗑️</button></a>
+                            <a href="/admin/gammes/modification/<?= $gamme['id_gamme'] ?>" >
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="/admin/gammes/supprimer/<?= $gamme['id_gamme'] ?>" >
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         </div>
 
                         <div class="product-info">
                             <p><span>Nom : </span><?= $gamme['nom'] ?></p>
                             <p><span>Description : </span><?= $gamme['description'] ?></p>
-                            <p><span>Prix HT : </span><?= $gamme['prixht'] ?></p>
-                            <p><span>Prix TTC : </span><?= $gamme['prixttc'] ?></p>
+                            <p><span>Prix HT : </span><?= $gamme['prixht'] ?> €</p>
+                            <p><span>Prix TTC : </span><?= $gamme['prixttc'] ?> €</p>
+                            <p><span>Nombre de produits différents : </span><?= $gamme['produit_count'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>

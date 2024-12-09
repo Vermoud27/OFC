@@ -61,6 +61,31 @@ class CommandeController extends BaseController
 		
 		return redirect()->to('admin/commandes');
     }
+
+    public function annuler($id)
+    {
+		$commandeModel = new CommandeModel();
+
+        $commande = $commandeModel->find($id);
+
+        if (!$commande) {
+            return redirect()->to('commande')->with('error', 'Commande introuvable.');
+        }
+    
+        // Vérifier si la commande appartient à l'utilisateur connecté
+        $userId = session()->get('idutilisateur'); 
+        if ($commande['id_utilisateur'] !== $userId) {
+            return redirect()->to('commande')->with('error', 'Vous ne pouvez pas annuler cette commande.');
+        }
+        
+        $data = [
+            'statut' => 'annulé',
+        ];
+
+		$commandeModel->update($id, $data);
+		
+		return redirect()->to('commande')->with('success', 'Commande annulée avec succès.');
+    }
     
     public function enregistrerCommande()
     {

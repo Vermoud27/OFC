@@ -50,3 +50,12 @@
         style="display: flex; justify-content: flex-end; max-width: 2500px; margin: auto; font-size: 8px; margin-top: 10px;">
         © 2024 OFC Naturel. Tous droits réservés.</div>
 </footer>
+
+  <!-- Chat bot -->
+  <script>
+    window.embeddedChatbotConfig = {
+      chatbotId: "TevA9a6HQST1JN1GNHARh",
+      domain: "www.chatbase.co"
+    }
+  </script>
+  <script src="https://www.chatbase.co/embed.min.js" chatbotId="TevA9a6HQST1JN1GNHARh" domain="www.chatbase.co" defer></script>

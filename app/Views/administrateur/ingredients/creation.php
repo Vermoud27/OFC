@@ -14,14 +14,14 @@
             <?php echo form_open('/admin/ingredients/creer', ['enctype' => 'multipart/form-data']); ?>
 
                 <div>
-                    <?php echo form_label('Nom', 'nom'); ?>
+                    <?php echo form_label('Nom *', 'nom'); ?>
                     <?php echo form_input('nom', set_value('nom'), 'required'); ?>
                     <?= validation_show_error('nom') ?>
                 </div>
           
 
                 <div>
-                    <?php echo form_label('Provenance', 'provenance'); ?>
+                    <?php echo form_label('Provenance *', 'provenance'); ?>
                     <?php echo form_input('provenance', set_value('provenance'), 'required'); ?>
                     <?= validation_show_error('provenance') ?>
                 </div>

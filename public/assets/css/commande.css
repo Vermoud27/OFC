@@ -10,7 +10,8 @@ body {
     display: flex;
     flex-direction: row; /* Organiser les éléments en ligne (gauche pour le panneau et droite pour la section produit) */
     height: 100%; /* Assurez-vous que le conteneur prend toute la hauteur de la fenêtre */
-    width: 100%;
+	padding: 20px;
+	background-color: #F5F5DC;
 }
 
 .panel {
@@ -86,9 +87,19 @@ body {
 	justify-content: center;
 	align-items: center;
 	font-size: 14px;
+	background-color: #dc3545;
 }
 
 .product-buttons button:hover {
 	opacity: 0.8;
 }
 
+.product-card i {
+    font-size: 1.5em; /* Taille de l'icône, ajuste selon tes besoins */
+    margin-left: 10px; /* Espace à gauche de l'icône */
+    color: #555; /* Couleur de l'icône, modifiable */
+}
+
+.product-card i:hover {
+    color: #D2691E;
+}

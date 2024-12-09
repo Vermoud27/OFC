@@ -78,8 +78,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Commande
     $routes->get('/commande', 'CommandeController::mescommandes');
     $routes->post('/commande/enregistrer', 'CommandeController::enregistrerCommande');
-    $routes->post('/commande/traiterPaiement', 'PaymentController::traiterPaiement');
-    $routes->get('/commande/retourPayPal', 'PaymentController::retourPayPal');
+    $routes->get('/commande/annuler/(:num)', 'CommandeController::annuler/$1');
 
     // Les tâches
 

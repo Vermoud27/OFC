@@ -37,10 +37,12 @@
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
                         <div class="product-buttons">
-                            <a href="/admin/codes-promos/modification/<?= $code['id_codepromo'] ?>"><button
-                                    class="edit-btn">✏️</button></a>
-                            <a href="/admin/codes-promos/supprimer/<?= $code['id_codepromo'] ?>"><button
-                                    class="delete-btn">🗑️</button></a>
+                            <a href="/admin/codes-promos/modification/<?= $code['id_codepromo'] ?>">
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="/admin/codes-promos/supprimer/<?= $code['id_codepromo'] ?>">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         </div>
 
                         <div class="product-info">

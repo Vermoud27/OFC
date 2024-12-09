@@ -21,9 +21,9 @@
         <?php endif; ?>
 
         <form action="<?= base_url('/faq/create') ?>" method="post">
-            <label for="question">Question</label>
+            <label for="question">Question *</label>
             <input type="text" id="question" name="question" placeholder="Entrez votre question" required>
-            <label for="reponse">Réponse</label>
+            <label for="reponse">Réponse *</label>
             <textarea id="reponse" name="reponse" placeholder="Entrez votre réponse" required></textarea>
             <div style="display: flex; justify-content: space-between;">
                 <a href="<?= base_url('/faq/admin') ?>" class="btn-secondary">Annuler</a>

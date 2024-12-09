@@ -29,6 +29,12 @@ require 'header.php';
 
                     <!-- Carte Produit 1 -->
                     <div class="product-card">
+                    <div class="product-buttons">
+                        <a href="javascript:void(0)" onclick="confirmerAnnulation(<?= $commande['id_commande'] ?>)">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                    </div>
+
 
                         <div class="product-info">
                             <p><span>ID : </span><?= $commande['id_commande'] ?></p>
@@ -51,6 +57,17 @@ require 'header.php';
     </div>
 
 </body>
+
+<script>
+    function confirmerAnnulation(idCommande) {
+        const confirmation = confirm("Êtes-vous sûr de vouloir annuler cette commande ?");
+        if (confirmation) {
+            // Redirige vers l'URL d'annulation si l'utilisateur confirme
+            window.location.href = `/commande/annuler/${idCommande}`;
+        }
+    }
+</script>
+
 
 </html>
 
