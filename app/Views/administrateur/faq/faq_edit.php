@@ -11,7 +11,7 @@
 
 <div class="form-container">
     <h1>Modifier une question</h1>
-    <form action="<?= base_url('/faq/edit/' . $faq['id_faq']) ?>" method="post">
+    <form action="<?= base_url('/faq/update/' . $faq['id_faq']) ?>" method="post">
         <label for="question">Question</label>
         <input type="text" id="question" name="question" value="<?= esc($faq['question']) ?>" required>
         

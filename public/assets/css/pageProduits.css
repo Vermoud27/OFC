@@ -25,6 +25,8 @@ main {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 colonnes de tailles égales */
     gap: 50px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .product-card {
@@ -36,15 +38,15 @@ main {
     text-align: center;
     word-wrap: break-word; 
     word-break: break-word;
-    max-width: calc(25ch + 20px); /* 10 caractères max (+ un padding éventuel) */
     text-decoration: none;
     cursor: pointer;
     display: flex;
     flex-direction: column; /* Aligne le contenu de la carte en colonne */
     justify-content: space-between; /* Espace entre les éléments, le bouton sera en bas */
     height: 100%; /* Permet à la carte de prendre toute la hauteur possible */
-
+    margin: 0; /* Supprime les marges inutiles */
 }
+
 
 .product-card img {
     height: 200px; /* Hauteur fixe pour toutes les images */
