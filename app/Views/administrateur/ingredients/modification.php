@@ -15,13 +15,13 @@
             <?php echo form_open('/admin/ingredients/modifier/' . $ingredient['id_ingredient'], ['enctype' => 'multipart/form-data']); ?>
 
                 <div>
-                    <?php echo form_label('Nom', 'nom'); ?>
+                    <?php echo form_label('Nom *', 'nom'); ?>
                     <?php echo form_input('nom', set_value('nom', $ingredient['nom']), 'required'); ?>
                     <?= validation_show_error('nom') ?>
                 </div>
                 
                 <div>
-                    <?php echo form_label('Provenance', 'provenance'); ?>
+                    <?php echo form_label('Provenance *', 'provenance'); ?>
                     <?php echo form_input('provenance', set_value('provenance', $ingredient['provenance']), 'required'); ?>
                     <?= validation_show_error('provenance') ?>
                 </div>

@@ -46,7 +46,8 @@
 
                         <div class="product-info">
                             <p><span>Description : </span><?= $bundle['description'] ?></p>
-                            <p><span>Prix : </span><?= $bundle['prix'] ?></p>
+                            <p><span>Prix : </span><?= $bundle['prix'] ?> €</p>
+                            <p><span>Nombre de produits différents : </span><?= $bundle['produit_count'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>

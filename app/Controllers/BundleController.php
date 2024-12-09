@@ -22,6 +22,12 @@ class BundleController extends BaseController
     public function index()
 	{
 		$bundles = $this->bundleModel->orderBy('id_bundle')->paginate(8);
+
+		$bundleproduitModel = new BundleProduitModel();
+
+		foreach ($bundles as &$bundle) {
+			$bundle['produit_count'] = $bundleproduitModel->where('id_bundle', $bundle['id_bundle'])->countAllResults();
+		}
 		
 		$data['produits'] = $this->produitModel->findAll();
 		$data['bundles'] = $bundles;

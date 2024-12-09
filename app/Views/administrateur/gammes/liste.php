@@ -47,8 +47,9 @@
                         <div class="product-info">
                             <p><span>Nom : </span><?= $gamme['nom'] ?></p>
                             <p><span>Description : </span><?= $gamme['description'] ?></p>
-                            <p><span>Prix HT : </span><?= $gamme['prixht'] ?></p>
-                            <p><span>Prix TTC : </span><?= $gamme['prixttc'] ?></p>
+                            <p><span>Prix HT : </span><?= $gamme['prixht'] ?> €</p>
+                            <p><span>Prix TTC : </span><?= $gamme['prixttc'] ?> €</p>
+                            <p><span>Nombre de produits différents : </span><?= $gamme['produit_count'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>

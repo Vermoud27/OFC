@@ -16,14 +16,14 @@
             <?php echo form_open('/admin/codes-promos/modifier/' . $codepromo['id_codepromo'], ['enctype' => 'multipart/form-data']); ?>
 
                 <div>
-                    <?php echo form_label('Code Promo', 'code'); ?>
+                    <?php echo form_label('Code Promo *', 'code'); ?>
                     <?php echo form_input('code', set_value('code', $codepromo['code']), 'required'); ?>
                     <?= validation_show_error('code') ?>
                 </div>
 
                 <div class="grid-2-columns">
                     <div>
-                        <?php echo form_label('Réduction en € (optionnelle)', 'valeur'); ?>
+                        <?php echo form_label('Réduction (€)', 'valeur'); ?>
                         <?php echo form_input('valeur', set_value('valeur', $codepromo['valeur'] ?? ''), [
                             'type' => 'number',
                             'min' => '0',
@@ -32,7 +32,7 @@
                         <?= validation_show_error('valeur') ?>
                     </div>
                     <div>
-                        <?php echo form_label('Réduction en % (optionnelle)', 'pourcentage'); ?>
+                        <?php echo form_label('Réduction (%)', 'pourcentage'); ?>
                         <?php echo form_input('pourcentage', set_value('pourcentage', $codepromo['pourcentage'] ?? ''), [
                             'type' => 'number',
                             'min' => '0',
@@ -44,7 +44,7 @@
             
                 <div class="grid-2-columns">
                     <div>
-                        <?php echo form_label('Date de début', 'date_debut'); ?>
+                        <?php echo form_label('Date de début *', 'date_debut'); ?>
                         <?php echo form_input([
                             'type' => 'date',
                             'name' => 'date_debut',
@@ -56,7 +56,7 @@
                     </div>
 
                     <div>
-                        <?php echo form_label('Date de fin', 'date_fin'); ?>
+                        <?php echo form_label('Date de fin *', 'date_fin'); ?>
                         <?php echo form_input([
                             'type' => 'date',
                             'name' => 'date_fin',
@@ -79,13 +79,13 @@
                 </div>
 
                 <div>
-                    <?php echo form_label('Conditions d\'utilisation (optionnelles)', 'conditions_utilisation'); ?>
+                    <?php echo form_label('Conditions d\'utilisation', 'conditions_utilisation'); ?>
                     <?php echo form_textarea('conditions_utilisation', set_value('conditions_utilisation', $codepromo['conditions_utilisation']  ?? '')); ?>
                     <?= validation_show_error('conditions_utilisation') ?>
                 </div>
 
                 <div>
-                    <?= form_label('Actif :', 'actif') ?>
+                    <?= form_label('Actif : *', 'actif') ?>
                     <?= form_dropdown(
                         'actif', 
                         [ 
