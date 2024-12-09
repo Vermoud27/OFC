@@ -238,6 +238,15 @@ require 'header.php';
     setupCarousel();
 
   </script>
+  <!-- Chat bot -->
+  <script>
+    window.embeddedChatbotConfig = {
+      chatbotId: "TevA9a6HQST1JN1GNHARh",
+      domain: "www.chatbase.co"
+    }
+  </script>
+  <script src="https://www.chatbase.co/embed.min.js" chatbotId="TevA9a6HQST1JN1GNHARh" domain="www.chatbase.co" defer>
+  </script>
 </body>
 <?php
 require 'footer.php';
