@@ -17,30 +17,30 @@ require 'header.php';
 ?>
 
 <body>
-<!-- Affichage des messages flash -->
-<section class="section">
+  <!-- Affichage des messages flash -->
+  <section class="section">
     <div class="container">
-        <div id="notifications" class="notifications">
-            <?php if (session()->getFlashdata('success_rating')): ?>
-                <div class="notification is-success">
-                    <?= session()->getFlashdata('success_rating') ?>
-                </div>
-            <?php endif; ?>
+      <div id="notifications" class="notifications">
+        <?php if (session()->getFlashdata('success_rating')): ?>
+          <div class="notification is-success">
+            <?= session()->getFlashdata('success_rating') ?>
+          </div>
+        <?php endif; ?>
 
-            <?php if (session()->getFlashdata('success_comment')): ?>
-                <div class="notification is-success">
-                    <?= session()->getFlashdata('success_comment') ?>
-                </div>
-            <?php endif; ?>
+        <?php if (session()->getFlashdata('success_comment')): ?>
+          <div class="notification is-success">
+            <?= session()->getFlashdata('success_comment') ?>
+          </div>
+        <?php endif; ?>
 
-            <?php if (session()->getFlashdata('error_rating')): ?>
-                <div class="notification is-danger">
-                    <?= session()->getFlashdata('error_rating') ?>
-                </div>
-            <?php endif; ?>
-        </div>
+        <?php if (session()->getFlashdata('error_rating')): ?>
+          <div class="notification is-danger">
+            <?= session()->getFlashdata('error_rating') ?>
+          </div>
+        <?php endif; ?>
+      </div>
     </div>
-</section>
+  </section>
 
   <div class="container">
     <h1>Accueil - <?= $produit['nom'] ?></h1>
@@ -75,9 +75,10 @@ require 'header.php';
           <div class="rating-overview">
             <h3><?= number_format($averageRating, 1) ?> / 5</h3>
             <div class="stars">
-                <?php for ($i = 1; $i <= 5; $i++): ?>
-                <i class="fa-star<?= $i <= round($averageRating) ? ' fa-solid' : ' fa-regular' ?>" style="<?= $i <= round($averageRating) ? 'color: #FFD43B;' : '' ?>"></i>
-                <?php endfor; ?>
+              <?php for ($i = 1; $i <= 5; $i++): ?>
+                <i class="fa-star<?= $i <= round($averageRating) ? ' fa-solid' : ' fa-regular' ?>"
+                  style="<?= $i <= round($averageRating) ? 'color: #FFD43B;' : '' ?>"></i>
+              <?php endfor; ?>
             </div>
             <p><?= $totalRatings ?> Notes</p>
           </div>
@@ -92,12 +93,13 @@ require 'header.php';
             <?php echo form_open('/submitRating', ['enctype' => 'multipart/form-data']); ?>
 
             <div class="stars-input">
-                <?php for ($i = 1; $i <= 5; $i++): ?>
-                <i class="fa-star rate-star<?= (isset($existingRating) && $existingRating['valeur'] >= $i) ? ' fa-solid' : ' fa-regular' ?>" data-value="<?= $i ?>" style="<?= (isset($existingRating) && $existingRating['valeur'] >= $i) ? 'color: #FFD43B;' : '' ?>"></i>
-                <?php endfor; ?>
+              <?php for ($i = 1; $i <= 5; $i++): ?>
+                <i class="fa-star rate-star <?= (isset($existingRating) && (int) $existingRating['valeur'] >= $i) ? 'fa-solid selected' : 'fa-regular' ?>"
+                  data-value="<?= $i ?>"></i>
+              <?php endfor; ?>
             </div>
-            <input type="hidden" name="rating" id="rating-value"
-              value="<?= isset($existingRating) ? $existingRating['valeur'] : 0 ?>">
+
+            <input type="hidden" name="rating" id="rating-value" value="<?= isset($existingRating) ? (int) $existingRating['valeur'] : 0 ?>">
             <input type="hidden" name="id_utilisateur" value="<?= session()->get('idutilisateur') ?>">
             <input type="hidden" name="idProduit" value="<?= $produit['id_produit'] ?>">
 
@@ -107,7 +109,8 @@ require 'header.php';
               <?= validation_show_error('comment') ?>
             </div>
             <div>
-              <button type="submit" class="submit-review"><?= isset($existingRating) ? 'Mettre à jour ma note / Mettre un commentaire' : 'Ajouter une note / un commentaire' ?></button>
+              <button type="submit"
+                class="submit-review"><?= isset($existingRating) ? 'Mettre à jour ma note / Mettre un commentaire' : 'Ajouter une note / un commentaire' ?></button>
             </div>
             <?php echo form_close(); ?>
           </div>
@@ -254,19 +257,37 @@ require 'header.php';
         }
       });
 
-      // Sélection de la note
+      // Fonction pour colorer les étoiles jusqu'à une valeur donnée
+      function updateStars(value) {
+        stars.forEach((star, index) => {
+          if (index < value) {
+            star.classList.add('fa-solid');
+            star.classList.remove('fa-regular');
+            star.style.color = '#FFD43B'; // Jaune
+          } else {
+            star.classList.remove('fa-solid');
+            star.classList.add('fa-regular');
+            star.style.color = '#000000'; // Retour à la couleur par défaut
+          }
+        });
+      }
+
+      // Initialisation : Appliquer la note existante (si elle existe)
+      const existingRating = parseInt(ratingValueInput.value);
+      if (existingRating > 0) {
+        updateStars(existingRating);
+      }
+
+      // Sélection dynamique des étoiles
       stars.forEach(star => {
         star.addEventListener('click', () => {
-          const value = star.getAttribute('data-value');
-          ratingValueInput.value = value;
-
-          stars.forEach(s => s.classList.remove('selected'));
-          for (let i = 0; i < value; i++) {
-            stars[i].classList.add('selected');
-          }
+          const value = parseInt(star.getAttribute('data-value'));
+          ratingValueInput.value = value; // Mettre à jour la valeur de l'input caché
+          updateStars(value); // Mettre à jour les étoiles visuellement
         });
       });
     });
+
   </script>
 
   <script>
