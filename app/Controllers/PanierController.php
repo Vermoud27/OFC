@@ -226,6 +226,13 @@ class PanierController extends BaseController
 
     public function recapitulatif(): string
     {
+        $session = session();
+
+        if (array_sum(json_decode($_COOKIE['panier'])) == 0) {
+            $session->setFlashdata('error', 'Votre panier est vide.');
+            return '<script>window.location.href="/panier";</script>';
+        }
+
         $produitModel = new ProduitModel();
         $utilisateurModel = new UtilisateurModel(); // Modèle pour les utilisateurs
 

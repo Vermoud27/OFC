@@ -64,18 +64,22 @@ class CommandeController extends BaseController
 
     public function annuler($id)
     {
+        $session = session();
+
         $commandeModel = new CommandeModel();
 
         $commande = $commandeModel->find($id);
 
         if (!$commande) {
-            return redirect()->to('commande')->with('error', 'Commande introuvable.');
+            $session->setFlashdata('error', 'Commande introuvable.');
+            return redirect()->to('/commande');
         }
 
         // Vérifier si la commande appartient à l'utilisateur connecté
         $userId = session()->get('idutilisateur');
         if ($commande['id_utilisateur'] !== $userId) {
-            return redirect()->to('commande')->with('error', 'Vous ne pouvez pas annuler cette commande.');
+            $session->setFlashdata('error', 'Vous ne pouvez pas annuler cette commande.');
+            return redirect()->to('/commande');
         }
 
         $data = [
@@ -84,7 +88,8 @@ class CommandeController extends BaseController
 
         $commandeModel->update($id, $data);
 
-        return redirect()->to('commande')->with('success', 'Commande annulée avec succès.');
+        $session->setFlashdata('success', 'Commande annulée avec succès.');
+        return redirect()->to('/commande');
     }
 
     public function enregistrerCommande()
