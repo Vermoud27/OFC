@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -199,7 +199,7 @@ body {
     border-radius: 8px; /* Coins arrondis */
     z-index: 1000; /* Passe au-dessus des autres éléments */
     text-align: center;
-    font-family: Arial, sans-serif; /* Police propre */
+    font-family: 'Montserrat', sans-serif;
 }
 
 .alert form {
