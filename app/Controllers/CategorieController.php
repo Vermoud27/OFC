@@ -24,6 +24,10 @@ class CategorieController extends BaseController
 		$data['categories'] = $categories;
 		$data['pager'] = \Config\Services::pager();
 
+		$fav = $this->categorieModel->getTopCategories(5);
+
+		$data['fav'] = $fav;
+
 		return view('administrateur/categories/liste', $data);
 	}
 

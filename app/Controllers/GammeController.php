@@ -28,6 +28,10 @@ class GammeController extends BaseController
 		foreach ($gammes as &$gamme) {
 			$gamme['produit_count'] = $this->produitModel->where('id_gamme', $gamme['id_gamme'])->countAllResults();
 		}
+
+		$fav = $this->gammeModel->getTopGammes(5);
+
+		$data['fav'] = $fav;
 		
 		$data['produits'] = $this->produitModel->findAll();
 		$data['gammes'] = $gammes;

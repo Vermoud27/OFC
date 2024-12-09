@@ -60,7 +60,7 @@ class ProduitModel extends Model
         return $this->findAll();
 	}
 
-    public function getTopProduits()
+    public function getTopProduits($limit)
     {
         return $this->select('produit.*, SUM(details_commande.quantite) as total_quantite')
         ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
@@ -68,7 +68,7 @@ class ProduitModel extends Model
         ->whereNotIn('statut', ['fini', 'annulé'])
         ->groupBy('produit.id_produit')
         ->orderBy('total_quantite', 'DESC')
-        ->limit(8)
+        ->limit($limit)
         ->get()
         ->getResultArray();
     }

@@ -34,4 +34,18 @@ class BundleModel extends Model
             'decimal' => 'Le prix du bundle doit être un nombre décimal valide.'
         ]
     ];
+
+    public function getTopBundles($limit)
+    {
+        return $this->select('bundle.*, SUM(details_commande.quantite) as total_quantite')
+            ->join('details_commande', 'bundle.id_bundle = details_commande.id_bundle')
+            ->join('commande', 'details_commande.id_commande = commande.id_commande')
+            ->whereNotIn('commande.statut', ['fini', 'annulé'])
+            ->groupBy('bundle.id_bundle')
+            ->orderBy('total_quantite', 'DESC')
+            ->limit($limit)
+            ->get()
+            ->getResultArray();
+    }
+
 }

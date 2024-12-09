@@ -22,8 +22,35 @@ class CodePromoController extends BaseController
 
         $codes = $this->codePromoModel->orderBy('id_codepromo')->paginate(8);
 		
-		$data['codes'] = $codes;
-		$data['pager'] = \Config\Services::pager();
+        $now = date('Y-m-d H:i:s');
+
+        // Liste des codes expirés ou ayant atteint leur limite
+        $codesExpirésOuMaxUtilisation = $this->codePromoModel
+            ->groupStart()
+                ->where('date_fin <', $now)
+                ->orWhere('utilisation_actuelle >= utilisation_max')
+            ->groupEnd()
+            ->findAll();
+    
+        // Nombre total de codes actifs
+        $totalCodesActifs = $this->codePromoModel
+            ->where('actif', true)
+            ->countAllResults();
+    
+        // Nombre total de codes inactifs
+        $totalCodesInactifs = $this->codePromoModel
+            ->where('actif', false)
+            ->countAllResults();
+
+            $data = [
+                'codes' => $codes,
+                'pager' => \Config\Services::pager(),
+                'stats' => [
+                    'codes_expirés_ou_max' => $codesExpirésOuMaxUtilisation,
+                    'total_actifs' => $totalCodesActifs,
+                    'total_inactifs' => $totalCodesInactifs
+                ]
+            ];
 
 
         return view('administrateur/codes-promos/liste', $data);

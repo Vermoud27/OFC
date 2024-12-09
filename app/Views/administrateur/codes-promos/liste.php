@@ -15,14 +15,38 @@
     <div class="container">
         <!-- Panel de statistiques -->
         <div class="panel">
-            <h2>Statistiques</h2>
-            <div class="stats">
-                <p>Total des produits : 150</p>
-                <p>Produits en rupture : 20</p>
-                <p>Chiffre d'affaires : 12 500€</p>
-            </div>
-            <h2>Informations</h2>
-            <p>Ce tableau affiche les codes promo et leurs détails respectifs.</p>
+            <h2>Statistiques des Codes Promotionnels</h2>
+            <ul>
+                <li>Total des codes actifs : <?= $stats['total_actifs'] ?></li>
+                <li>Total des codes inactifs : <?= $stats['total_inactifs'] ?></li>
+            </ul>
+
+            <br>
+            <h2>Codes Expirés ou Utilisés au Maximum</h2>
+            <?php if (!empty($stats['codes_expirés_ou_max'])): ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Date de fin</th>
+                            <th>Utilisations</th>
+                            <th>Limite d'utilisations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($stats['codes_expirés_ou_max'] as $code): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($code['nom']) ?></td>
+                                <td><?= htmlspecialchars($code['date_fin']) ?></td>
+                                <td><?= htmlspecialchars($code['utilisations']) ?></td>
+                                <td><?= htmlspecialchars($code['nb_max_utilisations']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>Aucun code expiré ou utilisé au maximum pour le moment.</p>
+            <?php endif; ?>
         </div>
 
         <!-- Liste des produits -->

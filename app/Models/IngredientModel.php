@@ -39,4 +39,20 @@ class IngredientModel extends Model
             'max_length' => 'La provenance ne doit pas dépasser 100 caractères.'
         ]
     ];
+
+    public function getTopIngredients($limit)
+    {
+        return $this->select('ingredient.*, SUM(details_commande.quantite) as total_quantite')
+            ->join('produit_ingredient', 'ingredient.id_ingredient = produit_ingredient.id_ingredient')
+            ->join('produit', 'produit_ingredient.id_produit = produit.id_produit')
+            ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
+            ->join('commande', 'details_commande.id_commande = commande.id_commande')
+            ->whereNotIn('commande.statut', ['fini', 'annulé'])
+            ->groupBy('ingredient.id_ingredient')
+            ->orderBy('total_quantite', 'DESC')
+            ->limit($limit)
+            ->get()
+            ->getResultArray();
+    }
+
 }

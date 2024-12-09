@@ -14,17 +14,17 @@
     <div class="container">
         <!-- Panel de statistiques -->
         <div class="panel">
-            <h2>Statistiques</h2>
-            <div class="stats">
-                <p>Total des produits : 150</p>
-                <p>Produits en rupture : 20</p>
-                <p>Chiffre d'affaires : 12 500€</p>
-            </div>
-            <h2>Informations</h2>
-            <p>Ce tableau affiche les produits disponibles en stock et leurs détails respectifs.</p>
+            <h2>Les favoris</h2>
+            <?php foreach ($fav as $categorie): ?>
+
+                <b><span>Nom : </span><?= $categorie['nom'] ?></b>
+                <p><span>Quantité de produits de cette catégorie vendu : </span><?= $categorie['total_quantite'] ?></p>
+                
+                <br>
+            <?php endforeach; ?>    
         </div>
 
-        <!-- Liste des produits -->
+        <!-- Liste des categories -->
         <div class="product-section">
             <a href="/admin/categories/creation/"><button class="add-product-btn">➕ Ajouter une catégorie</button></a>
             <h2>Liste des Catégories</h2>

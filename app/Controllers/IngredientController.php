@@ -18,6 +18,10 @@ class IngredientController extends BaseController
     public function index()
 	{
 		$ingredients = $this->ingredientModel->orderBy('nom')->paginate(8);
+
+		$fav = $this->ingredientModel->getTopIngredients(5);
+
+		$data['fav'] = $fav;
 		
 		$data['ingredients'] = $ingredients;
 		$data['pager'] = \Config\Services::pager();
