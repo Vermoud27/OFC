@@ -141,3 +141,53 @@ a.prd:visited{
     color: black; /* Couleur du lien non visité (ajustez selon vos besoins) */
     text-decoration: none; /* Enlever le soulignement par défaut des liens */
 }
+
+
+.filters {
+    display: flex; /* Active Flexbox */
+    flex-wrap: wrap; /* Permet de passer à la ligne si nécessaire sur petits écrans */
+    gap: 20px; /* Ajoute de l'espace entre les éléments */
+    align-items: center; /* Aligne verticalement les éléments au centre */
+    justify-content:center; /* Aligne les éléments sur la gauche */
+    margin-bottom: 20px; /* Ajoute de l'espace en bas */
+    padding: 10px;
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre */
+}
+
+.filters label,
+.filters select,
+.filters input {
+    font-size: 16px; /* Taille de texte uniforme */
+    margin-right: 10px; /* Espacement entre les éléments */
+}
+
+.filters select,
+.filters input {
+    padding: 8px; /* Espace interne pour les champs */
+    border: 1px solid #ddd; /* Bordure fine grise */
+    border-radius: 5px; /* Coins arrondis */
+    background-color: #f9f9f9; /* Couleur de fond légère */
+}
+
+.filters select:focus,
+.filters input:focus {
+    outline: none; /* Supprime l'effet focus par défaut */
+    border-color: #D2691E; /* Bordure orange au focus */
+    box-shadow: 0 0 5px rgba(210, 105, 30, 0.5); /* Ombre au focus */
+}
+
+.filters button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #D2691E;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: auto; /* Place le bouton le plus à droite */
+}
+
+.filters button:hover {
+    background-color: #e68a00;
+}
