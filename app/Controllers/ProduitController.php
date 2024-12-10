@@ -127,6 +127,8 @@ class ProduitController extends BaseController
 
 		$data['produits'] = $produits;
 		$data['pager'] = \Config\Services::pager();
+		$data['categories'] = $this->categorieModel->orderBy('nom')->findAll();
+		$data['ingredients'] = $this->ingredientModel->findAll();
     
         return view('pageProduits', $data);
     }
