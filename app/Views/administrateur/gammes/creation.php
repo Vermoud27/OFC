@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="actions">
-                    <button type="submit" class="submit-btn">Ajouter l'ingrédient</button>
+                    <button type="submit" class="submit-btn">Créer la gamme</button>
                     <button type="button" class="cancel-btn" onclick="window.location.href='/admin/gammes';">Annuler</button>
                 </div>
             <?php echo form_close(); ?>
