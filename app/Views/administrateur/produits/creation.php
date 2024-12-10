@@ -91,6 +91,7 @@
                         $options = [
                             'g' => 'g',
                             'mL' => 'mL',
+                            'u' => 'u',
                         ];
                         echo form_dropdown('unite_mesure', $options, set_value('unite_mesure'), 'required'); ?>
                         <?= validation_show_error('unite_mesure') ?>
