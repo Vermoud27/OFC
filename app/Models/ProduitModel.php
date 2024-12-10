@@ -115,4 +115,21 @@ class ProduitModel extends Model
         return $this->findAll(); // Retourne tous les produits
     }
 
+    public function getProduitsParPopularite($ordre = 'desc')
+    {
+        // Validation de l'ordre de tri (soit 'asc' soit 'desc')
+        if (!in_array(strtolower($ordre), ['asc', 'desc'])) {
+            return $this->where('actif', 't');
+        }
+    
+        // Retourner les produits triés par popularité avec une jointure externe gauche
+        return $this->select('produit.*, COALESCE(SUM(details_commande.quantite), 0) as total_quantite')
+            ->join('details_commande', 'produit.id_produit = details_commande.id_produit', 'left') // Jointure externe gauche
+            ->join('commande', 'details_commande.id_commande = commande.id_commande', 'left') // Jointure externe gauche
+            
+            ->groupBy('produit.id_produit')
+            ->groupBy('details_commande.id_produit')
+            ->having('COALESCE(SUM(details_commande.quantite), 0) > 0 OR details_commande.id_produit IS NULL') // Inclure les produits sans commande
+            ->orderBy('total_quantite', $ordre); // Trie par la quantité totale
+    }
 }
