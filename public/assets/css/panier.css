@@ -121,6 +121,50 @@ h1 {
   margin: 5px 0;
 }
 
+
+
+
+
+/* Styles des articles */
+.cart-gamme {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #556b2f;
+  color: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  width: 50%;
+  margin-left: 35%;
+  flex-wrap: wrap; /* Permet d'envelopper les éléments */
+  box-sizing: border-box; /* Inclut les bordures et padding dans la largeur */
+  width: 70%;
+}
+
+
+.cart-gamme img {
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+}
+
+.cart-gamme-details {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.cart-gamme-details h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.cart-gamme-details p {
+  margin: 5px 0;
+}
+
+
+
 .stock-status {
   color: lightgreen;
 }
