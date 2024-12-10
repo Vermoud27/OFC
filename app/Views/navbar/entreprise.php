@@ -1,3 +1,5 @@
+<?php require APPPATH . 'Views/header.php'; ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -12,7 +14,7 @@
 </head>
 
 <body>
-    <?php require APPPATH . 'Views/header.php'; ?>
+    
 
     <div class="content">
         <!-- Bloc Histoire de l'entreprise -->
@@ -134,7 +136,9 @@
         </div>
     </div>
 
-    <?php require APPPATH . 'Views/footer.php'; ?>
+    
 </body>
+
+<?php require APPPATH . 'Views/footer.php'; ?>
 
 </html>

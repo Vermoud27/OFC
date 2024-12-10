@@ -162,16 +162,7 @@ h1, h2, h3 {
     margin: 0 auto;
 }
 
-/* Liens dans le texte */
-a {
-    color: #D2691E;
-    text-decoration: none;
-    font-weight: bold;
-}
 
-a:hover {
-    text-decoration: underline;
-}
 
 
 /* Styles pour les listes */
@@ -181,7 +172,7 @@ ul {
     text-align: left; /* Assure que le texte reste aligné à gauche */
 }
 
-ul li {
+.section ul li {
     font-size: 1rem; /* Taille de la police */
     line-height: 1.8; /* Espacement entre les lignes */
     margin-bottom: 10px; /* Espacement entre les éléments de la liste */

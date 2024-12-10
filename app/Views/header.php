@@ -16,8 +16,8 @@
     <div class="right-section">
         <!-- Traduction -->
         <div id="google_translate_element" class="translate-wrapper">
-    <i class="fa-solid fa-language translate-icon"></i>
-</div>
+            <i class="fa-solid fa-language translate-icon"></i>
+        </div>
 
 
 
