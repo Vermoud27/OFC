@@ -30,32 +30,49 @@ class ProduitController extends BaseController
 
 	public function page_produits(): string
 	{
-		// Récupérer la catégorie passée via GET
+		// Récupérer les paramètres de la requête
 		$categorie = $this->request->getGet('categorie');
 		$recherche = $this->request->getGet('search');
+		$prix = $this->request->getGet('prix');
+		$popularite = $this->request->getGet('popularite');
+		$ingredients = $this->request->getGet('ingredients');
 
 		// Initialiser la requête des produits
 		$produitQuery = $this->produitModel->where('actif', 't'); // Filtrer les produits actifs
 
+		// Tri par popularité
+		if ($popularite) {
+			$produitQuery = $this->produitModel->getProduitsParPopularite( $popularite); // Tri par popularité
+		}
+
+		// Filtrage par catégorie
 		if ($categorie) {
-			// Rechercher l'id de la catégorie correspondante
 			$categorieData = $this->categorieModel->where('nom', $categorie)->first();
-			
 			if ($categorieData) {
-				$idCategorie = $categorieData['id_categorie']; // ID de la catégorie
-				$produitQuery->where('id_categorie', $idCategorie);
+				$produitQuery->where('id_categorie', $categorieData['id_categorie']);
 			} else {
-				// Si la catégorie n'existe pas, retourner une liste vide
 				$produitQuery->where('id_categorie', -1); // Aucun produit
 			}
 		}
 
+		// Filtrage par recherche
 		if ($recherche) {
 			$produitQuery->like('nom', $recherche);
 		}
 
+		if ($ingredients) {
+			$produitQuery->join('produit_ingredient', 'produit_ingredient.id_produit = produit.id_produit', 'left')  // Jointure avec la table ingredient_produit
+						 ->join('ingredient', 'produit_ingredient.id_ingredient = ingredient.id_ingredient', 'left') // Jointure avec la table ingredient
+						 ->like('ingredient.nom', $ingredients); // Recherche par le nom de l'ingrédient
+		}
+
+		// Tri par prix
+		if ($prix) {
+			$produitQuery->orderBy('prixttc', $prix); // Tri par prix croissant ou décroissant
+		}
+
 		// Récupérer les produits paginés
-		$produits = $produitQuery->orderBy('id_produit')->paginate(16);
+		$produits = $produitQuery->paginate(16);
 
 		// Ajouter les images pour chaque produit
 		foreach ($produits as &$produit) {
@@ -66,10 +83,16 @@ class ProduitController extends BaseController
 		// Passer les données à la vue
 		$data['produits'] = $produits;
 		$data['pager'] = \Config\Services::pager();
-		$data['categorie'] = $categorie ?: 'Tous les produits';
+		$data['selectedCategorie'] = $categorie ?: 'Tous les produits';
+		$data['categories'] = $this->categorieModel->orderBy('nom')->findAll();
+		$data['selectedPrix'] = $prix;
+		$data['selectedPopularite'] = $popularite;
+		$data['selectedIngredients'] = $ingredients;
+		$data['ingredients'] = $this->ingredientModel->findAll();
 
 		return view('pageProduits', $data);
 	}
+
 
 
 
