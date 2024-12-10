@@ -34,7 +34,7 @@ class CommandeController extends BaseController
             ->whereNotIn('statut', ['fini', 'annulé']);
         }
 
-        $commandes = $commandeModel->orderBy('id_commande')->paginate(9);
+        $commandes = $commandeModel->orderBy('id_commande')->paginate(6);
 
         // Calculer les statistiques (nombre de commandes dans chaque état)
         $statistiques = [

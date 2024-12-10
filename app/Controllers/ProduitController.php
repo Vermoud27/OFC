@@ -134,7 +134,7 @@ class ProduitController extends BaseController
     public function index()
 	{
 		$filtre = $this->request->getGet('filtre') ?? 't'; 
-		$produits = $this->produitModel->where('actif', $filtre)->orderBy('id_produit')->paginate(8);
+		$produits = $this->produitModel->where('actif', $filtre)->orderBy('id_produit')->paginate(6);
 		
 		foreach ($produits as &$produit) {
 			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
