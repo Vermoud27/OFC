@@ -418,28 +418,32 @@ class PanierController extends BaseController
 
     public function retirerGamme($idGamme)
     {
+        // Récupérer le panier actuel depuis la session
         $panier = $this->getPanier();
 
+        // Initialiser le modèle de la gamme pour obtenir les informations nécessaires
         $gammeModel = new GammeModel();
         $gamme = $gammeModel->find($idGamme);
 
-        // Vérifie si le produit est dans le panier
+        // Vérifier si la gamme existe dans le panier
         if (isset($panier[$idGamme])) {
-            unset($panier[$idGamme]); // Supprime le produit du panier
+            // Retirer la gamme du panier
+            unset($panier[$idGamme]);
 
-            // Ajoute un message de confirmation
-            session()->setFlashdata('success', "Le produit '{$gamme['nom']}' a été retiré du panier.");
+            // Ajouter un message de confirmation
+            session()->setFlashdata('success', "La gamme '{$gamme['nom']}' a été retirée du panier.");
         } else {
-            // Message si le produit n'est pas trouvé dans le panier
-            session()->setFlashdata('error', "Le produit demandé n'est pas dans le panier.");
+            // Si la gamme n'est pas dans le panier, ajouter un message d'erreur
+            session()->setFlashdata('error', "La gamme demandée n'est pas dans le panier.");
         }
 
-        // Met à jour le panier
+        // Mettre à jour le panier dans la session
         $this->setPanier($panier);
 
-        // Redirige vers la page précédente ou la vue panier
-        return redirect()->back();
+        // Rediriger vers la page du panier après la suppression ou vers une autre page si nécessaire
+        return redirect()->to('/panier'); // ou redirect()->back() selon le flux de votre application
     }
+
 
 
     public function viderPanier()

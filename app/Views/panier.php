@@ -86,10 +86,11 @@ require 'header.php';
     </ul>
     <div class="quantity">
         <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, -1)">-</button>
-        <p>1</p>
+        <p><?= htmlspecialchars($gamme['quantite']) ?></p>
         <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1)">+</button>
     </div>
     <p class="price"><?= number_format($gamme['prixttc'], 2) ?> €</p>
+    <button class="sup" onclick="retirerGamme(<?= $gamme['id_gamme'] ?>)"></button>
 </div>
 
 
