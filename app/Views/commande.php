@@ -34,9 +34,26 @@ require 'header.php';
     </div>
     <div class="container">
 
+    <!-- Section de filtrage à gauche -->
+    <div class="filter-section">
+        <form method="get" action="/commande">
+            <label for="statuts">Filtrer par statut :</label>
+            <select name="statuts[]" id="statuts" multiple>
+                <?php foreach ($tousStatuts as $statut): ?>
+                    <option value="<?= $statut ?>" 
+                        <?= in_array($statut, $statutsSelectionnes) ? 'selected' : '' ?>>
+                        <?= ucfirst($statut) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit">Filtrer</button>
+        </form>
+    </div>
+
         <!-- Liste des commandes -->
         <div class="product-section">
-            <h2>Liste de mes commandes</h2>
+    <h2>Liste de mes commandes</h2>
+
 
             <div class="product-grid">
 

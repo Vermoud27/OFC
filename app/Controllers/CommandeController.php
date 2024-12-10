@@ -20,17 +20,26 @@ class CommandeController extends BaseController
     {
         $commandeModel = new CommandeModel();
 
-        // Récupérer les commandes (exclure les statuts 'fini' et 'annulé')
-        $commandes = $commandeModel->select('commande.*, utilisateur.mail')
+        $statuts = $this->request->getGet('statuts');
+
+        if (!empty($statuts)) {
+            // Si des statuts sont sélectionnés, les inclure dans la requête
+            $commandeModel->select('commande.*, utilisateur.mail')
             ->join('utilisateur', 'utilisateur.id_utilisateur = commande.id_utilisateur')
-            ->whereNotIn('statut', ['fini', 'annulé'])
-            ->orderBy('id_commande')->paginate(8);
+            ->whereIn('statut', $statuts);
+        } else {
+            // Sinon, exclure les statuts 'fini' et 'annulé' par défaut
+            $commandeModel->select('commande.*, utilisateur.mail')
+            ->join('utilisateur', 'utilisateur.id_utilisateur = commande.id_utilisateur')
+            ->whereNotIn('statut', ['fini', 'annulé']);
+        }
+
+        $commandes = $commandeModel->orderBy('id_commande')->paginate(9);
 
         // Calculer les statistiques (nombre de commandes dans chaque état)
         $statistiques = [
             'en_attente' => $commandeModel->where('statut', 'en attente')->countAllResults(),
             'expedie' => $commandeModel->where('statut', 'expédié')->countAllResults(),
-            'livre' => $commandeModel->where('statut', 'livré')->countAllResults(),
             'fini' => $commandeModel->where('statut', 'fini')->countAllResults(),
             'annule' => $commandeModel->where('statut', 'annulé')->countAllResults(),
             'total' => $commandeModel->countAllResults(), // Total des commandes
@@ -40,6 +49,8 @@ class CommandeController extends BaseController
         $data['commandes'] = $commandes;
         $data['pager'] = \Config\Services::pager();
         $data['statistiques'] = $statistiques;
+        $data['statutsSelectionnes'] = $statuts ?? ['en attente']; 
+        $data['tousStatuts'] = ['en attente', 'expédié', 'fini', 'annulé']; 
 
         return view('administrateur/commandes/liste', $data);
     }
@@ -262,12 +273,24 @@ class CommandeController extends BaseController
     {
         $commandeModel = new CommandeModel();
 
-        // Récupérer les commandes (exclure les statuts 'fini' et 'annulé')
-        $commandes = $commandeModel->where('id_utilisateur', session()->get('idutilisateur'))->whereNotIn('statut', ['fini', 'annulé'])->orderBy('id_commande')->paginate(9);
+        $statuts = $this->request->getGet('statuts');
 
-        // Passer les données à la vue
+        $commandeModel->where('id_utilisateur', session()->get('idutilisateur'));
+
+        if (!empty($statuts)) {
+            // Si des statuts sont sélectionnés, les inclure dans la requête
+            $commandeModel->whereIn('statut', $statuts);
+        } else {
+            // Sinon, exclure les statuts 'fini' et 'annulé' par défaut
+            $commandeModel->whereNotIn('statut', ['fini', 'annulé']);
+        }
+
+        $commandes = $commandeModel->orderBy('id_commande')->paginate(9);
+
         $data['commandes'] = $commandes;
         $data['pager'] = \Config\Services::pager();
+        $data['statutsSelectionnes'] = $statuts ?? ['en attente', 'expédié']; 
+        $data['tousStatuts'] = ['en attente', 'expédié', 'fini']; 
 
         return view('/commande', $data);
     }

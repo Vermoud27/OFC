@@ -9,8 +9,8 @@ body {
 .container {
     display: flex;
     flex-direction: row; /* Organiser les éléments en ligne (gauche pour le panneau et droite pour la section produit) */
-    height: 100%; /* Assurez-vous que le conteneur prend toute la hauteur de la fenêtre */
 	padding: 20px;
+	height: 100vh;
 	background-color: #F5F5DC;
 }
 
@@ -102,4 +102,43 @@ body {
 
 .product-card i:hover {
     color: #D2691E;
+}
+
+/* Ajustements pour le filtre */
+.filter-section form {
+    display: flex;
+    flex-direction: column; /* Disposition verticale des éléments */
+    gap: 10px;
+	margin-right: 25px;
+	margin-top: 60px;
+	padding-right: 20px;
+	border-right: 1px solid #555;
+	height: 100%;
+}
+
+.filter-section label {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.filter-section select {
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filter-section button {
+    padding: 5px 15px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: #D2691E;
+    transition: background-color 0.3s ease;
+}
+
+.filter-section button:hover {
+    background-color: #A0522D;
 }
