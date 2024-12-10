@@ -2,9 +2,10 @@
 <header class="navbar">
     <div class="left-section">
         <a href="<?= base_url('/navbar/entreprise#contact') ?>" class="phone-icon"></a>
-        <input list="liste-produit" type="text" id="product-names" name="product-name" placeholder="Nom du produit" class="search-bar" autocomplete="off">
+        <input list="liste-produit" type="text" id="product-names" name="product-name" placeholder="Nom du produit"
+            class="search-bar" autocomplete="off">
         <datalist id="liste-produit">
-        </datalist> 
+        </datalist>
         <i id="search-button" onclick="searchProduct()" class="fa-solid fa-magnifying-glass"></i>
     </div>
     <div class="center-section">
@@ -13,10 +14,13 @@
 
 
     <div class="right-section">
-        <p> 🇫🇷 </p>
+        <!-- Traduction -->
+        <div id="google_translate_element"></div>
+
+
         <?php if (session()->get('role') == 'Admin'): ?>
             <a href="<?= base_url('/admin/commandes') ?>" class="admin-icon"></a>
-        
+
         <?php endif; ?>
 
         <?php if (session()->get('isLoggedIn')): ?>
@@ -53,7 +57,8 @@
         <li><a href="<?= base_url('gammes') ?>" class="link-white">Gammes</a></li>
         <li><a href="<?= base_url('produits?categorie=Huiles') ?>" class="link-white">Huiles</a></li>
         <li><a href="<?= base_url('produits?categorie=Soins-peau') ?>" class="link-white">Soins peau au détail</a></li>
-        <li><a href="<?= base_url('produits?categorie=Soins-capillaires') ?>" class="link-white">Soins capillaires</a></li>
+        <li><a href="<?= base_url('produits?categorie=Soins-capillaires') ?>" class="link-white">Soins capillaires</a>
+        </li>
         <li><a href="<?= base_url('produits?categorie=Autres') ?>" class="link-white">Autres</a></li>
         <li><a href="/navbar/entreprise">L’entreprise</a></li>
     </ul>
@@ -61,7 +66,7 @@
 
 <script>
     document.getElementById('product-names').addEventListener('input', function () {
-    
+
         const query = this.value; // Récupère la valeur du champ de recherche
         const datalist = document.getElementById('liste-produit'); // Référence au datalist
 
@@ -70,18 +75,18 @@
             .then(response => response.json())
             .then(
                 produits => {
-                // Vider le datalist avant de le remplir à nouveau
-                datalist.innerHTML = '';
+                    // Vider le datalist avant de le remplir à nouveau
+                    datalist.innerHTML = '';
 
-                if (produits.length > 0) {
-                    produits.forEach(produit => {
-                        const option = document.createElement('option');
-                        option.value = produit.nom; // Associer le nom du produit comme valeur
-                        datalist.appendChild(option); // Ajouter chaque option au datalist
-                    });
-                }
-                console.log(produits);
-            })
+                    if (produits.length > 0) {
+                        produits.forEach(produit => {
+                            const option = document.createElement('option');
+                            option.value = produit.nom; // Associer le nom du produit comme valeur
+                            datalist.appendChild(option); // Ajouter chaque option au datalist
+                        });
+                    }
+                    console.log(produits);
+                })
             .catch(error => console.error('Erreur:', error));
     });
 
@@ -102,4 +107,17 @@
     }
 
 </script>
-
+<!-- Traduction -->
+<script type="text/javascript">
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+            pageLanguage: 'fr', // Langue par défaut du site
+            includedLanguages: 'en,fr,es,de,ar,ja', // Langues disponibles pour la traduction
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        },
+        'google_translate_element'
+    );
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- Fin Traduction -->

@@ -1,0 +1,10 @@
+/* Cacher la barre "Afficher cette page en..." ajoutée par Google Translate */
+#goog-gt-tt,
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important; /* Empêcher tout décalage */
+}
