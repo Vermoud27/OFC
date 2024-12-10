@@ -220,12 +220,19 @@ class ProduitController extends BaseController
 	
 			foreach ($ingredientNames as $ingredientName) {
 				$ingredient = $this->ingredientModel->where('nom', $ingredientName)->first();
-				if ($ingredient) {
-					$this->produit_ingredient->insert([
-						'id_produit' => $produitId,
-						'id_ingredient' => $ingredient['id_ingredient'],
-					]);
+				
+				// Si l'ingrédient n'existe pas, le créer
+				if (!$ingredient) {
+					$ingredientId = $this->ingredientModel->insert(['nom' => $ingredientName], true);
+				} else {
+					$ingredientId = $ingredient['id_ingredient'];
 				}
+
+				// Ajouter la relation dans la table pivot
+				$this->produit_ingredient->insert([
+					'id_produit' => $produitId,
+					'id_ingredient' => $ingredientId,
+				]);
 			}
 		}
 

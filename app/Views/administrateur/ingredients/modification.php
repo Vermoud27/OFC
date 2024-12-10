@@ -22,8 +22,8 @@
                 </div>
                 
                 <div>
-                    <?php echo form_label('Provenance *', 'provenance'); ?>
-                    <?php echo form_input('provenance', set_value('provenance', $ingredient['provenance']), 'required'); ?>
+                    <?php echo form_label('Provenance', 'provenance'); ?>
+                    <?php echo form_input('provenance', set_value('provenance', $ingredient['provenance'])); ?>
                     <?= validation_show_error('provenance') ?>
                 </div>
 
