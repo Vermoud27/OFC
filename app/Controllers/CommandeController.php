@@ -152,6 +152,17 @@ class CommandeController extends BaseController
             $prixTotalTTC += $produit['prixttc'] * $produit['quantite'];
         }
 
+        // Envoyer les emails de confirmation
+        if (!$this->sendEmail(session()->get('email'), 'client')) {
+            $session->setFlashdata('error', 'Erreur lors de l\'envoi de l\'email de confirmation au client.');
+            return redirect()->to('/');
+        }
+
+        if (!$this->sendEmail('ofc99935@gmail.com', 'admin')) {
+            $session->setFlashdata('error', 'Erreur lors de l\'envoi de l\'email de confirmation à l\'administrateur.');
+            return redirect()->to('/');
+        }
+
         // Enregistrer la commande
         $commandeModel = new CommandeModel();
         $commandeData = [
@@ -182,12 +193,56 @@ class CommandeController extends BaseController
 
         $response = service('response');
         $response->setCookie('panier', '', time() - 3600);
+        $response->setCookie('code_promo', '', time() - 3600);
 
         $response->send();
 
         // Rediriger vers la page de confirmation
         session()->setFlashdata('success', 'Votre commande a été validée avec succès après paiement.');
         return redirect()->to('/');
+    }
+
+    private function sendEmail($to, $type)
+    {
+        $email = \Config\Services::email();
+
+        switch ($type) {
+            case 'client':
+                $subject = 'Confirmation de votre commande';
+                $name = 'Confirmation de commande';
+                $message = '<p>Bonjour,</p>';
+                $message .= '<p>Nous vous confirmons la réception de votre commande. Nous vous remercions pour votre confiance.</p>';
+                $message .= '<p>Votre commande sera traitée dans les plus brefs délais.</p>';
+                $message .= '<p>Cordialement,</p>';
+                $message .= '<p>L\'équipe OFC</p>';
+                break;
+
+            case 'admin':
+                $subject = 'Nouvelle commande passée';
+                $name = 'Commande Client';
+                $message = '<p>Bonjour,</p>';
+                $message .= '<p>Une nouvelle commande a été passée par un client.</p>';
+                $message .= '<p>Veuillez vérifier les détails de la commande dans le système d\'administration.</p>';
+                $message .= '<p>Cordialement,</p>';
+                $message .= '<p>L\'équipe OFC</p>';
+                break;
+
+            default:
+                return;
+        }
+
+        $email->setTo($to);
+        $email->setFrom('no-reply@ofc-naturel.fr', $name);
+        $email->setSubject($subject);
+        $email->setMessage($message);
+        $email->setMailType('html');
+
+        // Ajoutez cette partie pour récupérer les erreurs d'envoi
+        if (!$email->send()) {
+            log_message('error', 'Échec de l\'envoi de l\'e-mail : ' . $email->printDebugger(['headers']));
+            return false;
+        }
+        return true;
     }
 
     private function getPanier(): array
@@ -221,21 +276,20 @@ class CommandeController extends BaseController
     {
         $commandeModel = new CommandeModel();
         $produitModel = new ProduitModel();
-        
+
         // Récupère la commande et les produits associés
         $commande = $commandeModel->find($idCommande);
         $produits = $produitModel
-                        ->select('produit.*, details_commande.*')
-                        ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
-                        ->where('details_commande.id_commande', $idCommande)
-                        ->findAll();
+            ->select('produit.*, details_commande.*')
+            ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
+            ->where('details_commande.id_commande', $idCommande)
+            ->findAll();
 
         // Passer les données à la vue
         $data['commande'] = $commande;
         $data['produits'] = $produits;
 
-        if($admin)
-        {
+        if ($admin) {
             return view('administrateur/commandes/detail', $data);
         }
 

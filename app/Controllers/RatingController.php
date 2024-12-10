@@ -54,11 +54,37 @@ class RatingController extends BaseController
             $commentModel->save($dataComm);
             // Envoi de flashdata pour le commentaire
             session()->setFlashdata('success_comment', 'Votre commentaire a été soumis avec succès.');
+
+            $this->sendEmail(session()->get('email'), $comment);
         }
     
         // Rediriger vers la page du produit après la soumission
         return redirect()->to('/produit/' . $idProduit);
     }    
+
+    private function sendEmail($userEmail, $comment)
+    {
+        $email = \Config\Services::email();
+
+        $to = 'ofc99935@gmail.com';
+        $subject = 'Nouveau commentaire soumis';
+        $name = 'Nouveau commentaire';
+        $message = 'Un nouveau commentaire a été soumis par l\'utilisateur avec l\'adresse email : ' . $userEmail . '<br><br>';
+        $message .= 'Contenu du commentaire : ' . $comment;
+
+        $email->setTo($to);
+        $email->setFrom('no-reply@ofc-naturel.fr', $name);
+        $email->setSubject($subject);
+        $email->setMessage($message);
+        $email->setMailType('html');
+
+        // Ajoutez cette partie pour récupérer les erreurs d'envoi
+        if (!$email->send()) {
+            log_message('error', 'Échec de l\'envoi de l\'e-mail : ' . $email->printDebugger(['headers']));
+            return false;
+        }
+        return true;
+    }
 
     public function getRatings($productId)
     {
