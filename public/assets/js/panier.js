@@ -1,9 +1,9 @@
-function updateQuantity(idProduit, delta, type) {
+function updateQuantity(idProduit, delta) {
 	// Envoie une requête GET à la méthode modifierPanier
 	window.location.href = `/panier/modifier/${idProduit}/${delta}`;
 }
 
-function updateQuantityGamme(idGamme, delta, type) {
+function updateQuantityGamme(idGamme, delta) {
 	// Envoie une requête GET à la méthode modifierPanier
 	window.location.href = `/panier/modifierGamme/${idGamme}/${delta}`;
 }
@@ -15,5 +15,5 @@ function retirerProduit(idProduit) {
 }
 
 function retirerGamme(idGamme) {
-    window.location.href = `/panier/retirerGamme/${idGamme}/-1`;
+    window.location.href = `/panier/retirerGamme/${idGamme}`;
 }

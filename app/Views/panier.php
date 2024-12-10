@@ -75,71 +75,26 @@ require 'header.php';
            <!-- GAMMES -->
         <?php if (!empty($gammes)): ?>
             <?php foreach ($gammes as $gamme): ?>
-<!-- Pour chaque gamme -->
-<div class="cart-gamme" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>">
-    <img src="<?= htmlspecialchars($gamme['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($gamme['nom']) ?>">
-    <div class="cart-gamme-details">
-        <h2><?= htmlspecialchars($gamme['nom']) ?></h2>
-        <p><strong>Composition de la gamme :</strong></p>
-        
-        <!-- Liste des produits dans la gamme -->
-        <ul>
-            <div class="gamme-produits">
-                <?php foreach ($produitsParGamme[$gamme['id_gamme']] as $produitGamme): ?>
-                    <li>
-                        <?= htmlspecialchars($produitGamme['nom']) ?> / 
-                        Stock : <?= htmlspecialchars($produitGamme['qte_stock']) ?> / 
-                        Quantité achetée : <?= htmlspecialchars($produitGamme['quantite'] ?? '0') ?>
-                    </li>
-                <?php endforeach; ?>
-            </div>
-        </ul>
-
-        <!-- Gestion de la quantité -->
-        <div class="quantity">
-            <button onclick="updateQuantity(<?= htmlspecialchars($gamme['id_gamme']) ?>, -1, true)">-</button>
-            <p><?= htmlspecialchars($panier['gammes'][$gamme['id_gamme']] ?? 1) ?></p>
-            <button onclick="updateQuantity(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1, true)">+</button>
-        </div>
-    </div>
-    <div class="cart-item-right">
-        <p class="price"><?= number_format($gamme['prixttc'] ?? 0, 2) ?> €</p>
-        <button class="sup" onclick="retirerProduit(<?= htmlspecialchars($gamme['id_gamme']) ?>)">Supprimer</button>
-    </div>
-</div>
-
             <!-- Pour chaque gamme -->
-<div class="cart-gamme" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>">
-    <img src="<?= htmlspecialchars($gamme['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($gamme['nom']) ?>">
-    <div class="cart-gamme-details">
-        <h2><?= htmlspecialchars($gamme['nom']) ?></h2>
-        <p><strong>Composition de la gamme :</strong></p>
-        
-        <!-- Liste des produits dans la gamme -->
-        <ul>
-            <div class="gamme-produits">
-                <?php foreach ($produitsParGamme[$gamme['id_gamme']] as $produitGamme): ?>
-                    <li>
-                        <?= htmlspecialchars($produitGamme['nom']) ?> / 
-                        Stock : <?= htmlspecialchars($produitGamme['qte_stock']) ?> / 
-                        Quantité achetée : <?= htmlspecialchars($produitGamme['quantite'] ?? '0') ?>
-                    </li>
-                <?php endforeach; ?>
-            </div>
-        </ul>
-
-        <!-- Gestion de la quantité -->
-        <div class="quantity">
-            <button onclick="updateQuantity(<?= htmlspecialchars($gamme['id_gamme']) ?>, -1, true)">-</button>
-            <p><?= htmlspecialchars($panier['gammes'][$gamme['id_gamme']] ?? 1) ?></p>
-            <button onclick="updateQuantity(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1, true)">+</button>
-        </div>
+            <div class="cart-gamme" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>" data-prix-ttc="<?= htmlspecialchars($gamme['prixttc']) ?>">
+    <ul class="gamme-produits">
+        <?php foreach ($produitsParGamme[$gamme['id_gamme']] as $produitGamme): ?>
+            <li data-stock="<?= htmlspecialchars($produitGamme['qte_stock'] ?? 0) ?>">
+                <?= htmlspecialchars($produitGamme['nom']) ?> - Stock : <?= htmlspecialchars($produitGamme['qte_stock']) ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <div class="quantity">
+        <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, -1)">-</button>
+        <p>1</p>
+        <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1)">+</button>
     </div>
-    <div class="cart-item-right">
-        <p class="price"><?= number_format($gamme['prixttc'] ?? 0, 2) ?> €</p>
-        <button class="sup" onclick="retirerProduit(<?= htmlspecialchars($gamme['id_gamme']) ?>)">Supprimer</button>
-    </div>
+    <p class="price"><?= number_format($gamme['prixttc'], 2) ?> €</p>
 </div>
+
+
+
+
 
 
 
@@ -155,44 +110,34 @@ require 'header.php';
 
 
         <script>
-        function updateQuantity(id, delta, isGamme = false) {
-    let quantityElement;
+function updateQuantity(productId, delta) {
+    const quantityElement = document.querySelector(`.cart-item[data-id="${productId}"] .quantity p`);
+    let currentQuantity = parseInt(quantityElement.textContent, 10);
 
-    // Cibler l'élément de la quantité en fonction du type (produit ou gamme)
-    if (isGamme) {
-        quantityElement = document.querySelector(`.cart-gamme[data-id="${id}"] .quantity p`);
-    } else {
-        quantityElement = document.querySelector(`.cart-item[data-id="${id}"] .quantity p`);
-    }
-
-    // Si l'élément de quantité n'existe pas, arrêter la fonction
-    if (!quantityElement) return;
-
-    let currentQuantity = parseInt(quantityElement.textContent);
+    // Calcul de la nouvelle quantité
     let newQuantity = currentQuantity + delta;
 
-    // Empêcher la quantité de descendre en dessous de zéro
-    if (newQuantity < 0) {
-        alert("La quantité ne peut pas être inférieure à 0.");
-        return;
+    // Récupérer la quantité en stock
+    const stockQuantity = parseInt(document.querySelector(`.cart-item[data-id="${productId}"] .stock-status`).dataset.stock, 10);
+
+    // Suppression du produit quand quantité <= 0
+    if (newQuantity <= 0) {
+        retirerProduit(productId);
+        return;  // On arrête la fonction ici
     }
 
-    // Récupérer la quantité en stock (la quantité maximale autorisée)
-    const stockQuantity = parseInt(quantityElement.closest('.cart-item, .cart-gamme').dataset.stock || 0);
-
-    // Vérifier que la quantité ne dépasse pas le stock disponible
+    // Si la nouvelle quantité dépasse le stock disponible, afficher un message d'erreur
     if (newQuantity > stockQuantity) {
         alert(`Vous ne pouvez pas dépasser la quantité en stock de ${stockQuantity} article(s).`);
         return;
     }
 
-    // Mettre à jour l'affichage de la quantité
+    // Mise à jour de l'affichage de la quantité
     quantityElement.textContent = newQuantity;
 
-    // Préparer les données pour la mise à jour côté serveur
-    const requestBody = { id_produit: id, delta: delta, is_gamme: isGamme };
+    // Envoi de la mise à jour au serveur via fetch
+    const requestBody = { id_produit: productId, delta: delta };
 
-    // Faire l'appel AJAX pour mettre à jour la quantité côté serveur
     fetch('/panier/update', {
         method: 'POST',
         headers: {
@@ -200,20 +145,183 @@ require 'header.php';
         },
         body: JSON.stringify(requestBody),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Mettre à jour le prix si nécessaire
-            const priceElement = document.querySelector(`.cart-item[data-id="${id}"] .price, .cart-gamme[data-id="${id}"] .price`);
-            if (priceElement) {
-                priceElement.textContent = `${data.newPrice.toFixed(2)} €`;
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Mettre à jour le prix du produit dans la cellule
+                const priceElement = document.querySelector(`.cart-item[data-id="${productId}"] .price`);
+                const updatedPrice = parseFloat(data.newPrice).toFixed(2); // Assurez-vous que le prix est un nombre valide
+
+                if (priceElement) {
+                    priceElement.textContent = `${updatedPrice} €`;
+                }
+
+                // Recalculer le total TTC du panier après mise à jour
+                updateCartSummary();
+            } else {
+                alert(data.message || 'Erreur lors de la mise à jour de la quantité.');
             }
-        } else {
-            alert(data.message || 'Erreur lors de la mise à jour de la quantité.');
-        }
-    })
-    .catch(error => console.error('Erreur lors de la requête:', error));
+        })
+        .catch(error => console.error('Erreur lors de la requête:', error));
 }
+
+
+
+            function updateQuantityGamme(gammeId, delta) {
+    console.log('ID Gamme:', gammeId); // Ajout du log
+    console.log('Delta:', delta);     // Ajout du log
+
+    const gammeElement = document.querySelector(`.cart-gamme[data-id="${gammeId}"]`);
+    if (!gammeElement) {
+        alert("Erreur : gamme introuvable.");
+        return;
+    }
+
+    // Calculer la quantité maximale autorisée pour cette gamme
+    const maxQuantity = calculateGammeMaxQuantity(gammeId);
+    if (maxQuantity === 0) {
+        alert("Aucun produit disponible pour cette gamme.");
+        return;
+    }
+
+    // Récupérer l'élément contenant la quantité actuelle
+    const quantityElement = gammeElement.querySelector('.quantity p');
+    let currentQuantity = parseInt(quantityElement.textContent, 10) || 0;
+
+    // Calcul de la nouvelle quantité
+    const newQuantity = currentQuantity + delta;
+
+    // Vérification des limites
+    if (newQuantity <= 0) {
+        retirerGamme(gammeId); // Si la quantité atteint zéro, on retire la gamme
+        return;  // On arrête la fonction ici, car la gamme est retirée
+    }
+
+    if (newQuantity > maxQuantity) {
+        alert(`Vous ne pouvez pas dépasser la quantité maximale de ${maxQuantity} pour cette gamme.`);
+        return;
+    }
+
+    // Mise à jour de la quantité dans l'interface
+    quantityElement.textContent = newQuantity;
+
+    // Récupérer le prix unitaire de la gamme depuis l'attribut data-prix-ttc
+    const unitPrice = parseFloat(gammeElement.getAttribute('data-prix-ttc')); // Assurez-vous que le prix est stocké comme un attribut data-prix-ttc
+
+    // Calcul du prix total pour cette gamme
+    const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
+
+    // Mise à jour du prix total dans l'interface
+    const priceElement = gammeElement.querySelector('.price');
+    if (priceElement) {
+        priceElement.textContent = `${newTotalPrice} €`; // Affichage du nouveau prix
+    }
+
+    // Recalcul du total TTC pour toutes les gammes et produits dans le panier
+    updateCartSummary();
+
+    // Envoyer les données au serveur pour synchronisation
+    const requestBody = { gammeId: gammeId, quantity: newQuantity };
+
+    fetch('/panier/updateGamme', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Mise à jour du prix et de la quantité si nécessaire, mais ici c'est déjà fait localement
+            } else {
+                alert(data.message || 'Erreur lors de la mise à jour de la gamme.');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la requête:', error);
+        });
+}
+
+
+
+
+// Fonction pour recalculer et mettre à jour le total TTC du panier
+function updateCartSummary() {
+    let totalTTC = 0;
+
+    // Calculer les prix des produits
+    document.querySelectorAll('.cart-item').forEach(cartItem => {
+        const quantity = parseInt(cartItem.querySelector('.quantity p').textContent, 10) || 0;
+        const price = parseFloat(cartItem.querySelector('.price').textContent.replace(' €', '').replace(',', '.')) || 0;
+        totalTTC += price;
+    });
+
+    // Calculer les prix des gammes
+    document.querySelectorAll('.cart-gamme').forEach(gammeElement => {
+        const quantity = parseInt(gammeElement.querySelector('.quantity p').textContent, 10) || 0;
+        const price = parseFloat(gammeElement.querySelector('.price').textContent.replace(' €', '').replace(',', '.')) || 0;
+        totalTTC += price;
+    });
+
+    // Mettre à jour le total dans le récapitulatif
+    const totalElement = document.querySelector('.price-ttc');
+    if (totalElement) {
+        totalElement.textContent = `${totalTTC.toFixed(2)} €`;
+    }
+}
+
+
+
+function calculateGammeMaxQuantity(gammeId) {
+    const gammeElement = document.querySelector(`.cart-gamme[data-id="${gammeId}"]`);
+    if (!gammeElement) return 0;
+
+    const produits = gammeElement.querySelectorAll('.gamme-produits li');
+    let maxQuantity = Infinity;
+
+    produits.forEach(produit => {
+        const stock = parseInt(produit.getAttribute('data-stock'), 10) || 0;
+        maxQuantity = Math.min(maxQuantity, stock);
+    });
+
+    return maxQuantity === Infinity ? 0 : maxQuantity;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
 
         </script>
 

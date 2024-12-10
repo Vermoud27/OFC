@@ -106,71 +106,204 @@ class PanierController extends BaseController
     }
 
 
-
+    function getQuantiteMaxPourGamme($idGamme)
+    {
+        // Modèle pour récupérer les produits d'une gamme
+        $produitModel = new ProduitModel();
+    
+        // Récupérer tous les produits associés à la gamme
+        $produits = $produitModel->getProduitsByGamme($idGamme);
+    
+        if (empty($produits)) {
+            // Si la gamme n'a pas de produits associés, retourner 0
+            return 0;
+        }
+    
+        // Initialiser le stock minimum à une valeur très élevée
+        $stockMinimum = PHP_INT_MAX;
+    
+        // Parcourir tous les produits pour trouver le stock minimal
+        foreach ($produits as $produit) {
+            if (isset($produit['qte_stock'])) {
+                $stockMinimum = min($stockMinimum, (int)$produit['qte_stock']);
+            }
+        }
+    
+        // Si aucun produit n'a de stock défini, retourner 0
+        if ($stockMinimum === PHP_INT_MAX) {
+            return 0;
+        }
+    
+        return $stockMinimum;
+    }
 
 
 
     public function updateGamme()
     {
-        $input = $this->request->getJSON(true); // Récupère les données JSON envoyées
-        $idGamme = $input['id_gamme'] ?? null;
-        $delta = $input['delta'] ?? 0;
-    
-        if (!$idGamme || !is_numeric($delta)) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Données invalides.',
-            ]);
-        }
-    
-        $panier = $this->getPanier();
-    
-        $gammeModel = new GammeModel();
-        $gamme = $gammeModel->find($idGamme);
-    
-        if (!$gamme) {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Gamme introuvable.',
-            ]);
-        }
-    
-        if (isset($panier['gammes'][$idGamme])) {
-            $panier['gammes'][$idGamme] += $delta;
-    
-            if ($panier['gammes'][$idGamme] <= 0) {
-                unset($panier['gammes'][$idGamme]);
-                $message = "La gamme '{$gamme['nom']}' a été retirée du panier.";
+        try {
+
+
+            $input = $this->request->getJSON(true); // Récupère les données JSON envoyées
+            $idGamme = $input['gammeId'] ?? null;
+            $delta = $input['delta'] ?? 0;
+            
+            log_message('debug', 'Contenu de $input: ' . json_encode($input)); // Pour vérifier la structure du tableau
+
+
+            if (empty($input['gammeId'])) {
+                log_message('error', 'gammeId est vide ou non défini');
             } else {
-                $message = "Quantité de '{$gamme['nom']}' mise à jour.";
+                $idGamme = $input['gammeId'];
             }
-        } elseif ($delta > 0) {
-            $panier['gammes'][$idGamme] = $delta;
-            $message = "La gamme '{$gamme['nom']}' a été ajoutée au panier.";
-        } else {
+    
+        
+    
+            $panier = $this->getPanier();
+    
+            $gammeModel = new GammeModel();
+            $gamme = $gammeModel->find($idGamme);
+    
+            if (!$gamme) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Gamme introuvable.',
+                ]);
+            }
+    
+            // Vérification de la quantité maximale autorisée
+            $maxQuantity = $this->calculateMaxQuantityForGamme($idGamme);
+            if (isset($panier['gammes'][$idGamme])) {
+                $newQuantity = $panier['gammes'][$idGamme] + $delta;
+    
+                if ($newQuantity <= 0) {
+                    unset($panier['gammes'][$idGamme]);
+                    $message = "La gamme '{$gamme['nom']}' a été retirée du panier.";
+                } elseif ($newQuantity > $maxQuantity) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
+                    ]);
+                } else {
+                    $panier['gammes'][$idGamme] = $newQuantity;
+                    $message = "Quantité de '{$gamme['nom']}' mise à jour.";
+                }
+            } elseif ($delta > 0) {
+                if ($delta > $maxQuantity) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
+                    ]);
+                }
+                $panier['gammes'][$idGamme] = $delta;
+                $message = "La gamme '{$gamme['nom']}' a été ajoutée au panier.";
+            } else {
+               
+            }
+
+
+            // Calcul du prix basé sur les produits dans la gamme
+            $totalGammePrice = 0;
+
+            // Récupérer les produits associés à la gamme
+            $produitsModel = new ProduitModel();
+            $produits = $produitsModel->getProduitsByGamme($idGamme);
+
+            foreach ($produits as $produit) {
+                // Multiplier le prix unitaire du produit par la quantité dans le panier
+                $productQuantity = $panier['produits'][$produit['id']] ?? 0;  // Assurez-vous que la quantité du produit est définie dans le panier
+                $totalGammePrice += $produit['prixttc'] * $productQuantity;
+            }
+
+
+
+    
+            $this->setPanier($panier);
+
+    
+            // Recalcul des totaux
+            $totals = $this->calculateTotalsForCart($panier);
+    
             return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Quantité invalide.',
+                'success' => true,
+                'newQuantity' => $panier['gammes'][$idGamme] ?? 0,
+                'newPrice' => $gamme['prixttc'] * ($panier['gammes'][$idGamme] ?? 0),
+                'totalTTC' => $totals['totalTTC'],
+                'message' => $message,
             ]);
+        } catch (\Exception $e) {
+         
         }
-    
-        $this->setPanier($panier);
-    
-        // Calcule le total TTC
-        $totalTTC = 0;
-        foreach ($panier['gammes'] as $id => $quantite) {
-            $gamme = $gammeModel->find($id);
-            $totalTTC += $gamme['prixttc'] * $quantite;
-        }
-    
-        return $this->response->setJSON([
-            'success' => true,
-            'newQuantity' => $panier['gammes'][$idGamme] ?? 0,
-            'newPrice' => $gamme['prixttc'] * ($panier['gammes'][$idGamme] ?? 0),
-            'totalTTC' => $totalTTC,
-            'message' => $message,
-        ]);
     }
+    
+    private function calculateMaxQuantityForGamme($idGamme)
+    {
+        $produitModel = new ProduitModel();
+        $produits = $produitModel->where('id_gamme', $idGamme)->findAll();
+    
+        $maxQuantity = PHP_INT_MAX;
+        foreach ($produits as $produit) {
+            $stock = $produit['qte_stock'] ?? 0;
+            $maxQuantity = min($maxQuantity, $stock);
+        }
+    
+        return $maxQuantity === PHP_INT_MAX ? 0 : $maxQuantity;
+    }
+    
+    public function calculateTotalsForCart($panier)
+{
+    $totalHT = 0;  // Total Hors Taxes
+    $totalTTC = 0; // Total Toutes Taxes Comprises
+    $totalTaxes = 0; // Total des taxes
+
+    // Si le panier contient des gammes
+    if (isset($panier['gammes'])) {
+        foreach ($panier['gammes'] as $idGamme => $quantiteGamme) {
+            // Récupérer la gamme
+            $gammeModel = new GammeModel();
+            $gamme = $gammeModel->find($idGamme);
+
+            if ($gamme) {
+                // Calcul du prix de la gamme
+                $prixUnitaireTTC = $gamme['prixttc'];  // Prix TTC de la gamme
+                $prixUnitaireHT = $gamme['prixht'];    // Prix HT de la gamme
+                $totalTTC += $prixUnitaireTTC * $quantiteGamme; // Ajouter au total TTC
+                $totalHT += $prixUnitaireHT * $quantiteGamme;   // Ajouter au total HT
+                $totalTaxes += ($prixUnitaireTTC - $prixUnitaireHT) * $quantiteGamme; // Calcul des taxes
+            }
+        }
+    }
+
+    // Si le panier contient des produits
+    if (isset($panier['produits'])) {
+        foreach ($panier['produits'] as $idProduit => $quantiteProduit) {
+            // Récupérer le produit
+            $produitModel = new ProduitModel();
+            $produit = $produitModel->find($idProduit);
+
+            if ($produit) {
+                // Calcul du prix du produit
+                $prixUnitaireTTC = $produit['prixttc'];  // Prix TTC du produit
+                $prixUnitaireHT = $produit['prixht'];    // Prix HT du produit
+                $totalTTC += $prixUnitaireTTC * $quantiteProduit; // Ajouter au total TTC
+                $totalHT += $prixUnitaireHT * $quantiteProduit;   // Ajouter au total HT
+                $totalTaxes += ($prixUnitaireTTC - $prixUnitaireHT) * $quantiteProduit; // Calcul des taxes
+            }
+        }
+    }
+
+    // Calculs des autres éléments du panier (si nécessaire)
+    // Par exemple, des frais de livraison ou des remises
+    // Vous pouvez ajouter d'autres règles de calcul ici
+
+    // Retourner les totaux
+    return [
+        'totalHT' => $totalHT,
+        'totalTTC' => $totalTTC,
+        'totalTaxes' => $totalTaxes,
+    ];
+}
+
     
 
 
@@ -283,10 +416,36 @@ class PanierController extends BaseController
         return redirect()->back();
     }
 
+    public function retirerGamme($idGamme)
+    {
+        $panier = $this->getPanier();
+
+        $gammeModel = new GammeModel();
+        $gamme = $gammeModel->find($idGamme);
+
+        // Vérifie si le produit est dans le panier
+        if (isset($panier[$idGamme])) {
+            unset($panier[$idGamme]); // Supprime le produit du panier
+
+            // Ajoute un message de confirmation
+            session()->setFlashdata('success', "Le produit '{$gamme['nom']}' a été retiré du panier.");
+        } else {
+            // Message si le produit n'est pas trouvé dans le panier
+            session()->setFlashdata('error', "Le produit demandé n'est pas dans le panier.");
+        }
+
+        // Met à jour le panier
+        $this->setPanier($panier);
+
+        // Redirige vers la page précédente ou la vue panier
+        return redirect()->back();
+    }
+
 
     public function viderPanier()
     {
         $this->setPanier([]);
+        $this->setPanierGamme([]);
         return redirect()->back()->with('success', 'Panier vidé.');
     }
 
@@ -309,6 +468,29 @@ class PanierController extends BaseController
         $cookieValue = json_encode($panier);
 
         $response->setCookie('panier', $cookieValue, 30 * 24 * 60 * 60);
+
+        service('response')->send(); 
+    }
+
+    private function getPanierGamme(): array
+    {
+        $request = service('request');
+        $cookie = $request->getCookie('panierGamme');
+
+        if (!$cookie) {
+            return [];
+        }
+
+        $panierGamme = json_decode($cookie, true);
+        return is_array($panierGamme) ? $panierGamme : [];
+    }
+
+    private function setPanierGamme(array $panierGamme)
+    {
+        $response = service('response');
+        $cookieValue = json_encode($panierGamme);
+
+        $response->setCookie('panierGamme', $cookieValue, 30 * 24 * 60 * 60);
 
         service('response')->send(); 
     }
