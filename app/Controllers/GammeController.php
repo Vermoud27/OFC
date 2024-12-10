@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\GammeModel;
-use App\Models\IngredientModel;
 use App\Models\ProduitModel;
 use App\Models\ImageModel;
 
@@ -12,6 +11,7 @@ class GammeController extends BaseController
 {
 	protected $gammeModel;
 	protected $produitModel;
+	protected $imageModel;
 
 	public function __construct()
 	{
