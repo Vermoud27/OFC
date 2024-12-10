@@ -51,6 +51,9 @@ $routes->get('/rgpd', 'FooterController::rgpd');
 $routes->get('/condutil', 'FooterController::condutil');
 $routes->get('/condvente', 'FooterController::condvente');
 
+// Newsletter
+$routes->post('/newsletter/inscrire', 'NewsletterController::inscrire');
+
 // Routes protégées (requièrent une session active)
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Page d'accueil et ses fonctionnalités
@@ -73,14 +76,10 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/commande/annuler/(:num)', 'CommandeController::annuler/$1');
     $routes->get('/commande/produits/(:num)', 'CommandeController::afficherProduitsCommande/$1');
 
-    // Les tâches
-
     // Les Commentaires
     $routes->get('CommentaireController/supprimer/(:num)', 'CommentaireController::supprimer/$1');
     $routes->post('/submitRating', 'RatingController::submitRating');
     $routes->get('/getRatings/(:num)', 'RatingController::getRatings/$1');
-
-    // Se déconnecter
 
     // Profil utilisateur
     $routes->get('/profile', 'ProfileController::index');
@@ -89,11 +88,11 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('/profile/update-password', 'ProfileController::updatePassword');
     $routes->get('profile/edit-password', 'ProfileController::editPassword');
 
-    // Changer le mot de passe
+    // Déconnexion
+    $routes->get('/logout', 'ProfileController::logout');
 
     // Admin 
-    if (session()->get('role') == 'Admin')
-    {
+    if (session()->get('role') == 'Admin') {
         // Liste des entités avec leurs contrôleurs respectifs
         $entites = [
             'produits' => 'ProduitController',
@@ -104,7 +103,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
             'bundles' => 'BundleController',
             'commandes' => 'CommandeController',
         ];
-        
+
         // Boucle pour générer les routes
         foreach ($entites as $entite => $controller) {
             $routes->group("admin/$entite", function ($routes) use ($controller) {
@@ -120,10 +119,10 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('/admin/commande/produits/(:num)', "CommandeController::afficherProduitsCommande/$1/true");
 
         $routes->post('/admin/ingredients/supprimer/(:num)', "IngredientController::supprimer/$1");
-        
+
         $routes->post('/admin/gammes/ajouter-produit/(:num)', "GammeController::ajouter_produit/$1");
         $routes->post('/admin/gammes/enlever-produit/(:num)', "GammeController::enlever_produit/$1");
-        
+
         $routes->post('/admin/bundles/ajouter-produit/(:num)', "BundleController::ajouter_produit/$1");
         $routes->post('/admin/bundles/enlever-produit/(:num)', "BundleController::enlever_produit/$1");
 
@@ -134,12 +133,4 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->post('/faq/update/(:num)', "FaqController::update/$1");
         $routes->post('/faq/delete/(:num)', "FaqController::delete/$1");
     }
-
-    // Déconnexion
-    $routes->get('/logout', 'ProfileController::logout');
 });
-
-
-
-
-
