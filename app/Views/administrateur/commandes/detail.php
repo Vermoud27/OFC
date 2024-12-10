@@ -33,7 +33,6 @@
 							<select id="statut-<?= $commande['id_commande'] ?>" name="statut">
 								<option value="en attente" <?= $commande['statut'] === 'en attente' ? 'selected' : '' ?>>En attente</option>
 								<option value="expédié" <?= $commande['statut'] === 'expédié' ? 'selected' : '' ?>>Expédié</option>
-								<option value="livré" <?= $commande['statut'] === 'livré' ? 'selected' : '' ?>>Livré</option>
 								<option value="fini" <?= $commande['statut'] === 'fini' ? 'selected' : '' ?>>Fini</option>
 								<option value="annulé" <?= $commande['statut'] === 'annulé' ? 'selected' : '' ?>>Annulé</option>
 							</select>
