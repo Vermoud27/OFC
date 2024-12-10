@@ -59,11 +59,16 @@
                         <?php if (!empty($produit['images'])): ?>
                             <div class="image-gallery">
                                 <div class="image-wrapper">
-                                    <button class="prev-btn"
-                                        onclick="changeImage(<?= $produit['id_produit'] ?>, -1)">&lt</button>
+                                    <?php if (count($produit['images']) > 1): ?>
+                                        <button class="prev-btn" onclick="changeImage(<?= $produit['id_produit'] ?>, -1)">&lt;</button>
+                                    <?php endif; ?>
+                                    
                                     <img src="<?= $produit['images'][0]['chemin'] ?>" alt="Image Produit" class="product-image"
                                         id="image-<?= $produit['id_produit'] ?>">
-                                    <button class="next-btn" onclick="changeImage(<?= $produit['id_produit'] ?>, 1)">&gt</button>
+
+                                    <?php if (count($produit['images']) > 1): ?>
+                                        <button class="next-btn" onclick="changeImage(<?= $produit['id_produit'] ?>, 1)">&gt;</button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php else: ?>
