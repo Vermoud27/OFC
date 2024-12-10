@@ -13,6 +13,7 @@ class PanierController extends BaseController
     public function index(): string
     {
         $panier = $this->getPanier();
+        $panierGamme = $this->getPanierGamme();
 
         // Charger les produits du panier depuis la base de données
         $produitModel = new ProduitModel();
@@ -44,7 +45,7 @@ class PanierController extends BaseController
         $gammes = [];
         $produitsParGamme = [];
 
-        foreach ($panier as $idGamme => $quantite) {
+        foreach ($panierGamme as $idGamme => $quantite) {
             $gamme = $gammeModel->find($idGamme);
 
             if ($gamme) {
@@ -136,105 +137,7 @@ class PanierController extends BaseController
     
         return $stockMinimum;
     }
-
-
-
-    public function updateGamme()
-    {
-        try {
-
-
-            $input = $this->request->getJSON(true); // Récupère les données JSON envoyées
-            $idGamme = $input['gammeId'] ?? null;
-            $delta = $input['delta'] ?? 0;
-            
-            log_message('debug', 'Contenu de $input: ' . json_encode($input)); // Pour vérifier la structure du tableau
-
-
-            if (empty($input['gammeId'])) {
-                log_message('error', 'gammeId est vide ou non défini');
-            } else {
-                $idGamme = $input['gammeId'];
-            }
-    
-        
-    
-            $panier = $this->getPanier();
-    
-            $gammeModel = new GammeModel();
-            $gamme = $gammeModel->find($idGamme);
-    
-            if (!$gamme) {
-                return $this->response->setJSON([
-                    'success' => false,
-                    'message' => 'Gamme introuvable.',
-                ]);
-            }
-    
-            // Vérification de la quantité maximale autorisée
-            $maxQuantity = $this->calculateMaxQuantityForGamme($idGamme);
-            if (isset($panier['gammes'][$idGamme])) {
-                $newQuantity = $panier['gammes'][$idGamme] + $delta;
-    
-                if ($newQuantity <= 0) {
-                    unset($panier['gammes'][$idGamme]);
-                    $message = "La gamme '{$gamme['nom']}' a été retirée du panier.";
-                } elseif ($newQuantity > $maxQuantity) {
-                    return $this->response->setJSON([
-                        'success' => false,
-                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
-                    ]);
-                } else {
-                    $panier['gammes'][$idGamme] = $newQuantity;
-                    $message = "Quantité de '{$gamme['nom']}' mise à jour.";
-                }
-            } elseif ($delta > 0) {
-                if ($delta > $maxQuantity) {
-                    return $this->response->setJSON([
-                        'success' => false,
-                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
-                    ]);
-                }
-                $panier['gammes'][$idGamme] = $delta;
-                $message = "La gamme '{$gamme['nom']}' a été ajoutée au panier.";
-            } else {
-               
-            }
-
-
-            // Calcul du prix basé sur les produits dans la gamme
-            $totalGammePrice = 0;
-
-            // Récupérer les produits associés à la gamme
-            $produitsModel = new ProduitModel();
-            $produits = $produitsModel->getProduitsByGamme($idGamme);
-
-            foreach ($produits as $produit) {
-                // Multiplier le prix unitaire du produit par la quantité dans le panier
-                $productQuantity = $panier['produits'][$produit['id']] ?? 0;  // Assurez-vous que la quantité du produit est définie dans le panier
-                $totalGammePrice += $produit['prixttc'] * $productQuantity;
-            }
-
-
-
-    
-            $this->setPanier($panier);
-
-    
-            // Recalcul des totaux
-            $totals = $this->calculateTotalsForCart($panier);
-    
-            return $this->response->setJSON([
-                'success' => true,
-                'newQuantity' => $panier['gammes'][$idGamme] ?? 0,
-                'newPrice' => $gamme['prixttc'] * ($panier['gammes'][$idGamme] ?? 0),
-                'totalTTC' => $totals['totalTTC'],
-                'message' => $message,
-            ]);
-        } catch (\Exception $e) {
-         
-        }
-    }
+   
     
     private function calculateMaxQuantityForGamme($idGamme)
     {
@@ -307,26 +210,6 @@ class PanierController extends BaseController
     
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function modifierPanier($idProduit, $delta)
     {
         $panier = $this->getPanier();
@@ -361,7 +244,7 @@ class PanierController extends BaseController
 
     public function modifierPanierGamme($idGamme, $delta){
 
-        $panier = $this->getPanier();
+        $panier = $this->getPanierGamme();
 
         $gammeModel = new GammeModel();
         $gamme = $gammeModel->find($idGamme);
@@ -385,7 +268,7 @@ class PanierController extends BaseController
         }
 
         // Met à jour le panier
-        $this->setPanier($panier);
+        $this->setPanierGamme($panier);
     
         // Redirige vers la page précédente sans écraser les flashdata définies plus haut
         return redirect()->back();
@@ -419,7 +302,7 @@ class PanierController extends BaseController
     public function retirerGamme($idGamme)
     {
         // Récupérer le panier actuel depuis la session
-        $panier = $this->getPanier();
+        $panier = $this->getPanierGamme();
 
         // Initialiser le modèle de la gamme pour obtenir les informations nécessaires
         $gammeModel = new GammeModel();
@@ -438,7 +321,7 @@ class PanierController extends BaseController
         }
 
         // Mettre à jour le panier dans la session
-        $this->setPanier($panier);
+        $this->setPanierGamme($panier);
 
         // Rediriger vers la page du panier après la suppression ou vers une autre page si nécessaire
         return redirect()->to('/panier'); // ou redirect()->back() selon le flux de votre application
@@ -476,28 +359,42 @@ class PanierController extends BaseController
         service('response')->send(); 
     }
 
+   
     private function getPanierGamme(): array
     {
+        // Lecture du cookie via $_COOKIE pour s'assurer que la valeur est bien récupérée
+        log_message('debug', 'Contenu du cookie panierGamme (via $_COOKIE) : ' . json_encode($_COOKIE['panierGamme'] ?? 'Non défini'));
+    
+        // Récupération du cookie via la requête
         $request = service('request');
         $cookie = $request->getCookie('panierGamme');
-
+        log_message('debug', 'Contenu du cookie panierGamme (via service) : ' . $cookie);
+    
         if (!$cookie) {
+            log_message('debug', 'Cookie panierGamme non trouvé.');
             return [];
         }
-
+    
         $panierGamme = json_decode($cookie, true);
+        log_message('debug', 'Données panier après décodage : ' . json_encode($panierGamme));
         return is_array($panierGamme) ? $panierGamme : [];
     }
+    
 
     private function setPanierGamme(array $panierGamme)
     {
         $response = service('response');
         $cookieValue = json_encode($panierGamme);
-
         $response->setCookie('panierGamme', $cookieValue, 30 * 24 * 60 * 60);
-
-        service('response')->send(); 
+    
+        // Log des en-têtes avant l'envoi
+        log_message('debug', 'En-têtes de réponse: ' . json_encode($response->getHeaders()));
+    
+        // Envoi de la réponse avec le cookie
+        $response->send();
+        log_message('debug', 'Cookie panierGamme mis à jour : ' . $cookieValue);
     }
+    
 
     public function recapitulatif(): string
     {
@@ -613,6 +510,113 @@ class PanierController extends BaseController
         ]);
     }
 
+
+    
+    public function updateGamme()
+    {
+        try {
+            $request = $this->request->getJSON();
+        
+            // Vérification des paramètres
+            if (!isset($request->id_gamme) || !isset($request->delta)) {
+                log_message('error', 'Paramètres invalides: id_gamme ou delta manquants');
+                return $this->response->setJSON(['success' => false, 'message' => 'Paramètres invalides.']);
+            }
+        
+            $idGamme = (int)$request->id_gamme;
+            $delta = (int)$request->delta;
+        
+            log_message('debug', 'Requête reçue: id_gamme = ' . $idGamme . ', delta = ' . $delta);
+        
+            // Récupérer le panier
+            $panier['gammes'] = $this->getPanierGamme();
+        
+            log_message('debug', 'Panier actuel : ' . json_encode($panier));
+        
+            // Vérifier que la clé 'gammes' existe
+            if (!isset($panier['gammes'])) {
+                $panier['gammes'] = [];
+            }
+
+            // Recherche de la gamme
+            $gammeModel = new GammeModel();
+            $gamme = $gammeModel->find($idGamme);
+
+            if (!$gamme) {
+                log_message('error', 'Gamme introuvable: ' . $idGamme);
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Gamme introuvable.',
+                ]);
+            }
+
+            // Calcul de la quantité maximale
+            $maxQuantity = $this->calculateMaxQuantityForGamme($idGamme);
+            log_message('debug', 'Quantité maximale pour la gamme ' . $idGamme . ': ' . $maxQuantity);
+
+            // Vérification avant la modification
+            log_message('debug', 'Avant modification : ' . json_encode($panier['gammes']));
+
+            if (isset($panier['gammes'][$idGamme])) {
+                // Modification de la quantité
+                $newQuantity = $panier['gammes'][$idGamme] + $delta;
+                log_message('debug', "Nouveau quantity pour la gamme {$idGamme} : {$newQuantity}");
+                
+                if ($newQuantity <= 0) {
+                    unset($panier['gammes'][$idGamme]);
+                } elseif ($newQuantity > $maxQuantity) {
+                    log_message('error', "Quantité dépassée pour la gamme {$idGamme}");
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
+                    ]);
+                } else {
+                    $panier['gammes'][$idGamme] = $newQuantity;
+                    log_message('debug', "Quantité mise à jour pour la gamme {$idGamme} : {$newQuantity}");
+                }
+            } elseif ($delta > 0) {
+                // Ajout de la gamme
+                if ($delta > $maxQuantity) {
+                    log_message('error', "Quantité trop élevée pour la gamme {$idGamme}");
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
+                    ]);
+                }
+                $panier['gammes'][$idGamme] = $delta;
+            }
+
+            // Enregistrement du panier complet
+            log_message('debug', "Avant d'enregistrer : " . json_encode($panier));
+            $this->setPanierGamme($panier['gammes']);  // Enregistrer l'ensemble du panier, pas seulement les gammes
+            log_message('debug', "Panier après mise à jour : " . json_encode($panier));
+
+    
+            // Calcul du total du panier
+            $totals = $this->calculateTotalsForCart($panier);
+    
+            // Retourne uniquement les informations essentielles
+            return $this->response->setJSON([
+                'success' => true,
+                'newQuantity' => $panier['gammes'][$idGamme] ?? 0,
+                'newPrice' => $gamme['prixttc'] * ($panier['gammes'][$idGamme] ?? 0),
+                'totalTTC' => $totals['totalTTC'],
+                'message' => 'Quantité mise à jour avec succès.',
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', 'Erreur lors de la mise à jour de la gamme: ' . $e->getMessage() . ' | Trace: ' . $e->getTraceAsString());
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Une erreur s\'est produite.',
+                'error_details' => $e->getMessage()
+            ]);
+        }
+    }
+       
+
+
+
+    
     public function appliquerPromo()
     {
         $response = service('response');

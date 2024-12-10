@@ -36,7 +36,7 @@ require 'header.php';
 
     <h1>Mon Panier</h1>
 
-
+ 
 
     <div class="container">
         <!-- Articles -->
@@ -62,7 +62,7 @@ require 'header.php';
                             </div>
                         </div>
                         <div class="cart-item-right">
-                            <p class="price"><?= number_format($produit['prixttc'], 2) ?> €</p>
+                            <p class="price"><?= number_format($produit['prixttc'] * $produit['quantite'], 2) ?> €</p>
                             <button class="sup" onclick="retirerProduit(<?= $produit['id_produit'] ?>)"></button>
                         </div>
                     </div>
@@ -89,7 +89,7 @@ require 'header.php';
         <p><?= htmlspecialchars($gamme['quantite']) ?></p>
         <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1)">+</button>
     </div>
-    <p class="price"><?= number_format($gamme['prixttc'], 2) ?> €</p>
+    <p class="price"><?= number_format($gamme['prixttc'] * $gamme['quantite'], 2) ?> €</p>
     <button class="sup" onclick="retirerGamme(<?= $gamme['id_gamme'] ?>)"></button>
 </div>
 
@@ -168,20 +168,20 @@ function updateQuantity(productId, delta) {
 
 
 
-            function updateQuantityGamme(gammeId, delta) {
-    console.log('ID Gamme:', gammeId); // Ajout du log
-    console.log('Delta:', delta);     // Ajout du log
+function updateQuantityGamme(gammeId, delta) {
+    console.log('ID Gamme:', gammeId); // Log
+    console.log('Delta:', delta); // Log
 
     const gammeElement = document.querySelector(`.cart-gamme[data-id="${gammeId}"]`);
     if (!gammeElement) {
-        alert("Erreur : gamme introuvable.");
+        console.error("Erreur : gamme introuvable.");
         return;
     }
 
     // Calculer la quantité maximale autorisée pour cette gamme
     const maxQuantity = calculateGammeMaxQuantity(gammeId);
     if (maxQuantity === 0) {
-        alert("Aucun produit disponible pour cette gamme.");
+        console.error("Aucun produit disponible pour cette gamme.");
         return;
     }
 
@@ -199,14 +199,14 @@ function updateQuantity(productId, delta) {
     }
 
     if (newQuantity > maxQuantity) {
-        alert(`Vous ne pouvez pas dépasser la quantité maximale de ${maxQuantity} pour cette gamme.`);
+        console.error(`Vous ne pouvez pas dépasser la quantité maximale de ${maxQuantity} pour cette gamme.`);
         return;
     }
 
     // Mise à jour de la quantité dans l'interface
     quantityElement.textContent = newQuantity;
 
-    // Récupérer le prix unitaire de la gamme depuis l'attribut data-prix-ttc
+    // Récupérer le prix unitaire de la gamme
     const unitPrice = parseFloat(gammeElement.getAttribute('data-prix-ttc')); // Assurez-vous que le prix est stocké comme un attribut data-prix-ttc
 
     // Calcul du prix total pour cette gamme
@@ -222,7 +222,7 @@ function updateQuantity(productId, delta) {
     updateCartSummary();
 
     // Envoyer les données au serveur pour synchronisation
-    const requestBody = { gammeId: gammeId, quantity: newQuantity };
+    const requestBody = { id_gamme: gammeId, delta: delta };
 
     fetch('/panier/updateGamme', {
         method: 'POST',
@@ -231,18 +231,27 @@ function updateQuantity(productId, delta) {
         },
         body: JSON.stringify(requestBody),
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Mise à jour du prix et de la quantité si nécessaire, mais ici c'est déjà fait localement
-            } else {
-                alert(data.message || 'Erreur lors de la mise à jour de la gamme.');
-            }
-        })
-        .catch(error => {
-            console.error('Erreur lors de la requête:', error);
-        });
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Quantité mise à jour avec succès.");
+        } else {
+            console.error("Erreur serveur:", data.message);
+            // Remettre la quantité et le prix précédents en cas d'erreur
+            quantityElement.textContent = currentQuantity;
+            priceElement.textContent = `${(unitPrice * currentQuantity).toFixed(2)} €`;
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la requête:', error);
+    })
+    .finally(() => {
+        // Actions à faire indépendamment du succès ou de l'échec
+        console.log("Requête terminée.");
+    });
 }
+
+
 
 
 
@@ -288,42 +297,6 @@ function calculateGammeMaxQuantity(gammeId) {
 
     return maxQuantity === Infinity ? 0 : maxQuantity;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-
         </script>
 
 

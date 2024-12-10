@@ -5,6 +5,7 @@ function updateQuantity(idProduit, delta) {
 
 function updateQuantityGamme(idGamme, delta) {
 	// Envoie une requête GET à la méthode modifierPanier
+	console.log("testGamme");
 	window.location.href = `/panier/modifierGamme/${idGamme}/${delta}`;
 }
 
