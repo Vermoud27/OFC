@@ -15,7 +15,10 @@
 
     <div class="right-section">
         <!-- Traduction -->
-        <div id="google_translate_element"></div>
+        <div id="google_translate_element" class="translate-wrapper">
+    <i class="fa-solid fa-language translate-icon"></i>
+</div>
+
 
 
         <?php if (session()->get('role') == 'Admin'): ?>
@@ -107,18 +110,21 @@
     }
 
 </script>
-<!-- Traduction -->
-<script type="text/javascript">
+
+<!-- Traduction --><script type="text/javascript">
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
-            pageLanguage: 'fr', // Langue par défaut du site
-            includedLanguages: 'en,es,de,ar,ja', // Langues disponibles pour la traduction
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-        },
-        'google_translate_element'
-    );
+        pageLanguage: 'fr', // Langue par défaut du site
+        includedLanguages: 'en,es,de,ar,ja', // Langues disponibles pour la traduction
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+
+    
+
 }
+
 </script>
+
 
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- Fin Traduction -->

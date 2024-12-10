@@ -203,3 +203,32 @@ a {
 .fa {
     color: black; /* Couleur noire par défaut pour toutes les icônes */
 }
+
+.goog-te-gadget-simple {
+    height: 35px;
+    width: 35px;
+    background: none;
+    border: none;
+}
+
+.goog-te-gadget-icon {
+    display: none;
+}
+
+.goog-te-gadget-simple span{
+    display: none;
+}
+
+.translate-wrapper {
+    position: relative; /* Conteneur avec position relative */
+    z-index: 10; /* Le conteneur sera au-dessus de l'icône */
+}
+
+.translate-icon {
+    position: absolute; /* Positionnement absolu de l'icône */
+    top: 0; /* Aligné en haut à gauche du conteneur */
+    left: 0; /* Aligné en haut à gauche du conteneur */
+    font-size: 40px; /* Taille de l'icône */
+    z-index: -1; /* L'icône sera derrière le conteneur */
+    color: #000; /* Couleur de l'icône, ajustez selon vos besoins */
+}
