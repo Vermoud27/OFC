@@ -15,6 +15,17 @@
     <div class="container">
         <!-- Panel de statistiques -->
         <div class="panel">
+
+        <div class="filter-section">
+            <form method="get" action="/admin/produits">
+                <label for="filtre">Afficher :</label>
+                <select name="filtre" id="filtre" onchange="this.form.submit()">
+                    <option value="t" <?= $filtre === 't' ? 'selected' : '' ?>>Actifs</option>
+                    <option value="f" <?= $filtre === 'f' ? 'selected' : '' ?>>Inactifs</option>
+                </select>
+            </form>
+        </div>
+
             <h2>Les favoris</h2>
             <?php foreach ($fav as $produit): ?>
 
@@ -41,7 +52,7 @@
                                 <i class="fa-solid fa-pencil"></i>
                             </a>
                             <a href="/admin/produits/desactiver/<?= $produit['id_produit'] ?>">
-                                <i class="fa-solid fa-trash-can"></i>
+                                <?= $filtre === 't' ? '<i class="fa-solid fa-trash-can"></i>' : '<i class="fa-regular fa-circle-up"></i>' ?>
                             </a>
                         </div>
 

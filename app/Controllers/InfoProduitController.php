@@ -47,7 +47,7 @@ class InfoProduitController extends BaseController
 
         $commentaires = $commentModel->getCommentsByProductId($produit['id_produit'], $all);
 
-        $produitsAleatoires = $produitModel->whereNotIn('id_produit', [$idProduit])->orderBy('RANDOM()')->limit(4)->findAll();
+        $produitsAleatoires = $produitModel->whereNotIn('id_produit', [$idProduit])->where('actif', 't')->orderBy('RANDOM()')->limit(4)->findAll();
 
         foreach ($produitsAleatoires as &$rand) {
 			$images = $imageModel->getImagesByProduit($rand['id_produit']);

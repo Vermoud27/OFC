@@ -24,10 +24,10 @@ class ControllerOFC extends BaseController
             $gammes = $gammeModel->limit(2)->findAll();
         }
 
-        $produits = $produitModel->getTopProduits(8);
+        $produits = $produitModel->where('actif', 't')->getTopProduits(8);
 
         if (empty($produits)) {
-            $produits = $produitModel->limit(8)->findAll();
+            $produits = $produitModel->where('actif', 't')->limit(8)->findAll();
         }
 
         foreach ($produits as &$produit) {

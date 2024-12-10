@@ -110,7 +110,9 @@ class ProduitController extends BaseController
 
     public function index()
 	{
-		$produits = $this->produitModel->where('actif', 't')->orderBy('id_produit')->paginate(8);
+		$filtre = $this->request->getGet('filtre') ?? 't'; 
+		$produits = $this->produitModel->where('actif', $filtre)->orderBy('id_produit')->paginate(8);
+		
 		foreach ($produits as &$produit) {
 			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
 			$produit['images'] = !empty($images) ? $images : [['chemin' => '/assets/img/user.png']];
@@ -121,6 +123,7 @@ class ProduitController extends BaseController
 		$data['fav'] = $fav;
 		$data['produits'] = $produits;
 		$data['pager'] = \Config\Services::pager();
+		$data['filtre'] = $filtre;
 		
 		return view('administrateur/produits/liste', $data);
 	}
@@ -363,7 +366,19 @@ class ProduitController extends BaseController
 
 	public function desactiver($id)
     {
-        $this->produitModel->update($id, ['actif' => 'f']);
-        return redirect()->to('admin/produits');
+        // Récupérer l'état actuel du produit
+		$produit = $this->produitModel->find($id);
+
+		if (!$produit) {
+			return redirect()->to('admin/produits')->with('error', 'Produit introuvable.');
+		}
+
+		// Inverser l'état
+		$nouvelEtat = ($produit['actif'] === 't') ? 'f' : 't';
+
+		// Mettre à jour l'état dans la base de données
+		$this->produitModel->update($id, ['actif' => $nouvelEtat]);
+
+		return redirect()->to('admin/produits')->with('success', 'État du produit mis à jour avec succès.');
     }
 }
