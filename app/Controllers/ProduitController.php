@@ -117,8 +117,8 @@ class ProduitController extends BaseController
         $produits = $produitModel->getProduitsByGamme($idGamme);
     
         if (empty($produits)) {
-            return $this->response->setJSON(['message' => 'Aucun produit trouvé pour cette gamme']);
-        }
+			return redirect()->to(previous_url())->with('message', 'Aucun produit trouvé pour cette gamme');        
+		}
 
 		// Ajouter les images pour chaque produit
 		foreach ($produits as &$produit) {
@@ -142,8 +142,8 @@ class ProduitController extends BaseController
         $produits = $bundleproduitModel->getProductsByBundle($idBundle);
     
         if (empty($produits)) {
-            return $this->response->setJSON(['message' => 'Aucun produit trouvé pour cette gamme']);
-        }
+			return redirect()->to(previous_url())->with('message', 'Aucun produit trouvé pour ce bundle');
+		}
 
 		// Ajouter les images pour chaque produit
 		foreach ($produits as &$produit) {
