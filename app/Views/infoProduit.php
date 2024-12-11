@@ -130,8 +130,10 @@ require 'header.php';
                 <ul>
                   <?php foreach ($ingredients as $ingredient): ?>
                     <li>
-                      <?= htmlspecialchars($ingredient['nom']) ?> (Provenance :
-                      <?= htmlspecialchars($ingredient['provenance']) ?>)
+                      <?= htmlspecialchars($ingredient['nom']) ?>
+                      <?php if (!empty($ingredient['provenance'])): ?>
+                      (Provenance : <?= htmlspecialchars($ingredient['provenance']) ?>)
+                      <?php endif; ?>
                     </li>
                   <?php endforeach; ?>
                 </ul>
