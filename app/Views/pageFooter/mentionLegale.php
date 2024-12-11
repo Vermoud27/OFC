@@ -1,3 +1,5 @@
+<?php require APPPATH . 'Views/header.php'; ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,7 +11,6 @@
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/entreprise.css">
 </head>
-  <?php require APPPATH . 'Views/header.php'; ?>
 <body>
   
 
