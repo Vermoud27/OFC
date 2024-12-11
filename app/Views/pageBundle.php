@@ -41,9 +41,9 @@ require 'header.php';
                 <?php foreach ($bundles as $bundle): ?>
                     <div class="product-card">
                         <a href="/produits/bundles/<?= $bundle['id_bundle'] ?>">
-                            <?php if (!empty($bundle['images'])): ?>
+                            <?php if (!empty($bundle['image'])): ?>
                                 <div class="product-images">
-                                    <img src="<?= $bundle['images'][0]['chemin'] ?>" alt="Image Gamme"
+                                    <img src="<?= $bundle['image'] ?>" alt="Image bundle"
                                         id="image-<?= $bundle['id_bundle'] ?>">
                                 </div>
                             <?php else: ?>
