@@ -122,6 +122,7 @@ require 'header.php';
           <h2><?= $produit['nom'] ?></h2>
           <p><?= $produit['description'] ?></p>
           <p><?= $produit['contenu'] ?><?= $produit['unite_mesure'] ?></p>
+          <p>Quantité en stock : <?= $produit['qte_stock'] ?></p>
           <div class="info-grid">
             <div class="composition">
               <h3>Composition</h3>
@@ -175,7 +176,7 @@ require 'header.php';
         <div class="random-products-grid">
           <?php foreach ($produitsAleatoires as $produitAleatoire): ?>
               <div class="random-product">
-                  <a href="/produits/<?= $produitAleatoire['id_produit'] ?>">
+                  <a href="/produit/<?= $produitAleatoire['id_produit'] ?>">
                       <img src="<?= $produitAleatoire['images'][0]['chemin'] ?? '/assets/img/produits/placeholder.png'?>" alt="<?= htmlspecialchars($produitAleatoire['nom']) ?>">
                       <p><?= htmlspecialchars($produitAleatoire['nom']) ?></p>
                       <p><?= $produitAleatoire['prixttc'] ?> €</p>
