@@ -346,12 +346,12 @@ function calculateGammeMaxQuantity(gammeId) {
         </div>
 
     </div>
+    <?php
+require 'footer.php';
+?>
 </body>
 <!-- Script pour masquer les notifications après 4 secondes -->
 <script src="/assets/js/notif.js"></script>
 
 </html>
 
-<?php
-require 'footer.php';
-?>

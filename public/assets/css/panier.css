@@ -4,6 +4,9 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f5f5dc;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
@@ -14,6 +17,7 @@ h1 {
 
 /* Conteneur principal */
 .container {
+  flex: 1;
   display: flex;
   justify-content: space-between; /* Espace entre les deux colonnes */
   align-items: flex-start;
