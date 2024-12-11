@@ -154,58 +154,58 @@ class PanierController extends BaseController
     }
     
     public function calculateTotalsForCart($panier)
-{
-    $totalHT = 0;  // Total Hors Taxes
-    $totalTTC = 0; // Total Toutes Taxes Comprises
-    $totalTaxes = 0; // Total des taxes
+    {
+        $totalHT = 0;  // Total Hors Taxes
+        $totalTTC = 0; // Total Toutes Taxes Comprises
+        $totalTaxes = 0; // Total des taxes
 
-    // Si le panier contient des gammes
-    if (isset($panier['gammes'])) {
-        foreach ($panier['gammes'] as $idGamme => $quantiteGamme) {
-            // Récupérer la gamme
-            $gammeModel = new GammeModel();
-            $gamme = $gammeModel->find($idGamme);
+        // Si le panier contient des gammes
+        if (isset($panier['gammes'])) {
+            foreach ($panier['gammes'] as $idGamme => $quantiteGamme) {
+                // Récupérer la gamme
+                $gammeModel = new GammeModel();
+                $gamme = $gammeModel->find($idGamme);
 
-            if ($gamme) {
-                // Calcul du prix de la gamme
-                $prixUnitaireTTC = $gamme['prixttc'];  // Prix TTC de la gamme
-                $prixUnitaireHT = $gamme['prixht'];    // Prix HT de la gamme
-                $totalTTC += $prixUnitaireTTC * $quantiteGamme; // Ajouter au total TTC
-                $totalHT += $prixUnitaireHT * $quantiteGamme;   // Ajouter au total HT
-                $totalTaxes += ($prixUnitaireTTC - $prixUnitaireHT) * $quantiteGamme; // Calcul des taxes
+                if ($gamme) {
+                    // Calcul du prix de la gamme
+                    $prixUnitaireTTC = $gamme['prixttc'];  // Prix TTC de la gamme
+                    $prixUnitaireHT = $gamme['prixht'];    // Prix HT de la gamme
+                    $totalTTC += $prixUnitaireTTC * $quantiteGamme; // Ajouter au total TTC
+                    $totalHT += $prixUnitaireHT * $quantiteGamme;   // Ajouter au total HT
+                    $totalTaxes += ($prixUnitaireTTC - $prixUnitaireHT) * $quantiteGamme; // Calcul des taxes
+                }
             }
         }
-    }
 
-    // Si le panier contient des produits
-    if (isset($panier['produits'])) {
-        foreach ($panier['produits'] as $idProduit => $quantiteProduit) {
-            // Récupérer le produit
-            $produitModel = new ProduitModel();
-            $produit = $produitModel->find($idProduit);
+        // Si le panier contient des produits
+        if (isset($panier['produits'])) {
+            foreach ($panier['produits'] as $idProduit => $quantiteProduit) {
+                // Récupérer le produit
+                $produitModel = new ProduitModel();
+                $produit = $produitModel->find($idProduit);
 
-            if ($produit) {
-                // Calcul du prix du produit
-                $prixUnitaireTTC = $produit['prixttc'];  // Prix TTC du produit
-                $prixUnitaireHT = $produit['prixht'];    // Prix HT du produit
-                $totalTTC += $prixUnitaireTTC * $quantiteProduit; // Ajouter au total TTC
-                $totalHT += $prixUnitaireHT * $quantiteProduit;   // Ajouter au total HT
-                $totalTaxes += ($prixUnitaireTTC - $prixUnitaireHT) * $quantiteProduit; // Calcul des taxes
+                if ($produit) {
+                    // Calcul du prix du produit
+                    $prixUnitaireTTC = $produit['prixttc'];  // Prix TTC du produit
+                    $prixUnitaireHT = $produit['prixht'];    // Prix HT du produit
+                    $totalTTC += $prixUnitaireTTC * $quantiteProduit; // Ajouter au total TTC
+                    $totalHT += $prixUnitaireHT * $quantiteProduit;   // Ajouter au total HT
+                    $totalTaxes += ($prixUnitaireTTC - $prixUnitaireHT) * $quantiteProduit; // Calcul des taxes
+                }
             }
         }
+
+        // Calculs des autres éléments du panier (si nécessaire)
+        // Par exemple, des frais de livraison ou des remises
+        // Vous pouvez ajouter d'autres règles de calcul ici
+
+        // Retourner les totaux
+        return [
+            'totalHT' => $totalHT,
+            'totalTTC' => $totalTTC,
+            'totalTaxes' => $totalTaxes,
+        ];
     }
-
-    // Calculs des autres éléments du panier (si nécessaire)
-    // Par exemple, des frais de livraison ou des remises
-    // Vous pouvez ajouter d'autres règles de calcul ici
-
-    // Retourner les totaux
-    return [
-        'totalHT' => $totalHT,
-        'totalTTC' => $totalTTC,
-        'totalTaxes' => $totalTaxes,
-    ];
-}
 
     
 
@@ -336,6 +336,8 @@ class PanierController extends BaseController
         return redirect()->back()->with('success', 'Panier vidé.');
     }
 
+
+    //Méthodes avec acces aux cookies
     private function getPanier(): array
     {
         $request = service('request');
@@ -396,78 +398,9 @@ class PanierController extends BaseController
     }
     
 
-    public function recapitulatif(): string
-    {
-        $produitModel = new ProduitModel();
-        $utilisateurModel = new UtilisateurModel(); // Modèle pour les utilisateurs
-        $gammeModel = new GammeModel();
+    
 
-        // Récupérer les produits dans le panier
-        $panier = $this->getPanier();
-        $paniergamme = $this->getPanierGamme();
-
-        $gammes = [];
-        $produits = [];
-        $totalTTC = 0;
-
-        foreach ($panier as $idProduit => $quantite) {
-            $produit = $produitModel->find($idProduit);
-            if ($produit) {
-                $produit['quantite'] = $quantite;
-                $produit['total'] = $quantite * $produit['prixttc'];
-                $produits[] = $produit;
-                $totalTTC += $produit['total'];
-            }
-        }
-
-        foreach ($paniergamme as $idGamme => $quantite) {
-            $gamme = $gammeModel->find($idGamme);
-            if ($gamme) {
-                $gamme['quantite'] = $quantite;
-                $gamme['total'] = $quantite * $gamme['prixttc'];
-                $gammes[] = $gamme;
-                $totalTTC += $gamme['total'];
-            }
-        }
-
-        // Code promo
-        $request = service('request');
-        $codePromo = $request->getCookie('code_promo');
-        $symbole = null;
-        $promo = null;
-
-        if ($codePromo) {
-            $result = $this->isPromoValid($codePromo);
-
-            if ($result['valid']) {
-                $promo = $result['promo'];
-                if($promo['valeur'] != 0) {
-                    $totalTTC -= $promo['valeur'];
-                    $symbole = "€";                }
-                else {
-                    $totalTTC -= $totalTTC * ($promo['pourcentage'] / 100);
-                    $symbole = "%";
-                }
-            } 
-        }
-
-        // Récupérer l'utilisateur connecté et son adresse
-        $utilisateur = $utilisateurModel->find(session()->get('idutilisateur'));
-
-        $data = [
-            'symbole' => $symbole,
-            'code_promo' => $promo,
-            'produits' => $produits,
-            'gammes' => $gammes,
-            'totalPromo' => $totalTTC,
-            'utilisateur' => $utilisateur,
-            'modesLivraison' => ['Standard', 'Express', 'Point relais'], // Options de livraison
-            'modesPaiement' => ['Carte bancaire', 'PayPal', 'Virement bancaire'], // Moyens de paiement
-        ];
-
-        return view('recapitulatif', $data);
-    }
-
+    //Méthodes pour changer les quantités du panier
     public function update()
     {
         $request = $this->request->getJSON();
@@ -631,7 +564,7 @@ class PanierController extends BaseController
 
 
 
-    
+    //Les code promo
     public function appliquerPromo()
     {
         $response = service('response');
@@ -689,6 +622,80 @@ class PanierController extends BaseController
             'promo' => $promo,
             'message' => "Code promo valide."
         ];
+    }
+
+
+    //Page de recap du panier pour la commande
+    public function recapitulatif(): string
+    {
+        $produitModel = new ProduitModel();
+        $utilisateurModel = new UtilisateurModel(); // Modèle pour les utilisateurs
+        $gammeModel = new GammeModel();
+
+        // Récupérer les produits dans le panier
+        $panier = $this->getPanier();
+        $paniergamme = $this->getPanierGamme();
+
+        $gammes = [];
+        $produits = [];
+        $totalTTC = 0;
+
+        foreach ($panier as $idProduit => $quantite) {
+            $produit = $produitModel->find($idProduit);
+            if ($produit) {
+                $produit['quantite'] = $quantite;
+                $produit['total'] = $quantite * $produit['prixttc'];
+                $produits[] = $produit;
+                $totalTTC += $produit['total'];
+            }
+        }
+
+        foreach ($paniergamme as $idGamme => $quantite) {
+            $gamme = $gammeModel->find($idGamme);
+            if ($gamme) {
+                $gamme['quantite'] = $quantite;
+                $gamme['total'] = $quantite * $gamme['prixttc'];
+                $gammes[] = $gamme;
+                $totalTTC += $gamme['total'];
+            }
+        }
+
+        // Code promo
+        $request = service('request');
+        $codePromo = $request->getCookie('code_promo');
+        $symbole = null;
+        $promo = null;
+
+        if ($codePromo) {
+            $result = $this->isPromoValid($codePromo);
+
+            if ($result['valid']) {
+                $promo = $result['promo'];
+                if($promo['valeur'] != 0) {
+                    $totalTTC -= $promo['valeur'];
+                    $symbole = "€";                }
+                else {
+                    $totalTTC -= $totalTTC * ($promo['pourcentage'] / 100);
+                    $symbole = "%";
+                }
+            } 
+        }
+
+        // Récupérer l'utilisateur connecté et son adresse
+        $utilisateur = $utilisateurModel->find(session()->get('idutilisateur'));
+
+        $data = [
+            'symbole' => $symbole,
+            'code_promo' => $promo,
+            'produits' => $produits,
+            'gammes' => $gammes,
+            'totalPromo' => $totalTTC,
+            'utilisateur' => $utilisateur,
+            'modesLivraison' => ['Standard', 'Express', 'Point relais'], // Options de livraison
+            'modesPaiement' => ['Carte bancaire', 'PayPal', 'Virement bancaire'], // Moyens de paiement
+        ];
+
+        return view('recapitulatif', $data);
     }
 
 
