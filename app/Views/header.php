@@ -31,7 +31,9 @@
                 <a href="/PanierController">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">
-                        <?= isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ?>
+                        <?= array_sum( [isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ,
+                        isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ,
+                        isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ])?>
                     </span>
                 </a>
             </div>
