@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BundleModel;
 use App\Models\BundleProduitModel;
 use App\Models\CategorieModel;
 use App\Models\ImageModel;
@@ -137,6 +138,7 @@ class ProduitController extends BaseController
 	public function produitsParBundle($idBundle)
     {
         $bundleproduitModel = new BundleProduitModel();
+		$bundleModel = new BundleModel();
 		$produitModel = new ProduitModel();
     
         $produits = $bundleproduitModel->getProductsByBundle($idBundle);
@@ -145,10 +147,13 @@ class ProduitController extends BaseController
 			return redirect()->to(previous_url())->with('message', 'Aucun produit trouvé pour ce bundle');
 		}
 
-		// Ajouter les images pour chaque produit
 		foreach ($produits as &$produit) {
 			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
 			$produit['images'] = $images;
+
+			$test = $bundleproduitModel->where('id_bundle', $idBundle)->where('id_produit', $produit['id_produit'])->first();
+
+			$produit['quantite'] = $test['quantite'];
 		}
 
 		$data['produits'] = $produits;

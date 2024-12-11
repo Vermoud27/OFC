@@ -110,6 +110,9 @@ require 'header.php';
                             <p><?= htmlspecialchars($produit['description']) ?></p>
                             <p><?= number_format($produit['prixttc'], 2) ?> €</p>
 
+                            <?php if (isset($produit['quantite'])): ?>
+                                <p>Quantité dans le bundle : <?= htmlspecialchars($produit['quantite']) ?></p>
+                            <?php endif; ?>
                             <!-- Bouton "Ajouter au panier" -->
                             <button class="add-to-cart"
                                 onclick="updateQuantity(<?= $produit['id_produit'] ?>, 1); event.stopPropagation();">
