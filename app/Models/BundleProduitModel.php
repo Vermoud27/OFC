@@ -48,8 +48,8 @@ class BundleProduitModel extends Model
     // Requête de jointure pour récupérer les produits associés à un bundle
     public function getProductsByBundle($id_bundle)
     {
-        return $this->select('Bundle_Produit.*, Produit.nom AS produit_nom, Produit.prixht, Produit.prixttc')
-                    ->join('Produit', 'Produit.id_produit = Bundle_Produit.id_produit')
+        return $this->select('bundle_produit.*, produit.*')
+                    ->join('produit', 'produit.id_produit = bundle_produit.id_produit')
                     ->where('id_bundle', $id_bundle)
                     ->findAll();
     }

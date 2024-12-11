@@ -40,6 +40,27 @@ class BundleController extends BaseController
 		return view('administrateur/bundles/liste', $data);
 	}
 
+	public function page_bundles(): string
+	{
+		$bundlModel = new BundleModel();
+		$bundleProduitModel = new BundleProduitModel();
+
+		// Récupérer les produits paginés
+		$bundles = $bundlModel->orderBy('id_bundle')->paginate(16);
+
+		// Ajouter les images pour chaque produit
+		/*foreach ($bundles as &$bundle) {
+			$images = $this->imageModel->getImagesByProduit($gamme['id_gamme']);
+			$gamme['images'] = $images;
+		}*/
+
+		// Passer les données à la vue
+		$data['bundles'] = $bundles;
+		$data['pager'] = \Config\Services::pager();
+
+		return view('pageBundle', $data);
+	}
+
 	public function creation()
     {
 		return view('administrateur/bundles/creation');

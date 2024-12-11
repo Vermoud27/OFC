@@ -8,7 +8,7 @@ require 'header.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gammes</title>
+    <title>Bundles</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
@@ -34,17 +34,17 @@ require 'header.php';
     </div>
 
     <section class="products">
-        <h1>Nos Gammes</h1>
+        <h1>Nos Bundles</h1>
         <div class="product-grid">
 
-            <?php if (!empty($gammes) && is_array($gammes)): ?>
-                <?php foreach ($gammes as $gamme): ?>
+            <?php if (!empty($bundles) && is_array($bundles)): ?>
+                <?php foreach ($bundles as $bundle): ?>
                     <div class="product-card">
-                        <a href="/produits/<?= $gamme['id_gamme'] ?>">
-                            <?php if (!empty($gamme['images'])): ?>
+                        <a href="/produits/<?= $bundle['id_bundle'] ?>">
+                            <?php if (!empty($bundle['images'])): ?>
                                 <div class="product-images">
-                                    <img src="<?= $gamme['images'][0]['chemin'] ?>" alt="Image Gamme"
-                                        id="image-<?= $gamme['id_gamme'] ?>">
+                                    <img src="<?= $bundle['images'][0]['chemin'] ?>" alt="Image Gamme"
+                                        id="image-<?= $bundle['id_bundle'] ?>">
                                 </div>
                             <?php else: ?>
                                 <div class="product-images">
@@ -52,11 +52,10 @@ require 'header.php';
                                 </div>
                             <?php endif; ?>
                             
-                            <h2><?= $gamme['nom'] ?></h2>
-                            <p><?= $gamme['description'] ?></p>
-                            <p><?= $gamme['prixttc'] ?> €</p>
+                            <p><?= $bundle['description'] ?></p>
+                            <p><?= $bundle['prix'] ?> €</p>
                         </a>
-                        <button onclick="updateQuantityGamme(<?= $gamme['id_gamme'] ?>, 1);">Ajouter au panier</button>
+                        <button onclick="updateQuantityBundle(<?= $bundle['id_bundle'] ?>, 1);">Ajouter au panier</button>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>

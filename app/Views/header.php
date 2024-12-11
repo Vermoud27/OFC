@@ -58,10 +58,8 @@
     <ul>
         <li><a href="<?= base_url('produits') ?>" class="link-white">Produits</a></li>
         <li><a href="<?= base_url('gammes') ?>" class="link-white">Gammes</a></li>
-        <li><a href="<?= base_url('produits?categorie=Huiles') ?>" class="link-white">Huiles</a></li>
-        <li><a href="<?= base_url('produits?categorie=Soins-peau') ?>" class="link-white">Soins peau au détail</a></li>
-        <li><a href="<?= base_url('produits?categorie=Soins-capillaires') ?>" class="link-white">Soins capillaires</a>
-        </li>
+        <li><a href="<?= base_url('bundles') ?>" class="link-white">Bundles</a></li>
+
         <li><a href="<?= base_url('produits?categorie=Autres') ?>" class="link-white">Autres</a></li>
         <li><a href="/navbar/entreprise">L’entreprise</a></li>
     </ul>

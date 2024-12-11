@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\BundleModel;
+use App\Models\BundleProduitModel;
 use App\Models\CodePromoModel;
 use App\Models\ImageModel;
 use App\Models\ProduitModel;
@@ -14,6 +16,7 @@ class PanierController extends BaseController
     {
         $panier = $this->getPanier();
         $panierGamme = $this->getPanierGamme();
+        $panierBundle = $this->getPanierBundle();
 
         // Charger les produits du panier depuis la base de données
         $produitModel = new ProduitModel();
@@ -73,6 +76,34 @@ class PanierController extends BaseController
             $totalTTC += $gamme['prixttc'] * $gamme['quantite'];
         }
 
+
+        // Charger les gammes du panier
+        $bundleModel = new BundleModel();
+        $bundleProduitModel = new BundleProduitModel();
+        $bundles = [];
+        $produitsParBundle = [];
+
+        foreach ($panierBundle as $idBundle => $quantite) {
+            $bundle = $bundleModel->find($idBundle);
+
+            if ($bundle) {
+                $bundle['quantite'] = $quantite;
+                $bundles[] = $bundle;
+
+                // Charger les produits de la gamme
+                $produitsDeBundle = $bundleProduitModel->getProductsByBundle($idBundle);
+                foreach ($produitsDeBundle as &$produit) {
+                    $produit['images'] = $imageModel->getImagesByProduit($produit['id_produit']);
+                    $produit['images'] = !empty($produit['images']) ? $produit['images'] : [['chemin' => '/assets/img/produits/placeholder.png']];
+                }
+                $produitsParBundle[$idBundle] = $produitsDeBundle;
+            }
+        }
+
+        foreach ($bundles as &$bundle) {
+            $totalTTC += $bundle['prix'] * $bundle['quantite'];
+        }
+
         // Gestion du code promo
         $request = service('request');
         $codePromo = $request->getCookie('code_promo');
@@ -101,7 +132,9 @@ class PanierController extends BaseController
         $data['totalPromo'] = $totalTTC;
         $data['produits'] = $produits;
         $data['gammes'] = $gammes;
+        $data['bundles'] = $bundles;
         $data['produitsParGamme'] = $produitsParGamme;
+        $data['produitsParBundle'] = $produitsParBundle;
 
         return view('panier', $data);
     }
@@ -147,6 +180,20 @@ class PanierController extends BaseController
         $maxQuantity = PHP_INT_MAX;
         foreach ($produits as $produit) {
             $stock = $produit['qte_stock'] ?? 0;
+            $maxQuantity = min($maxQuantity, $stock);
+        }
+    
+        return $maxQuantity === PHP_INT_MAX ? 0 : $maxQuantity;
+    }
+
+    private function calculateMaxQuantityForBundle($idBundle)
+    {
+        $bundleproduitModel = new BundleProduitModel();
+        $produits = $bundleproduitModel->getProductsByBundle($idBundle);
+    
+        $maxQuantity = PHP_INT_MAX;
+        foreach ($produits as $produit) {
+            $stock = ($produit['qte_stock'] / $produit['quantite'])?? 0;
             $maxQuantity = min($maxQuantity, $stock);
         }
     
@@ -274,6 +321,38 @@ class PanierController extends BaseController
         return redirect()->back();
     }
 
+    public function modifierPanierBundle($idBundle, $delta){
+
+        $panier = $this->getPanierBundle();
+
+        $bundleModel = new BundleModel();
+        $bundle = $bundleModel->find($idBundle);
+    
+        // Vérifie si le produit est dans le panier
+        if (isset($panier[$idBundle])) {
+            // Modifie la quantité en fonction du delta
+            $panier[$idBundle] += $delta;
+    
+            // Si la quantité devient 0 ou moins, retirer le produit
+            if ($panier[$idBundle] <= 0) {
+                unset($panier[$idBundle]);
+                session()->setFlashdata('success', "Le bundle a été retiré du panier.");
+            } else {
+                session()->setFlashdata('success', "Quantité du bundle mise à jour.");
+            }
+        } elseif ($delta > 0) {
+            // Si le produit n'est pas dans le panier mais le delta est positif, on l'ajoute
+            $panier[$idBundle] = $delta;
+            session()->setFlashdata('success', "La bundle a été ajouté au panier.");
+        }
+
+        // Met à jour le panier
+        $this->setPanierBundle($panier);
+    
+        // Redirige vers la page précédente sans écraser les flashdata définies plus haut
+        return redirect()->back();
+    }
+
     public function retirerProduit($idProduit)
     {
         $panier = $this->getPanier();
@@ -327,12 +406,40 @@ class PanierController extends BaseController
         return redirect()->to('/panier'); // ou redirect()->back() selon le flux de votre application
     }
 
+    public function retirerBundle($idBundle)
+    {
+        // Récupérer le panier actuel depuis la session
+        $panier = $this->getPanierBundle();
+
+        // Initialiser le modèle de la gamme pour obtenir les informations nécessaires
+        $bundleModel = new BundleModel();
+        $bundle = $bundleModel->find($idBundle);
+
+        // Vérifier si la gamme existe dans le panier
+        if (isset($panier[$idBundle])) {
+            // Retirer la gamme du panier
+            unset($panier[$idBundle]);
+
+            // Ajouter un message de confirmation
+            session()->setFlashdata('success', "Le bundle a été retirée du panier.");
+        } else {
+            session()->setFlashdata('error', "Le bundle demandé n'est pas dans le panier.");
+        }
+
+        // Mettre à jour le panier dans la session
+        $this->setPanierBundle($panier);
+
+        // Rediriger vers la page du panier après la suppression ou vers une autre page si nécessaire
+        return redirect()->to('/panier'); // ou redirect()->back() selon le flux de votre application
+    }
+
 
 
     public function viderPanier()
     {
         $this->setPanier([]);
         $this->setPanierGamme([]);
+        $this->setPanierBundle([]);
         return redirect()->back()->with('success', 'Panier vidé.');
     }
 
@@ -395,6 +502,31 @@ class PanierController extends BaseController
         // Envoi de la réponse avec le cookie
         $response->send();
         log_message('debug', 'Cookie panierGamme mis à jour : ' . $cookieValue);
+    }
+
+    private function getPanierBundle(): array
+    {
+        // Récupération du cookie via la requête
+        $request = service('request');
+        $cookie = $request->getCookie('panierBundle');
+    
+        if (!$cookie) {
+            return [];
+        }
+    
+        $panierBundle = json_decode($cookie, true);
+        return is_array($panierBundle) ? $panierBundle : [];
+    }
+    
+
+    private function setPanierBundle(array $panierBundle)
+    {
+        $response = service('response');
+        $cookieValue = json_encode($panierBundle);
+        $response->setCookie('panierBundle', $cookieValue, 30 * 24 * 60 * 60);
+        
+        // Envoi de la réponse avec le cookie
+        $response->send();
     }
     
 
@@ -560,6 +692,97 @@ class PanierController extends BaseController
             ]);
         }
     }
+
+    public function updateBundle()
+    {
+        try {
+            $request = $this->request->getJSON();
+        
+            // Vérification des paramètres
+            if (!isset($request->id_bundle) || !isset($request->delta)) {
+                log_message('error', 'Paramètres invalides: id_bundle ou delta manquants');
+                return $this->response->setJSON(['success' => false, 'message' => 'Paramètres invalides.']);
+            }
+        
+            $idBundle = (int)$request->id_bundle;
+            $delta = (int)$request->delta;
+        
+            log_message('debug', 'Requête reçue: id_bundle = ' . $idBundle . ', delta = ' . $delta);
+        
+            // Récupérer le panier
+            $panier['bundles'] = $this->getPanierGamme();
+                
+            // Vérifier que la clé 'gammes' existe
+            if (!isset($panier['bundles'])) {
+                $panier['bundles'] = [];
+            }
+
+            // Recherche de la gamme
+            $bundleModel = new BundleModel();
+            $bundle = $bundleModel->find($idBundle);
+
+            if (!$bundle) {
+                log_message('error', 'Bundle introuvable: ' . $idBundle);
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Bundle introuvable.',
+                ]);
+            }
+
+            // Calcul de la quantité maximale
+            $maxQuantity = $this->calculateMaxQuantityForBundle($idBundle);
+            
+            if (isset($panier['bundles'][$idBundle])) {
+                // Modification de la quantité
+                $newQuantity = $panier['bundles'][$idBundle] + $delta;
+                
+                if ($newQuantity <= 0) {
+                    unset($panier['bundles'][$idBundle]);
+                } elseif ($newQuantity > $maxQuantity) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
+                    ]);
+                } else {
+                    $panier['bundles'][$idBundle] = $newQuantity;
+                }
+            } elseif ($delta > 0) {
+                // Ajout de la gamme
+                if ($delta > $maxQuantity) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
+                    ]);
+                }
+                $panier['bundles'][$idBundle] = $delta;
+            }
+
+            // Enregistrement du panier complet
+            log_message('debug', "Avant d'enregistrer : " . json_encode($panier));
+            $this->setPanierGamme($panier['bundles']);  // Enregistrer l'ensemble du panier, pas seulement les gammes
+            log_message('debug', "Panier après mise à jour : " . json_encode($panier));
+
+    
+            // Calcul du total du panier
+            $totals = $this->calculateTotalsForCart($panier);
+    
+            // Retourne uniquement les informations essentielles
+            return $this->response->setJSON([
+                'success' => true,
+                'newQuantity' => $panier['bundles'][$idBundle] ?? 0,
+                'newPrice' => $bundle['prix'] * ($panier['bundles'][$idBundle] ?? 0),
+                'totalTTC' => $totals['totalTTC'],
+                'message' => 'Quantité mise à jour avec succès.',
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', 'Erreur lors de la mise à jour de la gamme: ' . $e->getMessage() . ' | Trace: ' . $e->getTraceAsString());
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Une erreur s\'est produite.' . $e->getMessage(),
+                'error_details' => $e->getMessage()
+            ]);
+        }
+    }
        
 
 
@@ -631,12 +854,15 @@ class PanierController extends BaseController
         $produitModel = new ProduitModel();
         $utilisateurModel = new UtilisateurModel(); // Modèle pour les utilisateurs
         $gammeModel = new GammeModel();
+        $bundleModel = new BundleModel();
 
         // Récupérer les produits dans le panier
         $panier = $this->getPanier();
         $paniergamme = $this->getPanierGamme();
+        $panierbundle = $this->getPanierBundle();
 
         $gammes = [];
+        $bundles = [];
         $produits = [];
         $totalTTC = 0;
 
@@ -657,6 +883,16 @@ class PanierController extends BaseController
                 $gamme['total'] = $quantite * $gamme['prixttc'];
                 $gammes[] = $gamme;
                 $totalTTC += $gamme['total'];
+            }
+        }
+
+        foreach ($panierbundle as $idBundle => $quantite) {
+            $bundle = $bundleModel->find($idBundle);
+            if ($bundle) {
+                $bundle['quantite'] = $quantite;
+                $bundle['total'] = $quantite * $bundle['prix'];
+                $bundles[] = $bundle;
+                $totalTTC += $bundle['total'];
             }
         }
 
@@ -683,12 +919,13 @@ class PanierController extends BaseController
 
         // Récupérer l'utilisateur connecté et son adresse
         $utilisateur = $utilisateurModel->find(session()->get('idutilisateur'));
-
+        
         $data = [
             'symbole' => $symbole,
             'code_promo' => $promo,
             'produits' => $produits,
             'gammes' => $gammes,
+            'bundles' => $bundles,
             'totalPromo' => $totalTTC,
             'utilisateur' => $utilisateur,
             'modesLivraison' => ['Standard', 'Express', 'Point relais'], // Options de livraison
