@@ -155,10 +155,13 @@ require 'header.php';
         </div>
 
 
-        <!-- Bouton Vider le panier -->
-
         <!-- Récapitulatif -->
         <div class="cart-summary">
+            <!-- Bouton Vider le panier -->
+            <button class="clear-cart" onclick="location.href='/panier/vider'">Vider le panier</button>
+
+            <hr style="border: none; border-top: 2px solid #D2691E; margin: 20px 0;">
+
             <?php
             $totalTTC = 0;
             foreach ($produits as $produit) {
