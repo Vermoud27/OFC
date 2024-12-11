@@ -18,13 +18,17 @@ class BundleModel extends Model
     // Champs autorisés pour les opérations d'insertion ou de mise à jour
     protected $allowedFields = [
         'description',
-        'prix'
+        'prix',
+        'nom',
+        'image'
     ];
 
     // Validation des données
     protected $validationRules = [
+        'nom' => 'required|max_length[100]',
         'description' => 'permit_empty',
-        'prix' => 'required|decimal'
+        'prix' => 'required|decimal',
+        'image' => 'permit_empty'
     ];
 
     // Messages personnalisés pour la validation
