@@ -114,6 +114,10 @@ h1, h2, h3 {
 .product p {
   font-size: 1rem;
   color: #333;
+  overflow: hidden; /* Empêche le texte de déborder */
+  text-overflow: ellipsis; /* Ajoute des points de suspension */
+  white-space: nowrap; /* Empêche le passage à la ligne */
+  margin: 0; /* Réduit les marges pour éviter d'ajouter de l'espace inutile */
 }
 
 .product button {
