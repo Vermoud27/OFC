@@ -524,7 +524,7 @@ class PanierController extends BaseController
         $response = service('response');
         $cookieValue = json_encode($panierBundle);
         $response->setCookie('panierBundle', $cookieValue, 30 * 24 * 60 * 60);
-        
+
         // Envoi de la réponse avec le cookie
         $response->send();
     }
@@ -639,7 +639,7 @@ class PanierController extends BaseController
 
             if (isset($panier['gammes'][$idGamme])) {
                 // Modification de la quantité
-                $newQuantity = $panier['gammes'][$idGamme] + $delta;
+                $newQuantity = ((int)$panier['gammes'][$idGamme]) + $delta;
                 log_message('debug', "Nouveau quantity pour la gamme {$idGamme} : {$newQuantity}");
                 
                 if ($newQuantity <= 0) {
@@ -710,7 +710,7 @@ class PanierController extends BaseController
             log_message('debug', 'Requête reçue: id_bundle = ' . $idBundle . ', delta = ' . $delta);
         
             // Récupérer le panier
-            $panier['bundles'] = $this->getPanierGamme();
+            $panier['bundles'] = $this->getPanierBundle();
                 
             // Vérifier que la clé 'gammes' existe
             if (!isset($panier['bundles'])) {
@@ -734,14 +734,14 @@ class PanierController extends BaseController
             
             if (isset($panier['bundles'][$idBundle])) {
                 // Modification de la quantité
-                $newQuantity = $panier['bundles'][$idBundle] + $delta;
+                $newQuantity = ((int)$panier['bundles'][$idBundle]) + ((int)$delta);
                 
                 if ($newQuantity <= 0) {
                     unset($panier['bundles'][$idBundle]);
                 } elseif ($newQuantity > $maxQuantity) {
                     return $this->response->setJSON([
                         'success' => false,
-                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme.",
+                        'message' => "Vous ne pouvez pas dépasser la quantité maximale de {$maxQuantity} pour cette gamme. {$newQuantity}, {$panier['bundles'][$idBundle]}, {$delta}",
                     ]);
                 } else {
                     $panier['bundles'][$idBundle] = $newQuantity;
@@ -759,7 +759,7 @@ class PanierController extends BaseController
 
             // Enregistrement du panier complet
             log_message('debug', "Avant d'enregistrer : " . json_encode($panier));
-            $this->setPanierGamme($panier['bundles']);  // Enregistrer l'ensemble du panier, pas seulement les gammes
+            $this->setPanierBundle($panier['bundles']);  // Enregistrer l'ensemble du panier, pas seulement les gammes
             log_message('debug', "Panier après mise à jour : " . json_encode($panier));
 
     

@@ -78,21 +78,31 @@ require 'header.php';
                     <!-- Pour chaque gamme -->
                     <div class="cart-gamme" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>"
                         data-prix-ttc="<?= htmlspecialchars($gamme['prixttc']) ?>">
-                        <ul class="gamme-produits">
-                            <?php foreach ($produitsParGamme[$gamme['id_gamme']] as $produitGamme): ?>
-                                <li data-stock="<?= htmlspecialchars($produitGamme['qte_stock'] ?? 0) ?>">
-                                    <?= htmlspecialchars($produitGamme['nom']) ?> - Stock :
-                                    <?= htmlspecialchars($produitGamme['qte_stock']) ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <div class="quantity">
-                            <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, -1)">-</button>
-                            <p><?= htmlspecialchars($gamme['quantite']) ?></p>
-                            <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1)">+</button>
+                        <img src="<?= htmlspecialchars($gamme['image'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
+                        
+                            <div class="cart-item-details">
+                            <h2>Gamme - <?= htmlspecialchars($gamme['nom']) ?></h2>
+                            <ul class="gamme-produits">
+                                <?php foreach ($produitsParGamme[$gamme['id_gamme']] as $produitGamme): ?>
+                                    <li data-stock="<?= htmlspecialchars($produitGamme['qte_stock'] ?? 0) ?>">
+                                        <?= htmlspecialchars($produitGamme['nom']) ?> - Stock :
+                                        <?= htmlspecialchars($produitGamme['qte_stock']) ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        
+                            <div class="quantity">
+                                <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, -1)">-</button>
+                                <p><?= htmlspecialchars($gamme['quantite']) ?></p>
+                                <button onclick="updateQuantityGamme(<?= htmlspecialchars($gamme['id_gamme']) ?>, 1)">+</button>
+                            </div>
                         </div>
-                        <p class="price"><?= number_format($gamme['prixttc'] * $gamme['quantite'], 2) ?> €</p>
-                        <button class="sup" onclick="retirerGamme(<?= $gamme['id_gamme'] ?>)"></button>
+
+                        <div class="cart-item-right">
+                            <p class="price"><?= number_format($gamme['prixttc'] * $gamme['quantite'], 2) ?> €</p>
+                            <button class="sup" onclick="retirerGamme(<?= $gamme['id_gamme'] ?>)"></button>
+                        </div>
+                        
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -106,21 +116,32 @@ require 'header.php';
                     <!-- Pour chaque bundle -->
                     <div class="cart-bundle" data-id="<?= htmlspecialchars($bundle['id_bundle']) ?>"
                         data-prix-ttc="<?= htmlspecialchars($bundle['prix']) ?>">
-                        <ul class="bundle-produits">
-                            <?php foreach ($produitsParBundle[$bundle['id_bundle']] as $produitBundle): ?>
-                                <li data-stock="<?= htmlspecialchars($produitBundle['qte_stock'] ?? 0) ?>">
-                                    <?= htmlspecialchars($produitBundle['nom']) ?> - Stock :
-                                    <?= htmlspecialchars($produitBundle['qte_stock']) ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <div class="quantity">
-                            <button onclick="updateQuantityBundle(<?= htmlspecialchars($bundle['id_bundle']) ?>, -1)">-</button>
-                            <p><?= htmlspecialchars($bundle['quantite']) ?></p>
-                            <button onclick="updateQuantityBundle(<?= htmlspecialchars($bundle['id_bundle']) ?>, 1)">+</button>
-                        </div>
-                        <p class="price"><?= number_format($bundle['prix'] * $bundle['quantite'], 2) ?> €</p>
-                        <button class="sup" onclick="retirerBundle(<?= $bundle['id_bundle'] ?>)"></button>
+                        <img src="<?= htmlspecialchars($bundle['image'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
+                        <div class="cart-item-details">
+                            <h2>Bundle - <?= htmlspecialchars($bundle['id_bundle']) ?></h2>
+
+                            <ul class="bundle-produits">
+                                <?php foreach ($produitsParBundle[$bundle['id_bundle']] as $produitBundle): ?>
+                                    <li data-stock="<?= htmlspecialchars($produitBundle['qte_stock'] ?? 0) ?>">
+                                        <?= htmlspecialchars($produitBundle['nom']) ?> - Stock :
+                                        <?= htmlspecialchars($produitBundle['qte_stock']) ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+
+                            <div class="quantity">
+                                <button onclick="updateQuantityBundle(<?= htmlspecialchars($bundle['id_bundle']) ?>, -1)">-</button>
+                                <p><?= htmlspecialchars($bundle['quantite']) ?></p>
+                                <button onclick="updateQuantityBundle(<?= htmlspecialchars($bundle['id_bundle']) ?>, 1)">+</button>
+                            </div>
+                            </div>
+
+                            <div class="cart-item-right">
+                                <p class="price"><?= number_format($bundle['prix'] * $bundle['quantite'], 2) ?> €</p>
+                                <button class="sup" onclick="retirerBundle(<?= $bundle['id_bundle'] ?>)"></button>
+                        
+                            </div>
+                        
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -135,7 +156,6 @@ require 'header.php';
 
 
         <!-- Bouton Vider le panier -->
-        <button class="clear-cart" onclick="location.href='/panier/vider'">Vider le panier</button>
 
         <!-- Récapitulatif -->
         <div class="cart-summary">
