@@ -20,7 +20,8 @@ class GammeModel extends Model
         'nom',
         'description',
         'prixht',
-        'prixttc'
+        'prixttc',
+        'image'
     ];
 
     // Validation des données

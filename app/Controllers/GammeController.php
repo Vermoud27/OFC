@@ -67,7 +67,17 @@ class GammeController extends BaseController
 			'description' => $this->request->getPost('description'),
 			'prixht' => $this->request->getPost('prixht'),
 			'prixttc' => $this->request->getPost('prixttc'),
+			'image' => $this->request->getPost(index: 'image'),
 		];
+
+		$files = $this->request->getFiles();
+		if (isset($files['images']) && $files['images'][0]->isValid()) {
+			$file = $files['images'][0];
+			$newName = $file->getRandomName();
+			$file->move(WRITEPATH . '../public/assets/img/produits/', $newName);
+
+			$data['image'] = '/assets/img/produits/' . $newName;
+		}
 
 		$this->gammeModel->insert($data);
 

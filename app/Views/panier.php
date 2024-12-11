@@ -78,7 +78,7 @@ require 'header.php';
                     <!-- Pour chaque gamme -->
                     <div class="cart-gamme" data-id="<?= htmlspecialchars($gamme['id_gamme']) ?>"
                         data-prix-ttc="<?= htmlspecialchars($gamme['prixttc']) ?>">
-                        <img src="<?= htmlspecialchars($gamme['image'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
+                        <img src="<?= htmlspecialchars($gamme['image'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($gamme['nom']) ?>">
                         
                             <div class="cart-item-details">
                             <h2>Gamme - <?= htmlspecialchars($gamme['nom']) ?></h2>
@@ -116,7 +116,7 @@ require 'header.php';
                     <!-- Pour chaque bundle -->
                     <div class="cart-bundle" data-id="<?= htmlspecialchars($bundle['id_bundle']) ?>"
                         data-prix-ttc="<?= htmlspecialchars($bundle['prix']) ?>">
-                        <img src="<?= htmlspecialchars($bundle['image'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
+                        <img src="<?= htmlspecialchars($bundle['image'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($bundle['id_bundle']) ?>">
                         <div class="cart-item-details">
                             <h2>Bundle - <?= htmlspecialchars($bundle['id_bundle']) ?></h2>
 

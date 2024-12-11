@@ -34,8 +34,8 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">
                         <?= array_sum( [isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ,
-                        isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ,
-                        isset($_COOKIE['panier']) ? array_sum(json_decode($_COOKIE['panier'], true)) : 0 ])?>
+                        isset($_COOKIE['panierGamme']) ? array_sum(json_decode($_COOKIE['panierGamme'], true)) : 0 ,
+                        isset($_COOKIE['panierBundle']) ? array_sum(json_decode($_COOKIE['panierBundle'], true)) : 0 ])?>
                     </span>
                 </a>
             </div>

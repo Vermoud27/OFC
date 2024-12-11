@@ -9,6 +9,18 @@
 </head>
 <body>
     <div class="container">
+
+        <div class="gallery">
+            <div class="main-image" id="main-image">
+                <img src="https://via.placeholder.com/300x300?text=Aperçu" alt="Image principale">
+            </div>
+            <div class="thumbnails" id="thumbnails">
+                <!-- Miniatures dynamiques -->
+            </div>
+            <button type="button" id="add-image-btn">Ajouter une image</button>
+            <input type="file" id="image-input" accept="image/*" style="display: none;">
+        </div>
+
         <!-- Formulaire de création -->
         <div class="form-container">
             <h1>Créer une Gamme</h1>
@@ -19,7 +31,7 @@
                     <?php echo form_input('nom', set_value('nom'), 'required'); ?>
                     <?= validation_show_error('nom') ?>
                 </div>
-          
+        
 
                 <div class="grid-full">
                     <?php echo form_label('Description *', 'description'); ?>
@@ -57,6 +69,76 @@
             <?php echo form_close(); ?>
         </div>
     </div>
+
+        <script>
+        const addImageBtn = document.getElementById('add-image-btn');
+const imageInput = document.getElementById('image-input');
+const thumbnails = document.getElementById('thumbnails');
+const mainImage = document.getElementById('main-image').querySelector('img');
+const formContainer = document.querySelector('form'); // Récupère le formulaire principal
+
+addImageBtn.addEventListener('click', () => {
+    imageInput.click();
+});
+
+imageInput.addEventListener('change', () => {
+    const file = imageInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        // Créer une miniature
+        const thumbnailContainer = document.createElement('div');
+        thumbnailContainer.classList.add('thumbnail');
+
+        const img = document.createElement('img');
+        img.src = e.target.result;
+
+        // Ajouter un événement pour changer l'image principale
+        img.addEventListener('click', () => {
+            mainImage.src = e.target.result;
+        });
+
+        // Bouton de suppression
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = "×";
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.addEventListener('click', () => {
+            thumbnails.removeChild(thumbnailContainer);
+
+            // Supprimer l'input file correspondant
+            const hiddenInput = document.querySelector(`input[data-filename="${file.name}"]`);
+            if (hiddenInput) {
+                formContainer.removeChild(hiddenInput);
+            }
+
+            if (thumbnails.children.length > 0) {
+                mainImage.src = thumbnails.children[0].querySelector('img').src;
+            } else {
+                mainImage.src = "https://via.placeholder.com/300x300?text=Aperçu";
+            }
+        });
+
+        thumbnailContainer.appendChild(img);
+        thumbnailContainer.appendChild(deleteBtn);
+        thumbnails.appendChild(thumbnailContainer);
+
+        // Mettre à jour l'image principale
+        mainImage.src = e.target.result;
+
+        // Ajouter un champ input type="file" caché au formulaire
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'file';
+        hiddenInput.name = 'images[]';
+        hiddenInput.style.display = 'none';
+        hiddenInput.files = imageInput.files; // Associe directement le fichier
+        hiddenInput.setAttribute('data-filename', file.name); // Identifiant unique pour suppression
+        formContainer.appendChild(hiddenInput);
+    };
+
+    reader.readAsDataURL(file);
+});
+    </script>
 
 </body>
 </html>
