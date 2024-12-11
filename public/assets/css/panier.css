@@ -31,7 +31,6 @@ h1 {
   flex: 2; /* Section articles plus large */
   flex-direction: column; /* Les articles s'empilent par défaut */
   gap: 15px; /* Espacement entre les articles */
-  margin-right: -5%;
 }
 
 /* Styles des articles */
@@ -167,6 +166,45 @@ h1 {
   margin: 5px 0;
 }
 
+
+
+/* Styles des articles */
+.cart-bundle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #556b2f;
+  color: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  width: 50%;
+  margin-left: 35%;
+  flex-wrap: wrap; /* Permet d'envelopper les éléments */
+  box-sizing: border-box; /* Inclut les bordures et padding dans la largeur */
+  width: 70%;
+}
+
+
+.cart-bundle img {
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+}
+
+.cart-bundle-details {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.cart-bundle-details h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.cart-bundle-details p {
+  margin: 5px 0;
+}
 
 
 .stock-status {

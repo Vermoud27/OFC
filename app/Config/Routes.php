@@ -14,6 +14,7 @@ $routes->get('/ControllerOFC', 'ControllerOFC::index');
 $routes->get('/produits', 'ProduitController::page_produits');
 $routes->get('/produits/(:num)', 'ProduitController::produitsParGamme/$1');
 $routes->get('/gammes', 'GammeController::page_gammes');
+$routes->get('/bundles', 'BundleController::page_bundles');
 $routes->get('/navbar/entreprise', 'EntrepriseController::index');
 $routes->get('/test-recherche', 'HeaderController::rechercherProduits');
 
@@ -64,11 +65,14 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('/panier/ajouter/(:num)', 'PanierController::ajouterPanier/$1');
     $routes->post('/panier/update', 'PanierController::update');
     $routes->post('/panier/updateGamme', 'PanierController::updateGamme');
+    $routes->post('/panier/updateBundle', 'PanierController::updateBundle');
     $routes->get('/panier/retirer/(:num)', 'PanierController::retirerProduit/$1');
     $routes->get('/panier/retirerGamme/(:num)', 'PanierController::retirerGamme/$1');
+    $routes->get('/panier/retirerBundle/(:num)', 'PanierController::retirerBundle/$1');
     $routes->get('/panier/vider', 'PanierController::viderPanier');
     $routes->get('/panier/modifier/(:num)/(:any)', 'PanierController::modifierPanier/$1/$2');
     $routes->get('/panier/modifierGamme/(:num)/(:any)', 'PanierController::modifierPanierGamme/$1/$2');
+    $routes->get('/panier/modifierBundle/(:num)/(:any)', 'PanierController::modifierPanierBundle/$1/$2');
     $routes->get('/panier/commande', 'PanierController::recapitulatif');
     $routes->post('/panier/appliquerPromo', 'PanierController::appliquerPromo');
 

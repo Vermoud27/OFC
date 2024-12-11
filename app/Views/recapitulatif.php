@@ -69,6 +69,22 @@ require 'header.php';
             }
             ?>
 
+            <?php foreach ($bundles as $bundle): ?>
+              <tr>
+                <td>Bundle - <?= htmlspecialchars($bundle['id_bundle']) ?></td>
+                <td><?= htmlspecialchars($bundle['quantite']) ?></td>
+                <td><?= number_format($bundle['prix'], 2) ?> €</td>
+                <td><?= number_format($bundle['total'], 2) ?> €</td>
+              </tr>
+            <?php endforeach; ?>
+
+            <?php
+            $totalTTC = 0;
+            foreach ($bundles as $bundle) {
+              $totalTTC += $bundle['prix'] * $bundle['quantite'];
+            }
+            ?>
+
             <?php if (isset($symbole)): ?>
               <tr>
                 <td colspan="3"><strong>Total TTC :</strong></td>
