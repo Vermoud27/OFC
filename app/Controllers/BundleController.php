@@ -205,7 +205,7 @@ class BundleController extends BaseController
 	// Récupérer les produits qui ne sont pas dans un bundle
 	public function getProduitsNonAssignes()
 	{
-		return $this->produitModel->findAll();
+		return $this->produitModel->where('actif', 't')->findAll();
 	}
 
 	// Récupérer les produits associés à un bundle spécifique
@@ -218,6 +218,7 @@ class BundleController extends BaseController
 		$builder = $produitModel->builder();
 		$builder->join('bundle_produit', 'bundle_produit.id_produit = produit.id_produit');
 		$builder->where('bundle_produit.id_bundle', $id_bundle);
+		$builder->where('actif', 't');
 
 		return $builder->get()->getResultArray();
 	}
