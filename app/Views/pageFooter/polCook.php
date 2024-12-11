@@ -45,12 +45,12 @@
             <p>
                 Nous utilisons différents types de cookies sur notre site :
             </p>
-            <ol>
+            <ul>
                 <li><strong>Cookies strictement nécessaires :</strong> Indispensables au fonctionnement du site. Ils ne peuvent pas être désactivés.</li>
                 <li><strong>Cookies de performance :</strong> Permettent d'analyser et d'améliorer les performances de notre site.</li>
                 <li><strong>Cookies de fonctionnalité :</strong> Facilitent votre navigation en mémorisant vos choix et préférences.</li>
                 <li><strong>Cookies publicitaires :</strong> Utilisés pour personnaliser les publicités affichées.</li>
-            </ol>
+            </ul>
 
             <h2>4. Gestion des cookies</h2>
             <p>

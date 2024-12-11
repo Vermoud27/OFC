@@ -62,14 +62,14 @@
             <p>
                 Conformément au RGPD, vous disposez des droits suivants :
             </p>
-            <ol>
+            <ul>
                 <li><strong>Droit d'accès :</strong> Vous pouvez demander à consulter les données que nous détenons sur vous.</li>
                 <li><strong>Droit de rectification :</strong> Vous pouvez demander la correction de données inexactes.</li>
                 <li><strong>Droit à l'effacement :</strong> Vous pouvez demander la suppression de vos données.</li>
                 <li><strong>Droit d'opposition :</strong> Vous pouvez vous opposer au traitement de vos données à des fins spécifiques.</li>
                 <li><strong>Droit à la portabilité :</strong> Vous pouvez demander le transfert de vos données à un autre organisme.</li>
                 <li><strong>Droit de retrait du consentement :</strong> Vous pouvez retirer votre consentement à tout moment pour le traitement de vos données.</li>
-            </ol>
+            </ul>
 
             <h2>5. Sécurité des données</h2>
             <p>

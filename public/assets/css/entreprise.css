@@ -57,9 +57,6 @@ body {
 }
 
 
-
-
-
 /* Section spécifique pour l'histoire de l'entreprise */
 #info {
     background-color: #F5F5DC; /* Fond gris clair */
@@ -183,4 +180,26 @@ ul {
     text-align: left; /* Aligne les éléments de la liste à gauche */
     margin: 0 auto; /* Centrer l'élément de liste dans la section */
     max-width: 800px; /* Limite la largeur pour une meilleure lisibilité */
+}
+
+/* Liens dans les texte */
+a {
+    color: #D2691E;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Annuler les styles globaux pour les liens dans la classe no-style-links */
+.no-style-links a {
+    color: inherit; /* Hérite de la couleur du texte parent */
+    text-decoration: none; /* Pas de soulignement */
+    font-weight: normal; /* Poids de police normal */
+}
+
+.no-style-links a:hover {
+    text-decoration: none; /* Pas de soulignement au survol */
 }

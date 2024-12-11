@@ -36,7 +36,7 @@
         </div>
 
         <!-- Section Droite -->
-        <div style="flex: 1; min-width: 200px; text-align: right;">
+        <div style="flex: 1; min-width: 200px; text-align: right;" class="no-style-links">
             <ul style="list-style-type: none; padding: 0; margin: 0;">
                 <li><a href="<?= base_url('/mentionslegales') ?>">Mentions légales</a></li>
                 <li><a href="<?= base_url('/polconf') ?>">Politique de confidentialité</a></li>
@@ -47,6 +47,7 @@
                 <li><a href="<?= base_url('/condvente') ?>">Conditions générales de vente</a></li>
             </ul>
         </div>
+
     </div>
 
     <!-- Copyright -->
@@ -58,9 +59,9 @@
 <!-- Chat bot -->
 <script>
     window.embeddedChatbotConfig = {
-        chatbotId: "TevA9a6HQST1JN1GNHARh",
+        chatbotId: "TDAF9vwaDoLYedOXtYDa0",
         domain: "www.chatbase.co"
     }
 </script>
-<script src="https://www.chatbase.co/embed.min.js" chatbotId="TevA9a6HQST1JN1GNHARh" domain="www.chatbase.co"
-    defer></script>
+<script src="https://www.chatbase.co/embed.min.js" chatbotId="TDAF9vwaDoLYedOXtYDa0" domain="www.chatbase.co" defer>
+</script>

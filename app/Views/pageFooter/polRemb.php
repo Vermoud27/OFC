@@ -39,14 +39,14 @@
             <p>
                 Pour initier un retour, veuillez suivre les étapes ci-dessous :
             </p>
-            <ol>
+            <ul>
                 <li>Contactez notre service client à l'adresse suivante : 
                     <a href="mailto:retours@ofcnaturel.com">retours@ofcnaturel.com</a>.
                 </li>
                 <li>Incluez les détails de votre commande (numéro de commande, produit concerné, raison du retour).</li>
                 <li>Un membre de notre équipe vous enverra une autorisation de retour et l'adresse à laquelle retourner
                     le produit.</li>
-            </ol>
+            </ul>
 
             <h2>3. Frais de retour</h2>
             <p>
