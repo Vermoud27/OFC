@@ -63,8 +63,6 @@
         <li><a href="<?= base_url('produits') ?>" class="link-white">Produits</a></li>
         <li><a href="<?= base_url('gammes') ?>" class="link-white">Gammes</a></li>
         <li><a href="<?= base_url('bundles') ?>" class="link-white">Bundles</a></li>
-
-        <li><a href="<?= base_url('produits?categorie=Autres') ?>" class="link-white">Autres</a></li>
         <li><a href="/navbar/entreprise">L’entreprise</a></li>
     </ul>
 </nav>
