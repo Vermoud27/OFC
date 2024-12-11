@@ -118,7 +118,7 @@ require 'header.php';
                         data-prix-ttc="<?= htmlspecialchars($bundle['prix']) ?>">
                         <img src="<?= htmlspecialchars($bundle['image'] ?? '/assets/img/produits/placeholder.png') ?>" alt="<?= htmlspecialchars($bundle['id_bundle']) ?>">
                         <div class="cart-item-details">
-                            <h2>Bundle - <?= htmlspecialchars($bundle['id_bundle']) ?></h2>
+                            <h2>Bundle - <?= htmlspecialchars($bundle['nom']) ?></h2>
 
                             <ul class="bundle-produits">
                                 <?php foreach ($produitsParBundle[$bundle['id_bundle']] as $produitBundle): ?>
