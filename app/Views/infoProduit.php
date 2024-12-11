@@ -1,3 +1,7 @@
+<?php
+require 'header.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -12,9 +16,7 @@
   <link rel="stylesheet" href="/assets/css/notif.css">
   <script src="/assets/js/panier.js"></script>
 </head>
-<?php
-require 'header.php';
-?>
+
 
 <body>
   <!-- Affichage des messages flash -->
