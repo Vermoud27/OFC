@@ -40,7 +40,7 @@ require 'header.php';
             <?php if (!empty($bundles) && is_array($bundles)): ?>
                 <?php foreach ($bundles as $bundle): ?>
                     <div class="product-card">
-                        <a href="/produits/<?= $bundle['id_bundle'] ?>">
+                        <a href="/produits/bundles/<?= $bundle['id_bundle'] ?>">
                             <?php if (!empty($bundle['images'])): ?>
                                 <div class="product-images">
                                     <img src="<?= $bundle['images'][0]['chemin'] ?>" alt="Image Gamme"

@@ -13,6 +13,7 @@ $routes->get('/', 'ControllerOFC::index');
 $routes->get('/ControllerOFC', 'ControllerOFC::index');
 $routes->get('/produits', 'ProduitController::page_produits');
 $routes->get('/produits/(:num)', 'ProduitController::produitsParGamme/$1');
+$routes->get('/produits/bundles/(:num)', 'ProduitController::produitsParBundle/$1');
 $routes->get('/gammes', 'GammeController::page_gammes');
 $routes->get('/bundles', 'BundleController::page_bundles');
 $routes->get('/navbar/entreprise', 'EntrepriseController::index');

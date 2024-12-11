@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BundleProduitModel;
 use App\Models\CategorieModel;
 use App\Models\ImageModel;
 use App\Models\IngredientModel;
@@ -114,6 +115,31 @@ class ProduitController extends BaseController
         $produitModel = new ProduitModel();
     
         $produits = $produitModel->getProduitsByGamme($idGamme);
+    
+        if (empty($produits)) {
+            return $this->response->setJSON(['message' => 'Aucun produit trouvé pour cette gamme']);
+        }
+
+		// Ajouter les images pour chaque produit
+		foreach ($produits as &$produit) {
+			$images = $this->imageModel->getImagesByProduit($produit['id_produit']);
+			$produit['images'] = $images;
+		}
+
+		$data['produits'] = $produits;
+		$data['pager'] = \Config\Services::pager();
+		$data['categories'] = $this->categorieModel->orderBy('nom')->findAll();
+		$data['ingredients'] = $this->ingredientModel->findAll();
+    
+        return view('pageProduits', $data);
+    }
+
+	public function produitsParBundle($idBundle)
+    {
+        $bundleproduitModel = new BundleProduitModel();
+		$produitModel = new ProduitModel();
+    
+        $produits = $bundleproduitModel->getProductsByBundle($idBundle);
     
         if (empty($produits)) {
             return $this->response->setJSON(['message' => 'Aucun produit trouvé pour cette gamme']);

@@ -134,299 +134,6 @@ require 'header.php';
         </div>
 
 
-        <script>
-            function updateQuantity(productId, delta) {
-                const quantityElement = document.querySelector(`.cart-item[data-id="${productId}"] .quantity p`);
-                let currentQuantity = parseInt(quantityElement.textContent, 10);
-
-                // Calcul de la nouvelle quantité
-                let newQuantity = currentQuantity + delta;
-
-                // Récupérer la quantité en stock
-                const stockQuantity = parseInt(document.querySelector(`.cart-item[data-id="${productId}"] .stock-status`).dataset.stock, 10);
-
-                // Suppression du produit quand quantité <= 0
-                if (newQuantity <= 0) {
-                    retirerProduit(productId);
-                    return;  // On arrête la fonction ici
-                }
-
-                // Si la nouvelle quantité dépasse le stock disponible, afficher un message d'erreur
-                if (newQuantity > stockQuantity) {
-                    alert(`Vous ne pouvez pas dépasser la quantité en stock de ${stockQuantity} article(s).`);
-                    return;
-                }
-
-                // Mise à jour de l'affichage de la quantité
-                quantityElement.textContent = newQuantity;
-
-                // Envoi de la mise à jour au serveur via fetch
-                const requestBody = { id_produit: productId, delta: delta };
-
-                fetch('/panier/update', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestBody),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Mettre à jour le prix du produit dans la cellule
-                            const priceElement = document.querySelector(`.cart-item[data-id="${productId}"] .price`);
-                            const updatedPrice = parseFloat(data.newPrice).toFixed(2); // Assurez-vous que le prix est un nombre valide
-
-                            if (priceElement) {
-                                priceElement.textContent = `${updatedPrice} €`;
-                            }
-
-                            // Recalculer le total TTC du panier après mise à jour
-                            updateCartSummary();
-                        } else {
-                            alert(data.message || 'Erreur lors de la mise à jour de la quantité.');
-                        }
-                    })
-                    .catch(error => console.error('Erreur lors de la requête:', error));
-            }
-
-
-
-            function updateQuantityGamme(gammeId, delta) {
-                console.log('ID Gamme:', gammeId); // Log
-                console.log('Delta:', delta); // Log
-
-                const gammeElement = document.querySelector(`.cart-gamme[data-id="${gammeId}"]`);
-                if (!gammeElement) {
-                    console.error("Erreur : gamme introuvable.");
-                    return;
-                }
-
-                // Calculer la quantité maximale autorisée pour cette gamme
-                const maxQuantity = calculateGammeMaxQuantity(gammeId);
-                if (maxQuantity === 0) {
-                    console.error("Aucun produit disponible pour cette gamme.");
-                    return;
-                }
-
-                // Récupérer l'élément contenant la quantité actuelle
-                const quantityElement = gammeElement.querySelector('.quantity p');
-                let currentQuantity = parseInt(quantityElement.textContent, 10) || 0;
-
-                // Calcul de la nouvelle quantité
-                const newQuantity = currentQuantity + delta;
-
-                // Vérification des limites
-                if (newQuantity <= 0) {
-                    retirerGamme(gammeId); // Si la quantité atteint zéro, on retire la gamme
-                    return;  // On arrête la fonction ici, car la gamme est retirée
-                }
-
-                if (newQuantity > maxQuantity) {
-                    console.error(`Vous ne pouvez pas dépasser la quantité maximale de ${maxQuantity} pour cette gamme.`);
-                    return;
-                }
-
-                // Mise à jour de la quantité dans l'interface
-                quantityElement.textContent = newQuantity;
-
-                // Récupérer le prix unitaire de la gamme
-                const unitPrice = parseFloat(gammeElement.getAttribute('data-prix-ttc')); // Assurez-vous que le prix est stocké comme un attribut data-prix-ttc
-
-                // Calcul du prix total pour cette gamme
-                const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
-
-                // Mise à jour du prix total dans l'interface
-                const priceElement = gammeElement.querySelector('.price');
-                if (priceElement) {
-                    priceElement.textContent = `${newTotalPrice} €`; // Affichage du nouveau prix
-                }
-
-                // Recalcul du total TTC pour toutes les gammes et produits dans le panier
-                updateCartSummary();
-
-                // Envoyer les données au serveur pour synchronisation
-                const requestBody = { id_gamme: gammeId, delta: delta };
-
-                fetch('/panier/updateGamme', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestBody),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            console.log("Quantité mise à jour avec succès.");
-                        } else {
-                            console.error("Erreur serveur:", data.message);
-                            // Remettre la quantité et le prix précédents en cas d'erreur
-                            quantityElement.textContent = currentQuantity;
-                            priceElement.textContent = `${(unitPrice * currentQuantity).toFixed(2)} €`;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de la requête:', error);
-                    })
-                    .finally(() => {
-                        // Actions à faire indépendamment du succès ou de l'échec
-                        console.log("Requête terminée.");
-                    });
-            }
-
-
-
-            function updateQuantityBundle(bundleId, delta) {
-
-                const bundleElement = document.querySelector(`.cart-bundle[data-id="${bundleId}"]`);
-                if (!bundleElement) {
-                    console.error("Erreur : bundle introuvable.");
-                    return;
-                }
-
-                // Calculer la quantité maximale autorisée pour cette gamme
-                const maxQuantity = calculateBundleMaxQuantity(bundleId);
-                if (maxQuantity === 0) {
-                    console.error("Aucun produit disponible pour ce bundle.");
-                    return;
-                }
-
-                // Récupérer l'élément contenant la quantité actuelle
-                const quantityElement = bundleElement.querySelector('.quantity p');
-                let currentQuantity = parseInt(quantityElement.textContent, 10) || 0;
-
-                // Calcul de la nouvelle quantité
-                const newQuantity = currentQuantity + delta;
-
-                // Vérification des limites
-                if (newQuantity <= 0) {
-                    retirerBundle(bundleId); // Si la quantité atteint zéro, on retire la gamme
-                    return;  // On arrête la fonction ici, car la gamme est retirée
-                }
-
-                if (newQuantity > maxQuantity) {
-                    console.error(`Vous ne pouvez pas dépasser la quantité maximale de ${maxQuantity} pour ce bundle.`);
-                    return;
-                }
-
-                // Mise à jour de la quantité dans l'interface
-                quantityElement.textContent = newQuantity;
-
-                // Récupérer le prix unitaire du bundle
-                const unitPrice = parseFloat(bundleElement.getAttribute('data-prix-ttc')); // Assurez-vous que le prix est stocké comme un attribut data-prix-ttc
-
-                // Calcul du prix total pour cette gamme
-                const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
-
-                // Mise à jour du prix total dans l'interface
-                const priceElement = bundleElement.querySelector('.price');
-                if (priceElement) {
-                    priceElement.textContent = `${newTotalPrice} €`; // Affichage du nouveau prix
-                }
-
-                // Recalcul du total TTC pour toutes les gammes et produits dans le panier
-                updateCartSummary();
-
-                // Envoyer les données au serveur pour synchronisation
-                const requestBody = { id_bundle: bundleId, delta: delta };
-
-                fetch('/panier/updateBundle', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestBody),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            console.log("Quantité mise à jour avec succès.");
-                        } else {
-                            console.error("Erreur serveur:", data.message);
-                            // Remettre la quantité et le prix précédents en cas d'erreur
-                            quantityElement.textContent = currentQuantity;
-                            priceElement.textContent = `${(unitPrice * currentQuantity).toFixed(2)} €`;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de la requête:', error);
-                    })
-                    .finally(() => {
-                        // Actions à faire indépendamment du succès ou de l'échec
-                        console.log("Requête terminée.");
-                    });
-                }
-
-
-
-            // Fonction pour recalculer et mettre à jour le total TTC du panier
-            function updateCartSummary() {
-                let totalTTC = 0;
-
-                // Calculer les prix des produits
-                document.querySelectorAll('.cart-item').forEach(cartItem => {
-                    const quantity = parseInt(cartItem.querySelector('.quantity p').textContent, 10) || 0;
-                    const price = parseFloat(cartItem.querySelector('.price').textContent.replace(' €', '').replace(',', '.')) || 0;
-                    totalTTC += price;
-                });
-
-                // Calculer les prix des gammes
-                document.querySelectorAll('.cart-gamme').forEach(gammeElement => {
-                    const quantity = parseInt(gammeElement.querySelector('.quantity p').textContent, 10) || 0;
-                    const price = parseFloat(gammeElement.querySelector('.price').textContent.replace(' €', '').replace(',', '.')) || 0;
-                    totalTTC += price;
-                });
-
-                // Calculer les prix des bundles
-                document.querySelectorAll('.cart-bundle').forEach(bundleElement => {
-                    const quantity = parseInt(bundleElement.querySelector('.quantity p').textContent, 10) || 0;
-                    const price = parseFloat(bundleElement.querySelector('.price').textContent.replace(' €', '').replace(',', '.')) || 0;
-                    totalTTC += price;
-                });
-
-                // Mettre à jour le total dans le récapitulatif
-                const totalElement = document.querySelector('.price-ttc');
-                if (totalElement) {
-                    totalElement.textContent = `${totalTTC.toFixed(2)} €`;
-                }
-            }
-
-
-
-            function calculateGammeMaxQuantity(gammeId) {
-                const gammeElement = document.querySelector(`.cart-gamme[data-id="${gammeId}"]`);
-                if (!gammeElement) return 0;
-
-                const produits = gammeElement.querySelectorAll('.gamme-produits li');
-                let maxQuantity = Infinity;
-
-                produits.forEach(produit => {
-                    const stock = parseInt(produit.getAttribute('data-stock'), 10) || 0;
-                    maxQuantity = Math.min(maxQuantity, stock);
-                });
-
-                return maxQuantity === Infinity ? 0 : maxQuantity;
-            }
-
-            function calculateBundleMaxQuantity(bundleId) {
-                const bundleElement = document.querySelector(`.cart-bundle[data-id="${bundleId}"]`);
-                if (!bundleElement) return 0;
-
-                const produits = bundleElement.querySelectorAll('.bundle-produits li');
-                let maxQuantity = Infinity;
-
-                produits.forEach(produit => {
-                    const stock = parseInt(produit.getAttribute('data-stock'), 10) || 0;
-                    maxQuantity = Math.min(maxQuantity, stock);
-                });
-
-                return maxQuantity === Infinity ? 0 : maxQuantity;
-            }
-        </script>
-
-
-
         <!-- Bouton Vider le panier -->
         <button class="clear-cart" onclick="location.href='/panier/vider'">Vider le panier</button>
 
@@ -479,6 +186,299 @@ require 'header.php';
     <?php
     require 'footer.php';
     ?>
+
+<script>
+    function updateQuantity(productId, delta) {
+        const quantityElement = document.querySelector(`.cart-item[data-id="${productId}"] .quantity p`);
+        let currentQuantity = parseInt(quantityElement.textContent, 10);
+
+        // Calcul de la nouvelle quantité
+        let newQuantity = currentQuantity + delta;
+
+        // Récupérer la quantité en stock
+        const stockQuantity = parseInt(document.querySelector(`.cart-item[data-id="${productId}"] .stock-status`).dataset.stock, 10);
+
+        // Suppression du produit quand quantité <= 0
+        if (newQuantity <= 0) {
+            retirerProduit(productId);
+            return;  // On arrête la fonction ici
+        }
+
+        // Si la nouvelle quantité dépasse le stock disponible, afficher un message d'erreur
+        if (newQuantity > stockQuantity) {
+            alert(`Vous ne pouvez pas dépasser la quantité en stock de ${stockQuantity} article(s).`);
+            return;
+        }
+
+        // Mise à jour de l'affichage de la quantité
+        quantityElement.textContent = newQuantity;
+
+        // Envoi de la mise à jour au serveur via fetch
+        const requestBody = { id_produit: productId, delta: delta };
+
+        fetch('/panier/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mettre à jour le prix du produit dans la cellule
+                    const priceElement = document.querySelector(`.cart-item[data-id="${productId}"] .price`);
+                    const updatedPrice = parseFloat(data.newPrice).toFixed(2); // Assurez-vous que le prix est un nombre valide
+
+                    if (priceElement) {
+                        priceElement.textContent = `${updatedPrice} €`;
+                    }
+
+                    // Recalculer le total TTC du panier après mise à jour
+                    updateCartSummary();
+                } else {
+                    alert(data.message || 'Erreur lors de la mise à jour de la quantité.');
+                }
+            })
+            .catch(error => console.error('Erreur lors de la requête:', error));
+    }
+
+
+
+    function updateQuantityGamme(gammeId, delta) {
+        console.log('ID Gamme:', gammeId); // Log
+        console.log('Delta:', delta); // Log
+
+        const gammeElement = document.querySelector(`.cart-gamme[data-id="${gammeId}"]`);
+        if (!gammeElement) {
+            console.error("Erreur : gamme introuvable.");
+            return;
+        }
+
+        // Calculer la quantité maximale autorisée pour cette gamme
+        const maxQuantity = calculateGammeMaxQuantity(gammeId);
+        if (maxQuantity === 0) {
+            console.error("Aucun produit disponible pour cette gamme.");
+            return;
+        }
+
+        // Récupérer l'élément contenant la quantité actuelle
+        const quantityElement = gammeElement.querySelector('.quantity p');
+        let currentQuantity = parseInt(quantityElement.textContent, 10) || 0;
+
+        // Calcul de la nouvelle quantité
+        const newQuantity = currentQuantity + delta;
+
+        // Vérification des limites
+        if (newQuantity <= 0) {
+            retirerGamme(gammeId); // Si la quantité atteint zéro, on retire la gamme
+            return;  // On arrête la fonction ici, car la gamme est retirée
+        }
+
+        if (newQuantity > maxQuantity) {
+            console.error(`Vous ne pouvez pas dépasser la quantité maximale de ${maxQuantity} pour cette gamme.`);
+            return;
+        }
+
+        // Mise à jour de la quantité dans l'interface
+        quantityElement.textContent = newQuantity;
+
+        // Récupérer le prix unitaire de la gamme
+        const unitPrice = parseFloat(gammeElement.getAttribute('data-prix-ttc')); // Assurez-vous que le prix est stocké comme un attribut data-prix-ttc
+
+        // Calcul du prix total pour cette gamme
+        const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
+
+        // Mise à jour du prix total dans l'interface
+        const priceElement = gammeElement.querySelector('.price');
+        if (priceElement) {
+            priceElement.textContent = `${newTotalPrice} €`; // Affichage du nouveau prix
+        }
+
+        // Recalcul du total TTC pour toutes les gammes et produits dans le panier
+        updateCartSummary();
+
+        // Envoyer les données au serveur pour synchronisation
+        const requestBody = { id_gamme: gammeId, delta: delta };
+
+        fetch('/panier/updateGamme', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Quantité mise à jour avec succès.");
+                } else {
+                    console.error("Erreur serveur:", data.message);
+                    // Remettre la quantité et le prix précédents en cas d'erreur
+                    quantityElement.textContent = currentQuantity;
+                    priceElement.textContent = `${(unitPrice * currentQuantity).toFixed(2)} €`;
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la requête:', error);
+            })
+            .finally(() => {
+                // Actions à faire indépendamment du succès ou de l'échec
+                console.log("Requête terminée.");
+            });
+    }
+
+
+
+    function updateQuantityBundle(bundleId, delta) {
+
+        const bundleElement = document.querySelector(`.cart-bundle[data-id="${bundleId}"]`);
+        if (!bundleElement) {
+            console.error("Erreur : bundle introuvable.");
+            return;
+        }
+
+        // Calculer la quantité maximale autorisée pour cette gamme
+        const maxQuantity = calculateBundleMaxQuantity(bundleId);
+        if (maxQuantity === 0) {
+            console.error("Aucun produit disponible pour ce bundle.");
+            return;
+        }
+
+        // Récupérer l'élément contenant la quantité actuelle
+        const quantityElement = bundleElement.querySelector('.quantity p');
+        let currentQuantity = parseInt(quantityElement.textContent, 10) || 0;
+
+        // Calcul de la nouvelle quantité
+        const newQuantity = currentQuantity + delta;
+
+        // Vérification des limites
+        if (newQuantity <= 0) {
+            retirerBundle(bundleId); // Si la quantité atteint zéro, on retire la gamme
+            return;  // On arrête la fonction ici, car la gamme est retirée
+        }
+
+        if (newQuantity > maxQuantity) {
+            console.error(`Vous ne pouvez pas dépasser la quantité maximale de ${maxQuantity} pour ce bundle.`);
+            return;
+        }
+
+        // Mise à jour de la quantité dans l'interface
+        quantityElement.textContent = newQuantity;
+
+        // Récupérer le prix unitaire du bundle
+        const unitPrice = parseFloat(bundleElement.getAttribute('data-prix-ttc')); // Assurez-vous que le prix est stocké comme un attribut data-prix-ttc
+
+        // Calcul du prix total pour cette gamme
+        const newTotalPrice = (unitPrice * newQuantity).toFixed(2);
+
+        // Mise à jour du prix total dans l'interface
+        const priceElement = bundleElement.querySelector('.price');
+        if (priceElement) {
+            priceElement.textContent = `${newTotalPrice} €`; // Affichage du nouveau prix
+        }
+
+        // Recalcul du total TTC pour toutes les gammes et produits dans le panier
+        updateCartSummary();
+
+        // Envoyer les données au serveur pour synchronisation
+        const requestBody = { id_bundle: bundleId, delta: delta };
+
+        fetch('/panier/updateBundle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Quantité mise à jour avec succès.");
+                } else {
+                    console.error("Erreur serveur:", data.message);
+                    // Remettre la quantité et le prix précédents en cas d'erreur
+                    quantityElement.textContent = currentQuantity;
+                    priceElement.textContent = `${(unitPrice * currentQuantity).toFixed(2)} €`;
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la requête:', error);
+            })
+            .finally(() => {
+                // Actions à faire indépendamment du succès ou de l'échec
+                console.log("Requête terminée.");
+            });
+        }
+
+
+
+    // Fonction pour recalculer et mettre à jour le total TTC du panier
+    function updateCartSummary() {
+        let totalTTC = 0;
+
+        // Calculer les prix des produits
+        document.querySelectorAll('.cart-item').forEach(cartItem => {
+            const quantity = parseInt(cartItem.querySelector('.quantity p').textContent, 10) || 0;
+            const price = parseFloat(cartItem.querySelector('.price').textContent.replace(' €', '').replace(',', '.')) || 0;
+            totalTTC += price;
+        });
+
+        // Calculer les prix des gammes
+        document.querySelectorAll('.cart-gamme').forEach(gammeElement => {
+            const quantity = parseInt(gammeElement.querySelector('.quantity p').textContent, 10) || 0;
+            const price = parseFloat(gammeElement.querySelector('.price').textContent.replace(' €', '').replace(',', '.')) || 0;
+            totalTTC += price;
+        });
+
+        // Calculer les prix des bundles
+        document.querySelectorAll('.cart-bundle').forEach(bundleElement => {
+            const quantity = parseInt(bundleElement.querySelector('.quantity p').textContent, 10) || 0;
+            const price = parseFloat(bundleElement.querySelector('.price').textContent.replace(' €', '').replace(',', '.')) || 0;
+            totalTTC += price;
+        });
+
+        // Mettre à jour le total dans le récapitulatif
+        const totalElement = document.querySelector('.price-ttc');
+        if (totalElement) {
+            totalElement.textContent = `${totalTTC.toFixed(2)} €`;
+        }
+    }
+
+
+
+    function calculateGammeMaxQuantity(gammeId) {
+        const gammeElement = document.querySelector(`.cart-gamme[data-id="${gammeId}"]`);
+        if (!gammeElement) return 0;
+
+        const produits = gammeElement.querySelectorAll('.gamme-produits li');
+        let maxQuantity = Infinity;
+
+        produits.forEach(produit => {
+            const stock = parseInt(produit.getAttribute('data-stock'), 10) || 0;
+            maxQuantity = Math.min(maxQuantity, stock);
+        });
+
+        return maxQuantity === Infinity ? 0 : maxQuantity;
+    }
+
+    function calculateBundleMaxQuantity(bundleId) {
+        const bundleElement = document.querySelector(`.cart-bundle[data-id="${bundleId}"]`);
+        if (!bundleElement) return 0;
+
+        const produits = bundleElement.querySelectorAll('.bundle-produits li');
+        let maxQuantity = Infinity;
+
+        produits.forEach(produit => {
+            const stock = parseInt(produit.getAttribute('data-stock'), 10) || 0;
+            maxQuantity = Math.min(maxQuantity, stock);
+        });
+
+        return maxQuantity === Infinity ? 0 : maxQuantity;
+    }
+</script>
+
+
 </body>
 <!-- Script pour masquer les notifications après 4 secondes -->
 <script src="/assets/js/notif.js"></script>
