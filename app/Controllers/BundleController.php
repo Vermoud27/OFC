@@ -9,17 +9,17 @@ use App\Models\ProduitModel;
 
 class BundleController extends BaseController
 {
-    protected $bundleModel;
+	protected $bundleModel;
 	protected $produitModel;
 
-    public function __construct()
-    {
-        $this->bundleModel = new BundleModel();
+	public function __construct()
+	{
+		$this->bundleModel = new BundleModel();
 		$this->produitModel = new ProduitModel();
 		helper(['form']);
-    }
+	}
 
-    public function index()
+	public function index()
 	{
 		$bundles = $this->bundleModel->orderBy('id_bundle')->paginate(8);
 
@@ -32,7 +32,7 @@ class BundleController extends BaseController
 		$fav = $this->bundleModel->getTopBundles(5);
 
 		$data['fav'] = $fav;
-		
+
 		$data['produits'] = $this->produitModel->findAll();
 		$data['bundles'] = $bundles;
 		$data['pager'] = \Config\Services::pager();
@@ -50,9 +50,9 @@ class BundleController extends BaseController
 
 		// Ajouter les images pour chaque produit
 		/*foreach ($bundles as &$bundle) {
-			$images = $this->imageModel->getImagesByProduit($gamme['id_gamme']);
-			$gamme['images'] = $images;
-		}*/
+				  $images = $this->imageModel->getImagesByProduit($gamme['id_gamme']);
+				  $gamme['images'] = $images;
+			  }*/
 
 		// Passer les données à la vue
 		$data['bundles'] = $bundles;
@@ -62,19 +62,19 @@ class BundleController extends BaseController
 	}
 
 	public function creation()
-    {
+	{
 		return view('administrateur/bundles/creation');
-    }
-	
-    public function creer()
+	}
+
+	public function creer()
 	{
 		$isValid = $this->validate([
 			'description' => 'permit_empty',
 			'prix' => 'required|decimal|greater_than[0]|less_than[1000]',
+			'nom' => 'required|max_length[100]',
 		]);
 
-		if (!$isValid)
-		{
+		if (!$isValid) {
 			return view('administrateur/bundles/creation', [
 				'validation' => \Config\Services::validation(),
 			]);
@@ -83,19 +83,32 @@ class BundleController extends BaseController
 		$data = [
 			'description' => $this->request->getPost('description'),
 			'prix' => $this->request->getPost('prix'),
+			'nom' => $this->request->getPost('nom'),
 		];
 
+		// Vérifier si des fichiers sont téléchargés
+		$files = $this->request->getFiles();
+		if (isset($files['images']) && $files['images'][0]->isValid()) {
+
+			$file = $files['images'][0];
+
+			$newName = $file->getRandomName();
+			$file->move(WRITEPATH . '../public/assets/img/produits/', $newName);
+
+			$data['image'] = '/assets/img/produits/' . $newName;
+		}
+
 		$this->bundleModel->insert($data);
-		
+
 		return redirect()->to('admin/bundles');
 	}
 
 	public function modification($id)
 	{
 		// Récupérer les informations du produit avec l'ID
-		$data['bundle']  = $this->bundleModel->find($id);
-		$data['produits']  = $this->produitModel->orderBy('nom')->findAll();
-		
+		$data['bundle'] = $this->bundleModel->find($id);
+		$data['produits'] = $this->produitModel->orderBy('nom')->findAll();
+
 		$data['produits_non_assignes'] = $this->getProduitsNonAssignes();
 		$data['produits_assignes'] = $this->getProduitsAssignes($id);
 
@@ -111,15 +124,14 @@ class BundleController extends BaseController
 
 
 
-    public function modifier($id)
-    {
+	public function modifier($id)
+	{
 		$isValid = $this->validate([
 			'description' => 'permit_empty',
 			'prix' => 'required|decimal|greater_than[0]|less_than[1000]',
 		]);
 
-		if (!$isValid)
-		{
+		if (!$isValid) {
 			return view('administrateur/bundles/creation', [
 				'validation' => \Config\Services::validation(),
 			]);
@@ -129,32 +141,32 @@ class BundleController extends BaseController
 			'description' => $this->request->getPost('description'),
 			'prix' => $this->request->getPost('prix'),
 		];
-		
+
 		$this->bundleModel->update($id, $data);
 
 		return redirect()->to('admin/bundles');
-    }
+	}
 
-    public function supprimer($id)
-    {
+	public function supprimer($id)
+	{
 		$bundleProduitModel = new BundleProduitModel();
-   		$bundleProduitModel->where('id_bundle', $id)->delete();
+		$bundleProduitModel->where('id_bundle', $id)->delete();
 
 		$this->bundleModel->delete($id);
-        return redirect()->to('admin/bundles');
-    }
+		return redirect()->to('admin/bundles');
+	}
 
 	public function ajouter_produit($bundle_id)
 	{
 		$produit_id = $this->request->getPost('produit_id');
 		$quantite = $this->request->getPost('quantite'); // Récupération de la quantité
-		
+
 		$bundleProduitModel = new BundleProduitModel();
 
 		// Vérifier si le produit est déjà dans le bundle
 		$exists = $bundleProduitModel->where('id_bundle', $bundle_id)
-									->where('id_produit', $produit_id)
-									->first();
+			->where('id_produit', $produit_id)
+			->first();
 
 		if ($exists) {
 			// Si le produit est déjà dans le bundle, mettre à jour la quantité
@@ -165,9 +177,9 @@ class BundleController extends BaseController
 		} else {
 			// Si le produit n'est pas encore dans le bundle, l'ajouter
 			$bundleProduitModel->insert([
-				'id_bundle'  => $bundle_id,
+				'id_bundle' => $bundle_id,
 				'id_produit' => $produit_id,
-				'quantite'   => $quantite
+				'quantite' => $quantite
 			]);
 		}
 
@@ -183,8 +195,8 @@ class BundleController extends BaseController
 
 		// Supprimer l'association entre le produit et le bundle
 		$bundleProduitModel->where('id_bundle', $bundle_id)
-						->where('id_produit', $produit_id)
-						->delete();
+			->where('id_produit', $produit_id)
+			->delete();
 
 		return redirect()->to('/admin/bundles/modification/' . $bundle_id);
 	}
@@ -201,7 +213,7 @@ class BundleController extends BaseController
 	{
 		$produitModel = new ProduitModel();
 		$bundleProduitModel = new BundleProduitModel();
-		
+
 		// Récupérer les produits associés à un bundle
 		$builder = $produitModel->builder();
 		$builder->join('bundle_produit', 'bundle_produit.id_produit = produit.id_produit');
