@@ -400,9 +400,13 @@ class PanierController extends BaseController
     {
         $produitModel = new ProduitModel();
         $utilisateurModel = new UtilisateurModel(); // Modèle pour les utilisateurs
+        $gammeModel = new GammeModel();
 
         // Récupérer les produits dans le panier
-        $panier = $this->getPanier(); // Méthode à adapter pour récupérer les produits du panier
+        $panier = $this->getPanier();
+        $paniergamme = $this->getPanierGamme();
+
+        $gammes = [];
         $produits = [];
         $totalTTC = 0;
 
@@ -413,6 +417,16 @@ class PanierController extends BaseController
                 $produit['total'] = $quantite * $produit['prixttc'];
                 $produits[] = $produit;
                 $totalTTC += $produit['total'];
+            }
+        }
+
+        foreach ($paniergamme as $idGamme => $quantite) {
+            $gamme = $gammeModel->find($idGamme);
+            if ($gamme) {
+                $gamme['quantite'] = $quantite;
+                $gamme['total'] = $quantite * $gamme['prixttc'];
+                $gammes[] = $gamme;
+                $totalTTC += $gamme['total'];
             }
         }
 
@@ -444,6 +458,7 @@ class PanierController extends BaseController
             'symbole' => $symbole,
             'code_promo' => $promo,
             'produits' => $produits,
+            'gammes' => $gammes,
             'totalPromo' => $totalTTC,
             'utilisateur' => $utilisateur,
             'modesLivraison' => ['Standard', 'Express', 'Point relais'], // Options de livraison

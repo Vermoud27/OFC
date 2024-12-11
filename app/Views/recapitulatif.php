@@ -53,6 +53,22 @@ require 'header.php';
             }
             ?>
 
+            <?php foreach ($gammes as $gamme): ?>
+              <tr>
+                <td><?= htmlspecialchars($gamme['nom']) ?></td>
+                <td><?= htmlspecialchars($gamme['quantite']) ?></td>
+                <td><?= number_format($gamme['prixttc'], 2) ?> €</td>
+                <td><?= number_format($gamme['total'], 2) ?> €</td>
+              </tr>
+            <?php endforeach; ?>
+
+            <?php
+            $totalTTC = 0;
+            foreach ($gammes as $gamme) {
+              $totalTTC += $gamme['prixttc'] * $gamme['quantite'];
+            }
+            ?>
+
             <?php if (isset($symbole)): ?>
               <tr>
                 <td colspan="3"><strong>Total TTC :</strong></td>
