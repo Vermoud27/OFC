@@ -38,7 +38,7 @@ class ProduitController extends BaseController
 		$ingredients = $this->request->getGet('ingredients');
 
 		// Initialiser la requête des produits
-		$produitQuery = $this->produitModel->where('actif', 't'); // Filtrer les produits actifs
+		$produitQuery = $this->produitModel->select('produit.*')->where('actif', 't'); // Filtrer les produits actifs
 
 		// Tri par popularité
 		if ($popularite) {
@@ -88,7 +88,7 @@ class ProduitController extends BaseController
 		$data['selectedPrix'] = $prix;
 		$data['selectedPopularite'] = $popularite;
 		$data['selectedIngredients'] = $ingredients;
-		$data['ingredients'] = $this->ingredientModel->findAll();
+		$data['ingredients'] = $this->ingredientModel->orderBy('nom')->findAll();
 
 		return view('pageProduits', $data);
 	}

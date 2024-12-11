@@ -1,4 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/header.css">
+
 <header class="navbar">
     <div class="left-section">
         <a href="<?= base_url('/navbar/entreprise#contact') ?>" class="phone-icon"></a>
@@ -9,7 +11,7 @@
         <i id="search-button" onclick="searchProduct()" class="fa-solid fa-magnifying-glass"></i>
     </div>
     <div class="center-section">
-        <a href="/"><img src="/assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo"></a>
+        <a href="/"><img src="/assets/img/logo/logo_dore.png" alt="Logo OFC Naturel" class="logo" max-width="500" max-height="500"></a>
     </div>
 
 
