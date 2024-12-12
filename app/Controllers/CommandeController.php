@@ -3,9 +3,11 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BundleModel;
 use App\Models\CodePromoModel;
 use App\Models\CommandeModel;
 use App\Models\DetailsCommandeModel;
+use App\Models\GammeModel;
 use App\Models\ProduitModel;
 use App\Models\UtilisateurModel;
 
@@ -106,7 +108,6 @@ class CommandeController extends BaseController
     public function enregistrerCommande()
     {
         $session = session();
-        $panier = $this->getPanier();
         $userId = $session->get('idutilisateur');
 
         $isValid = $this->validate([
@@ -148,6 +149,8 @@ class CommandeController extends BaseController
         $prixTotalHT = 0;
         $prixTotalTTC = 0;
 
+        $panier = $this->getPanier();
+
         $produitModel = new ProduitModel();
         $produits = [];
         foreach ($panier as $idProduit => $quantite) {
@@ -161,6 +164,39 @@ class CommandeController extends BaseController
         foreach ($produits as $produit) {
             $prixTotalHT += $produit['prixht'] * $produit['quantite'];
             $prixTotalTTC += $produit['prixttc'] * $produit['quantite'];
+        }
+
+        $panierGamme = $this->getPanierGamme();
+
+        $gammeModel = new GammeModel();
+        $gammes = [];
+        foreach ($panierGamme as $idGamme => $quantite) {
+            $gamme = $gammeModel->find($idGamme);
+            if ($gamme) {
+                $gamme['quantite'] = $quantite;
+                $gammes[] = $gamme;
+            }
+        }
+
+        foreach ($gammes as $gamme) {
+            $prixTotalHT += $gamme['prixht'] * $gamme['quantite'];
+            $prixTotalTTC += $gamme['prixttc'] * $gamme['quantite'];
+        }
+
+        $panierBundle = $this->getPanierBundle();
+
+        $bundleModel = new BundleModel();
+        $bundles = [];
+        foreach ($panierBundle as $idBundle => $quantite) {
+            $bundle = $bundleModel->find($idBundle);
+            if ($bundle) {
+                $bundle['quantite'] = $quantite;
+                $bundles[] = $bundle;
+            }
+        }
+
+        foreach ($bundles as $bundle) {
+            $prixTotalTTC += $bundle['prix'] * $bundle['quantite'];
         }
 
         // Envoyer les emails de confirmation
@@ -202,15 +238,39 @@ class CommandeController extends BaseController
             $detailsCommandeModel->insert($detailsCommandeData);
         }
 
+        foreach ($gammes as $gamme) {
+            $detailsCommandeData = [
+                'id_commande' => $commandeId,
+                'id_gamme' => $gamme['id_gamme'],
+                'quantite' => $gamme['quantite'],
+            ];
+
+            // Ajouter les détails de commande
+            $detailsCommandeModel->insert($detailsCommandeData);
+        }
+
+        foreach ($bundles as $bundle) {
+            $detailsCommandeData = [
+                'id_commande' => $commandeId,
+                'id_bundle' => $bundle['id_bundle'],
+                'quantite' => $bundle['quantite'],
+            ];
+
+            // Ajouter les détails de commande
+            $detailsCommandeModel->insert($detailsCommandeData);
+        }
+
         $response = service('response');
         $response->setCookie('panier', '', time() - 3600);
+        $response->setCookie('panierGamme', '', time() - 3600);
+        $response->setCookie('panierBundle', '', time() - 3600);
         $response->setCookie('code_promo', '', time() - 3600);
 
         $response->send();
 
         // Rediriger vers la page de confirmation
         session()->setFlashdata('success', 'Votre commande a été validée avec succès après paiement.');
-        return redirect()->to('/');
+        return redirect()->to('/commande');
     }
 
     private function sendEmail($to, $type)
@@ -299,6 +359,8 @@ class CommandeController extends BaseController
     {
         $commandeModel = new CommandeModel();
         $produitModel = new ProduitModel();
+        $gammeModel = new GammeModel();
+        $bundleModel = new BundleModel();
 
         // Récupère la commande et les produits associés
         $commande = $commandeModel->find($idCommande);
@@ -307,10 +369,24 @@ class CommandeController extends BaseController
             ->join('details_commande', 'produit.id_produit = details_commande.id_produit')
             ->where('details_commande.id_commande', $idCommande)
             ->findAll();
+        
+        $gammes = $gammeModel
+            ->select('gamme.*, details_commande.*')
+            ->join('details_commande', 'gamme.id_gamme = details_commande.id_gamme')
+            ->where('details_commande.id_commande', $idCommande)
+            ->findAll();
+
+        $bundles = $bundleModel
+            ->select('bundle.*, details_commande.*')
+            ->join('details_commande', 'bundle.id_bundle = details_commande.id_bundle')
+            ->where('details_commande.id_commande', $idCommande)
+            ->findAll();
 
         // Passer les données à la vue
         $data['commande'] = $commande;
         $data['produits'] = $produits;
+        $data['gammes'] = $gammes;
+        $data['bundles'] = $bundles;
 
         if ($admin) {
             return view('administrateur/commandes/detail', $data);
@@ -319,4 +395,38 @@ class CommandeController extends BaseController
         return view('detailcommande', $data);
     }
 
+    private function getPanierGamme(): array
+    {
+        // Lecture du cookie via $_COOKIE pour s'assurer que la valeur est bien récupérée
+        log_message('debug', 'Contenu du cookie panierGamme (via $_COOKIE) : ' . json_encode($_COOKIE['panierGamme'] ?? 'Non défini'));
+    
+        // Récupération du cookie via la requête
+        $request = service('request');
+        $cookie = $request->getCookie('panierGamme');
+        log_message('debug', 'Contenu du cookie panierGamme (via service) : ' . $cookie);
+    
+        if (!$cookie) {
+            log_message('debug', 'Cookie panierGamme non trouvé.');
+            return [];
+        }
+    
+        $panierGamme = json_decode($cookie, true);
+        log_message('debug', 'Données panier après décodage : ' . json_encode($panierGamme));
+        return is_array($panierGamme) ? $panierGamme : [];
+    }
+    
+
+    private function getPanierBundle(): array
+    {
+        // Récupération du cookie via la requête
+        $request = service('request');
+        $cookie = $request->getCookie('panierBundle');
+    
+        if (!$cookie) {
+            return [];
+        }
+    
+        $panierBundle = json_decode($cookie, true);
+        return is_array($panierBundle) ? $panierBundle : [];
+    }
 }

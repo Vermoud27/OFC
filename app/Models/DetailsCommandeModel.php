@@ -20,6 +20,7 @@ class DetailsCommandeModel extends Model
         'id_commande',
         'id_produit',
         'id_bundle',
+        'id_gamme',
         'quantite'
     ];
 

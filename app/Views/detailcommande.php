@@ -49,6 +49,20 @@ require 'header.php';
                             <td><?= $produit['quantite'] ?></td>
                         </tr>
                     <?php endforeach; ?>
+
+                    <?php foreach ($gammes as $gamme): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($gamme['nom']) ?></td>
+                            <td><?= $gamme['quantite'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    <?php foreach ($bundles as $bundle): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($bundle['nom']) ?></td>
+                            <td><?= $bundle['quantite'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
